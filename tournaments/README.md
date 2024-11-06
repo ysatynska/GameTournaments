@@ -1,3 +1,6 @@
+# GameTournaments
+This app is meant for use in the game room for managing tournaments for games like ping pong, pool, air hocket, etc. This project was made by a group of students at Roanoke College as part of the Computer Science curriculum.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
