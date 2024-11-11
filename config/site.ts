@@ -5,7 +5,7 @@ export const siteConfig = {
   description: "Make beautiful websites regardless of your design experience.",
   navItems: [
     {
-      label: "Sports",
+      label: "Pool",
       href: "/",
     },
     {
@@ -13,7 +13,7 @@ export const siteConfig = {
       href: "/docs",
     },
     {
-      label: "Pricing",
+      label: "Air Hockey",
       href: "/pricing",
     },
   ],
