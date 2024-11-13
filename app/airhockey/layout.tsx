@@ -1,4 +1,4 @@
-export default function PricingLayout({
+export default function AirHockeyLayout({
   children,
 }: {
   children: React.ReactNode;
