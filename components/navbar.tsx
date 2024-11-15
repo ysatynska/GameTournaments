@@ -1,26 +1,28 @@
+"use client";
+
 import {
   Navbar as NextUINavbar,
   NavbarContent,
   NavbarMenu,
   NavbarMenuToggle,
-  NavbarBrand,
   NavbarItem,
   NavbarMenuItem,
 } from "@nextui-org/navbar";
-import { Button } from "@nextui-org/button";
 import { Kbd } from "@nextui-org/kbd";
 import { Link } from "@nextui-org/link";
 import { Input } from "@nextui-org/input";
-import { Image } from "@nextui-org/image";
-import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
-
+import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { SearchIcon } from "@/components/icons";
+import NavbarDropdown from "./navbar-dropdown";
+// import { link as linkStyles } from "@nextui-org/theme";
 
 export const Navbar = () => {
+  const pathname = usePathname();
+
   const searchInput = (
     <Input
       aria-label="Search"
@@ -57,27 +59,33 @@ export const Navbar = () => {
           src="https://www.roanoke.edu/images/Marcomm/logos/2024/5Shield.png"
           style={{ height: "100%", objectFit: "contain" }}
         />
-        {/* <Image
-          height={68}
-          alt="Roanoke College logo"
-          src="https://www.roanoke.edu/images/Marcomm/logos/2024/5Shield.png"
-        /> */}
-        <NavbarMenuToggle className="lg:hidden" />
-        <ul className="hidden lg:flex gap-4 justify-start ml-2">
-          {siteConfig.navItems.map((item) => (
-            <NavbarItem key={item.href}>
-              <NextLink
-                className={clsx(
-                  linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium"
-                )}
-                color="foreground"
-                href={item.href}
+        <NavbarMenuToggle className="md:hidden" />
+        <ul className="hidden md:flex gap-4 justify-start ml-2">
+          {siteConfig.navItems.map((item) =>
+            // If a dropdown menu exists, render the item as a dropdown component
+            item.dropdownItems ? (
+              <NavbarDropdown
+                key={item.label}
+                label={item.label}
+              ></NavbarDropdown>
+            ) : (
+              // Otherwise, render the item as just a NextLink component
+              <NavbarItem
+                key={item.href}
+                className="flex items-center mr-4 relative"
               >
-                {item.label}
-              </NextLink>
-            </NavbarItem>
-          ))}
+                <NextLink
+                  className={clsx(
+                    "text-foreground text-xl",
+                    item.href === pathname ? "text-red-900 font-medium" : ""
+                  )}
+                  href={item.href}
+                >
+                  {item.label}
+                </NextLink>
+              </NavbarItem>
+            )
+          )}
         </ul>
       </NavbarContent>
 

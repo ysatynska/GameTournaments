@@ -11,14 +11,32 @@ export const siteConfig = {
     {
       label: "Ping Pong",
       href: "/pingpong",
+      dropdownItems: [
+        { label: "Ping Pong Home", href: "/pingpong"},
+        { label: "Tournament 1", href: "/pingpong/" },
+        { label: "Tournament 2", href: "/pingpong/" },
+        { label: "Tournament 3", href: "/pingpong/" },
+      ],
     },
     {
       label: "Pool",
       href: "/pool",
+      dropdownItems: [
+        { label: "Pool Home", href: "/pool"},
+        { label: "Tournament 1", href: "/pool/" },
+        { label: "Tournament 2", href: "/pool/" },
+        { label: "Tournament 3", href: "/pool/" },
+      ],
     },
     {
       label: "Air Hockey",
       href: "/airhockey",
+      dropdownItems: [
+        { label: "Air Hockey Home", href: "/airhockey"},
+        { label: "Tournament 1", href: "/airhockey/" },
+        { label: "Tournament 2", href: "/airhockey/" },
+        { label: "Tournament 3", href: "/airhockey/" },
+      ],
     },
   ],
   navMenuItems: [
