@@ -27,9 +27,9 @@ export type Match = {
 }
 
 export const supportedSports = [
-    "AirHockey",
-    "PingPong",
+    "Air Hockey",
+    "Ping Pong",
     "Pool",
-    "MarioKart",
+    "Mario Kart",
     "FIFA",
 ]
