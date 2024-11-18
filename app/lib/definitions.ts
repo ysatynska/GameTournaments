@@ -26,10 +26,11 @@ export type Match = {
     sport: string;
 }
 
+//TODO: QUERY THESE THROUGH THE DB
 export const supportedSports = [
-    "Air Hockey",
     "Ping Pong",
     "Pool",
+    "Air Hockey",
     "Mario Kart",
     "FIFA",
 ]
