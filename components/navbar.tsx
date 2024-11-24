@@ -18,6 +18,9 @@ import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { SearchIcon } from "@/components/icons";
 import NavbarDropdown from "./navbar-dropdown";
+import { useSession } from 'next-auth/react';
+import { signOut } from '@/app/auth';
+import { PowerIcon } from '@heroicons/react/24/outline';
 // import { link as linkStyles } from "@nextui-org/theme";
 
 export const Navbar = () => {
@@ -90,7 +93,7 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarContent className="flex" justify="end">
-        <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
+      <Link href="/login">Login</Link>
         <ThemeSwitch />
       </NavbarContent>
 
