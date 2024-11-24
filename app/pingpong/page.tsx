@@ -3,7 +3,7 @@ import { fetchTournamentsPerSport, fetchRecentTournaments, fetchCompletedStatus,
 
 export default async function PingPongPage() {
   try {
-    const response = await insertNewMatch("dylan noell", "ryan pettes", 21, 0, "Ping Pong", "open tournament");
+    const response = await insertNewMatch("Dylan Noell", "Liz Satynska", 21, 0, "Ping Pong", "open tournament");
     console.log(`returned from the query: ${JSON.stringify(response)}`)
   } catch (error) {
     console.log('Failed to fetch tounaments', error)
