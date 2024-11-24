@@ -53,9 +53,14 @@ export default function NavbarDropdown({ label }: NavbarDropdownProps) {
       <DropdownMenu aria-label="Link Actions">
         {item.dropdownItems.map((dropdownItem) => (
           <DropdownItem
+            className={clsx(
+              "text-foreground",
+              dropdownItem.label === "Submit Game" ? "text-rose-700" : ""
+            )}
             key={dropdownItem.label}
             href={dropdownItem.href}
             variant="light"
+            color={dropdownItem.label === "Submit Game" ? "danger" : "default"}
           >
             {dropdownItem.label}
           </DropdownItem>

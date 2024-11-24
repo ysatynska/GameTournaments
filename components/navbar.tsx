@@ -18,6 +18,7 @@ import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { SearchIcon } from "@/components/icons";
 import NavbarDropdown from "./navbar-dropdown";
+import { Button } from "@nextui-org/button";
 // import { link as linkStyles } from "@nextui-org/theme";
 
 export const Navbar = () => {
@@ -74,15 +75,18 @@ export const Navbar = () => {
                 key={item.href}
                 className="flex items-center mr-4 relative"
               >
-                <NextLink
+                <Button
                   className={clsx(
                     "text-foreground text-xl",
                     item.href === pathname ? "text-red-900 font-medium" : ""
                   )}
+                  variant="light"
+                  as={NextLink}
                   href={item.href}
+                  disableRipple
                 >
                   {item.label}
-                </NextLink>
+                </Button>
               </NavbarItem>
             )
           )}
@@ -90,7 +94,6 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarContent className="flex" justify="end">
-        <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
         <ThemeSwitch />
       </NavbarContent>
 
