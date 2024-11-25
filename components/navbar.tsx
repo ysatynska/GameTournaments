@@ -8,10 +8,6 @@ import {
   NavbarItem,
   Accordion,
   AccordionItem,
-  dropdown,
-  dropdownItem,
-  Divider,
-  NavbarMenuItem,
 } from "@nextui-org/react";
 import { Kbd } from "@nextui-org/kbd";
 import { useState } from "react";
@@ -22,7 +18,6 @@ import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import { SearchIcon } from "@/components/icons";
 import NavbarDropdown from "./navbar-dropdown";
 import { Button } from "@nextui-org/button";
 import path from "path";
