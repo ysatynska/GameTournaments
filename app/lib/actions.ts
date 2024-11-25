@@ -84,3 +84,48 @@ export async function registerUserAction(prevState: State, formData: FormData) {
 
   redirect('/login');
 }
+
+const gameSchema = z.object({
+  player1_id: z.coerce
+    .number()
+    .gt(0, { message: 'Please enter a score greater than 0.' }),
+  player2_id: z.coerce
+    .number()
+    .gt(0, { message: 'Please enter a score greater than 0.' }),
+  score1: z.coerce
+    .number()
+    .gt(0, { message: 'Please enter a score greater than 0.' }),
+  score2: z.coerce
+    .number()
+    .gt(0, { message: 'Please enter a score greater than 0.' }),
+});
+
+export async function submitGame (prevState: State, formData: FormData) {
+  const validatedFields = gameSchema.safeParse({
+    player1_id: formData.get('player1_id'),
+    player2_id: formData.get('player2_id'),
+    score1: formData.get('score1'),
+    score2: formData.get('score2'),
+  });
+ 
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to submit game.',
+    };
+  }
+
+  try {
+    await sql`
+      INSERT INTO invoices (customer_id, amount, status, date)
+      VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+    `;
+  } catch (error) {
+    return {
+      message: 'Database Error: Failed to Create Invoice.',
+    };
+  }
+ 
+  revalidatePath('/dashboard/invoices');
+  redirect('/dashboard/invoices');
+}

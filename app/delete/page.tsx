@@ -1,11 +1,21 @@
-import { useSession } from "next-auth/react"
+"use client";
+import { useSession } from 'next-auth/react';
 
-export default function Component() {
-  const { data: session, status } = useSession()
+export default function MyComponent() {
+  const { data: session, status } = useSession();
 
-  if (status === "authenticated") {
-    return <p>Signed in as {session.user?.email}</p>
+  if (status === 'loading') {
+    return <p>Loading...</p>;
   }
 
-  return <a href="/login">Sign in</a>
+  if (status === 'authenticated') {
+    return (
+      <div>
+        <p>Hello, {session.user?.name}!</p>
+        {/* Access other user data from session.user */}
+      </div>
+    );
+  }
+
+  return <p>You are not signed in.</p>;
 }

@@ -5,6 +5,11 @@ export type Player = {
     password: string;
   };
 
+  export type PlayerField = {
+    id: string;
+    player_name: string;
+  };
+
 export type Tournament = {
     id: number;
     sport: string;

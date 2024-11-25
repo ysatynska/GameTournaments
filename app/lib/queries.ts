@@ -80,6 +80,18 @@ export async function fetchPlayer(player_name: string) {
     }
 }
 
+export async function fetchPlayers() {
+    try {
+        const data = await sql<Player>`
+        SELECT player_name FROM players
+        `;
+        return data.rows;
+    } catch (error) {
+        console.log(error)
+        throw new Error('Failed to fetch all players.');
+    }
+}
+
 async function fetchTournamentId (tournament_name: string) {
     try {
         const data = await sql`

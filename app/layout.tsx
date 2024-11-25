@@ -1,3 +1,4 @@
+import { SessionProvider } from 'next-auth/react';
 import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
 import { Link } from "@nextui-org/link";
@@ -36,14 +37,17 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
-          <div className="relative flex flex-col h-screen">
-            <Navbar />
-            <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
-              {children}
-            </main>
-          </div>
-        </Providers>
+        
+          <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+          {/* <SessionProvider> */}
+            <div className="relative flex flex-col h-screen">
+              <Navbar />
+              <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+                {children}
+              </main>
+            </div>
+            {/* </SessionProvider> */}
+          </Providers>
       </body>
     </html>
   );
