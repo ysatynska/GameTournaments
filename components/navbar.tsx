@@ -101,7 +101,7 @@ export const Navbar = () => {
         <ThemeSwitch />
       </NavbarContent>
 
-      <NavbarMenu className="flex flex-col">
+      <NavbarMenu className="flex flex-col md:hidden">
         {/* <Button
           className={clsx(
             "text-foreground text-3xl h-16 mx-2 bg-foreground-300/25",
