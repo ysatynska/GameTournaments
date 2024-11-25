@@ -10,7 +10,7 @@ import {
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
-import NextLink from "next/link";
+import { ChevronDownIcon } from "./icons";
 
 // Accept label as a prop to dynamically update the dropdown menu
 interface NavbarDropdownProps {
@@ -46,6 +46,7 @@ export default function NavbarDropdown({ label }: NavbarDropdownProps) {
             "text-foreground text-xl",
             isOnPage ? "text-red-900 font-medium" : ""
           )}
+          endContent={<ChevronDownIcon />}
         >
           {item.label}
         </Button>

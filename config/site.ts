@@ -6,8 +6,8 @@ export const siteConfig = {
   name: "Next.js + NextUI",
   description: "Make beautiful websites regardless of your design experience.",
   sportLinks: [
-    { label: "My Games", href: "/mygames" },
-    { label: "Submit Game", href: "/submit-game" },
+    { label: "My Games", href: "/" },
+    { label: "Submit Game", href: "/" },
   ],
   navItems: [
     {
