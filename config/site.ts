@@ -3,7 +3,7 @@ import { it } from "node:test";
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Next.js + NextUI",
+  name: "Tournament Builder",
   description: "Make beautiful websites regardless of your design experience.",
   sportLinks: [
     { label: "My Games", href: "/" },
