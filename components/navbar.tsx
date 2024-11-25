@@ -27,6 +27,7 @@ import NavbarDropdown from "./navbar-dropdown";
 import { useSession } from 'next-auth/react';
 import { signOut } from '@/app/auth';
 import { PowerIcon } from '@heroicons/react/24/outline';
+import { Button } from '@/components/ui/button';
 // import { link as linkStyles } from "@nextui-org/theme";
 
 
