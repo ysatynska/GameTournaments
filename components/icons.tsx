@@ -97,7 +97,7 @@ export const SearchIcon = (props: IconSvgProps) => (
   </svg>
 );
 
-export const ChevronDoubleDownIcon = (props: IconSvgProps) => (
+export const ChevronDownIcon = (props: IconSvgProps) => (
   <svg
     aria-hidden="true"
     fill="none"
@@ -109,18 +109,12 @@ export const ChevronDoubleDownIcon = (props: IconSvgProps) => (
     {...props}
   >
     <path
-      d="M6 9L12 15L18 9"
+      d="m19.92 8.95-6.52 6.52c-.77.77-2.03.77-2.8 0L4.08 8.95"
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth="2"
-    />
-    <path
-      d="M6 15L12 21L18 15"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
+      strokeMiterlimit={10}
+      strokeWidth={1.5}
     />
   </svg>
 );
