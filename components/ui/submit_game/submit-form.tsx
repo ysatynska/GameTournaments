@@ -1,5 +1,5 @@
 'use client';
-import { PlayerField } from '@/app/lib/definitions';
+import { PlayerField, SportField } from '@/app/lib/definitions';
 
 import Link from 'next/link';
 import {
@@ -8,14 +8,15 @@ import {
   CurrencyDollarIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
-// import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { submitGame, State } from '@/app/lib/actions';
 import { useActionState, useState } from 'react';
-import { Input, Card, Button } from '@nextui-org/react';
+import { Input, Card } from '@nextui-org/react';
 
-export default function Form({ players }: { players: PlayerField[] }) {
+export default function Form({ players, sports }: { players: PlayerField[], sports: SportField[] }) {
     const [selectedPlayer1, setSelectedPlayer1] = useState('');
     const [selectedPlayer2, setSelectedPlayer2] = useState('');
+    const [selectedSport, setselectedSport] = useState('');
     const initialState: State = { message: null, errors: {} };
     const [state, formAction] = useActionState(submitGame, initialState);
 
@@ -26,78 +27,129 @@ export default function Form({ players }: { players: PlayerField[] }) {
                 Submit Game Score
                 </h2>
 
-                <form className="grid grid-cols-1 md:grid-cols-2 gap-6" action={formAction}>
+                <form action={formAction}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="flex flex-col">
+                            <label htmlFor="player1" className="text-sm font-medium text-gray-700">
+                            Player 1 Name
+                            </label>
+                            <select
+                                name="player1_id"
+                                value={selectedPlayer1}
+                                onChange={(e) => setSelectedPlayer1(e.target.value)}
+                                className="mt-2 p-2 border rounded-md"
+                                >
+                                <option value="">Select Player 1</option>
+                                {players.map((player) => (
+                                    <option key={player.id} value={player.id}>
+                                    {player.player_name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        {state.errors?.player1_id &&
+                            state.errors.name.map((error: string) => (
+                                <p className="text-sm text-red-500" key={error}>
+                                {error}
+                                </p>
+                        ))}
+                        <div className="flex flex-col">
+                            <label htmlFor="player2" className="text-sm font-medium text-gray-700">
+                            Player 2 Name
+                            </label>
+                            <select
+                                name="player2_id"
+                                value={selectedPlayer2}
+                                onChange={(e) => setSelectedPlayer2(e.target.value)}
+                                className="mt-2 p-2 border rounded-md"
+                            >
+                                <option value="">Select Player 2</option>
+                                {players.map((player) => (
+                                    <option key={player.id} value={player.id}>
+                                    {player.player_name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        {state.errors?.player2_id &&
+                            state.errors.name.map((error: string) => (
+                                <p className="text-sm text-red-500" key={error}>
+                                {error}
+                                </p>
+                        ))}
+
+                        <div className="flex flex-col">
+                            <label htmlFor="score1" className="text-sm font-medium text-gray-700">
+                            Player 1 Score
+                            </label>
+                            <Input
+                                name="score1"
+                                aria-label="Player 1 Score"
+                                placeholder="Enter Player 1's score"
+                                type="number"
+                                fullWidth
+                                className="mt-2"
+                            />
+                        </div>
+                        {state.errors?.score1 &&
+                            state.errors.name.map((error: string) => (
+                                <p className="text-sm text-red-500" key={error}>
+                                {error}
+                                </p>
+                        ))}
+
+                        <div className="flex flex-col">
+                            <label htmlFor="score2" className="text-sm font-medium text-gray-700">
+                            Player 2 Score
+                            </label>
+                            <Input
+                                name="score2"
+                                aria-label="Player 2 Score"
+                                placeholder="Enter Player 2's score"
+                                type="number"
+                                fullWidth
+                                className="mt-2"
+                            />
+                        </div>
+                        {state.errors?.score2 &&
+                            state.errors.name.map((error: string) => (
+                                <p className="text-sm text-red-500" key={error}>
+                                {error}
+                                </p>
+                        ))}
                         
-                    <div className="flex flex-col">
-                        <label htmlFor="player1" className="text-sm font-medium text-gray-700">
-                        Player 1 Name
-                        </label>
-                        <select
-                            id="player1"
-                            value={selectedPlayer1}
-                            onChange={(e) => setSelectedPlayer1(e.target.value)}
-                            className="mt-2 p-2 border rounded-md"
-                            >
-                            <option value="">Select Player 1</option>
-                            {players.map((player) => (
-                                <option key={player.id} value={player.id}>
-                                {player.player_name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                        <div className="col-span-2 flex justify-center">
+                            <div className="flex flex-col w-full">
+                                <label htmlFor="sport" className="text-sm font-medium text-gray-700">
+                                    Sport Name
+                                </label>
+                                <select
+                                    name="sport_id"
+                                    value={selectedSport}
+                                    onChange={(e) => setselectedSport(e.target.value)}
+                                    className="mt-2 p-2 border rounded-md"
+                                >
+                                    <option value="">Select Sport</option>
+                                    {sports.map((sport) => (
+                                        <option key={sport.id} value={sport.id}>
+                                        {sport.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        {state.errors?.sport_id &&
+                            state.errors.name.map((error: string) => (
+                                <p className="text-sm text-red-500" key={error}>
+                                {error}
+                                </p>
+                        ))}
 
-                    <div className="flex flex-col">
-                        <label htmlFor="player2" className="text-sm font-medium text-gray-700">
-                        Player 2 Name
-                        </label>
-                        <select
-                            id="player2"
-                            value={selectedPlayer2}
-                            onChange={(e) => setSelectedPlayer2(e.target.value)}
-                            className="mt-2 p-2 border rounded-md"
-                            >
-                            <option value="">Select Player 2</option>
-                            {players.map((player) => (
-                                <option key={player.id} value={player.id}>
-                                {player.player_name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <div className="flex flex-col">
-                        <label htmlFor="score1" className="text-sm font-medium text-gray-700">
-                        Player 1 Score
-                        </label>
-                        <Input
-                        id="score1"
-                        aria-label="Player 1 Score"
-                        placeholder="Enter Player 1's score"
-                        type="number"
-                        fullWidth
-                        className="mt-2"
-                        />
-                    </div>
-
-                    <div className="flex flex-col">
-                        <label htmlFor="score2" className="text-sm font-medium text-gray-700">
-                        Player 2 Score
-                        </label>
-                        <Input
-                        id="score2"
-                        aria-label="Player 2 Score"
-                        placeholder="Enter Player 2's score"
-                        type="number"
-                        fullWidth
-                        className="mt-2"
-                        />
-                    </div>
-
-                    <div className="col-span-2">
-                        <Button className="w-full mt-6 bg-red-900 text-white">
-                        Submit Score
-                        </Button>
+                        <div className="col-span-2">
+                            <Button className="w-full mt-3 bg-red-900 text-white">
+                                Submit Score
+                            </Button>
+                        </div>
                     </div>
                 </form>
             </Card>

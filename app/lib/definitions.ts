@@ -5,10 +5,18 @@ export type Player = {
     password: string;
   };
 
-  export type PlayerField = {
+export type PlayerField = {
     id: string;
     player_name: string;
-  };
+};
+
+export type Game = {
+    player1_id: string;
+    player2_id: string;
+    player1_score: number;
+    player2_score: number;
+    sport_id: string;
+}
 
 export type Tournament = {
     id: number;
@@ -17,18 +25,16 @@ export type Tournament = {
     date: string;
 }
 
-export type Sport = {
-    id: number;
+export type SportField = {
+    id: string;
     name: string;
-}
+};
 
-export type Match = {
-    player1_name: string;
-    player2_name: string;
-    tourney_id: number;
-    player1_score: number;
-    player2_score: number;
-    sport: string;
+export type Sport = {
+    id: string;
+    name: string;
+    created_at: Date;
+    deleted_at: Date;
 }
 
 //TODO: QUERY THESE THROUGH THE DB

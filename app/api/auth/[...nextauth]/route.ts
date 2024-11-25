@@ -5,7 +5,7 @@ import { z } from 'zod';
 import bcrypt from 'bcrypt';
 
 // Helper function to get user data
-async function getUser(email) {
+async function getUser(email: any) {
   try {
     const user = await sql`SELECT * FROM players WHERE email=${email}`;
     return user.rows[0];
@@ -28,7 +28,7 @@ const handler = NextAuth({
         const parsedCredentials = z
           .object({ email: z.string().email(), password: z.string().min(6) })
           .safeParse(credentials);
-
+        console.log("in server proviedr")
         if (parsedCredentials.success) {
           const { email, password } = parsedCredentials.data;
           const user = await getUser(email);
@@ -53,6 +53,9 @@ const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt',
+  },
+  pages: {
+    signIn: "/login",
   },
 });
 

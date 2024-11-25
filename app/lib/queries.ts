@@ -83,7 +83,21 @@ export async function fetchPlayer(player_name: string) {
 export async function fetchPlayers() {
     try {
         const data = await sql<Player>`
-        SELECT player_name FROM players
+        SELECT * FROM players
+        ORDER BY player_name ASC
+        `;
+        return data.rows;
+    } catch (error) {
+        console.log(error)
+        throw new Error('Failed to fetch all players.');
+    }
+}
+
+export async function fetchSports() {
+    try {
+        const data = await sql<Sport>`
+        SELECT * FROM sports
+        ORDER BY name ASC
         `;
         return data.rows;
     } catch (error) {

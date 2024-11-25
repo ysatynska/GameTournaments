@@ -88,26 +88,36 @@ export async function registerUserAction(prevState: State, formData: FormData) {
 const gameSchema = z.object({
   player1_id: z.coerce
     .number()
-    .gt(0, { message: 'Please enter a score greater than 0.' }),
+    .gt(0, { message: 'Invalid Player.' }),
   player2_id: z.coerce
     .number()
-    .gt(0, { message: 'Please enter a score greater than 0.' }),
+    .gt(0, { message: 'Invalid Player.' }),
   score1: z.coerce
     .number()
     .gt(0, { message: 'Please enter a score greater than 0.' }),
   score2: z.coerce
     .number()
     .gt(0, { message: 'Please enter a score greater than 0.' }),
+  sport_id: z.coerce
+    .number()
+    .gt(0, { message: 'Invalid Sport.' }),
 });
 
 export async function submitGame (prevState: State, formData: FormData) {
+  console.log("player1_id:", formData.get("player1_id"));
+console.log("player2_id:", formData.get("player2_id"));
+console.log("score1:", formData.get("score1"));
+console.log("score2:", formData.get("score2"));
+console.log("sport_id:", formData.get("sport_id"));
+
   const validatedFields = gameSchema.safeParse({
     player1_id: formData.get('player1_id'),
     player2_id: formData.get('player2_id'),
     score1: formData.get('score1'),
     score2: formData.get('score2'),
+    sport_id: formData.get('sport_id'),
   });
- 
+ console.log(validatedFields.success);
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
@@ -116,16 +126,17 @@ export async function submitGame (prevState: State, formData: FormData) {
   }
 
   try {
+    console.log("adding to database")
     await sql`
-      INSERT INTO invoices (customer_id, amount, status, date)
-      VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+      INSERT INTO games (player1_id, player2_id, score1, score2, sport_id, created_at)
+      VALUES (${formData.get("player1_id") as string}, ${formData.get("player2_id") as string}, ${parseInt(formData.get("score1") as string, 10)}, ${parseInt(formData.get("score2") as string, 10)}, ${formData.get("sport_id") as string}, ${new Date().toISOString().slice(0, 19).replace('T', ' ')})
     `;
   } catch (error) {
+    console.log(error)
     return {
-      message: 'Database Error: Failed to Create Invoice.',
+      message: 'Database Error: Failed to Submit Game.',
     };
   }
  
-  revalidatePath('/dashboard/invoices');
-  redirect('/dashboard/invoices');
+  redirect('/');
 }
