@@ -3,7 +3,7 @@ import {
     Player,
     Tournament,
     Sport,
-    Match,
+    Game,
     supportedSports,
 } from "./definitions"
 
