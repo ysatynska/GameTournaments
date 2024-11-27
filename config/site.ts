@@ -18,21 +18,21 @@ export const siteConfig = {
       label: "Ping Pong",
       href: "/pingpong",
       dropdownItems: [
-        { label: "Ping Pong Home", href: "/pingpong"}
+        { label: "Ping Pong Home", href: "/pingpong", key: "pp_home"}
       ],
     },
     {
       label: "Pool",
       href: "/pool",
       dropdownItems: [
-        { label: "Pool Home", href: "/pool"}
+        { label: "Pool Home", href: "/pool", key: "pool"}
       ],
     },
     {
       label: "Air Hockey",
       href: "/airhockey",
       dropdownItems: [
-        { label: "Air Hockey Home", href: "/airhockey"},
+        { label: "Air Hockey Home", href: "/airhockey", key: "air_hockey"},
       ],
     },
   ],

@@ -8,8 +8,9 @@ import {
   NavbarItem,
   Accordion,
   AccordionItem,
-  dropdown,
-  dropdownItem,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
   Divider,
   NavbarMenuItem,
 } from "@nextui-org/react";
@@ -33,7 +34,6 @@ import { Button } from '@/components/ui/button';
 
 export const Navbar = () => {
   const pathname = usePathname();
-  const home = siteConfig.navItems[0];
 
   // State for controlling the NavbarMenu
   const [menuOpen, setMenuOpen] = useState(false);
@@ -62,15 +62,6 @@ export const Navbar = () => {
           className="md:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
         />
-        <NextLink
-          href={home.href}
-          className={clsx(
-            "text-foreground text-2xl md:hidden ml-6",
-            home.href === pathname ? "text-red-900 font-medium" : ""
-          )}
-        >
-          {home.label}
-        </NextLink>
         <ul className="hidden md:flex gap-4 justify-start ml-2">
           {siteConfig.navItems.map((item) =>
             // If a dropdown menu exists, render the item as a dropdown component
@@ -82,7 +73,7 @@ export const Navbar = () => {
             ) : (
               // Otherwise, render the item as just a Button component
               <NavbarItem key={item.href} className="flex items-center">
-                <Button
+                <Link
                   className={clsx(
                     "text-foreground text-xl",
                     item.href === pathname ? "text-red-900 font-medium" : ""
@@ -93,7 +84,7 @@ export const Navbar = () => {
                   disableRipple
                 >
                   {item.label}
-                </Button>
+                </Link>
               </NavbarItem>
             )
           )}
@@ -101,14 +92,7 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarContent className="flex" justify="end">
-      {/* <form
-      action={async () => {
-        "use server"
-        await signOut()
-      }}
-    >
-      <button type="submit">Sign Out</button>
-    </form> */}
+        <Link href="/login">Login</Link>
         <ThemeSwitch />
       </NavbarContent>
 
