@@ -65,7 +65,7 @@ export async function registerUserAction(prevState: State, formData: FormData) {
   const hashedPassword = await bcrypt.hash(formData.get("password") as string, 3);
   try {
     await sql`
-      INSERT INTO players (player_name, email, password)
+      INSERT INTO players (name, email, password)
       VALUES (${formData.get("name") as string}, ${formData.get("email") as string}, ${hashedPassword})
     `;
   } catch (error:any) {
@@ -92,24 +92,26 @@ const gameSchema = z.object({
   player2_id: z.coerce
     .number()
     .gt(0, { message: 'Invalid Player.' }),
-  score1: z.coerce
-    .number()
-    .gt(0, { message: 'Please enter a score greater than 0.' }),
-  score2: z.coerce
-    .number()
-    .gt(0, { message: 'Please enter a score greater than 0.' }),
+  score1: z
+    .string()
+    .min(1, { message: 'Score1 is required.' }) // Ensure it's not empty
+    .transform((val) => parseFloat(val)) // Transform to number
+    .refine((val) => !isNaN(val) && val >= 0, {
+      message: 'Please enter a score greater than or equal to 0.',
+    }), // Validate the transformed value
+  score2: z
+    .string()
+    .min(1, { message: 'Score2 is required.' }) // Ensure it's not empty
+    .transform((val) => parseFloat(val)) // Transform to number
+    .refine((val) => !isNaN(val) && val >= 0, {
+      message: 'Please enter a score greater than or equal to 0.',
+    }), // Validate the transformed value
   sport_id: z.coerce
     .number()
     .gt(0, { message: 'Invalid Sport.' }),
 });
 
 export async function submitGame (prevState: State, formData: FormData) {
-  console.log("player1_id:", formData.get("player1_id"));
-console.log("player2_id:", formData.get("player2_id"));
-console.log("score1:", formData.get("score1"));
-console.log("score2:", formData.get("score2"));
-console.log("sport_id:", formData.get("sport_id"));
-
   const validatedFields = gameSchema.safeParse({
     player1_id: formData.get('player1_id'),
     player2_id: formData.get('player2_id'),

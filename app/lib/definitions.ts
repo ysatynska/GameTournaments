@@ -1,13 +1,13 @@
 export type Player = {
     id: string;
-    player_name: string;
+    name: string;
     email: string;
     password: string;
   };
 
 export type PlayerField = {
     id: string;
-    player_name: string;
+    name: string;
 };
 
 export type Game = {

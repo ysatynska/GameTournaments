@@ -42,17 +42,17 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
                                 <option value="">Select Player 1</option>
                                 {players.map((player) => (
                                     <option key={player.id} value={player.id}>
-                                    {player.player_name}
+                                    {player.name}
                                     </option>
                                 ))}
                             </select>
+                            {state.errors?.player1_id &&
+                                state.errors.player1_id.map((error: string) => (
+                                    <p className="text-sm text-red-500" key={error}>
+                                    {error}
+                                    </p>
+                            ))}
                         </div>
-                        {state.errors?.player1_id &&
-                            state.errors.name.map((error: string) => (
-                                <p className="text-sm text-red-500" key={error}>
-                                {error}
-                                </p>
-                        ))}
                         <div className="flex flex-col">
                             <label htmlFor="player2" className="text-sm font-medium text-gray-700">
                             Player 2 Name
@@ -66,17 +66,17 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
                                 <option value="">Select Player 2</option>
                                 {players.map((player) => (
                                     <option key={player.id} value={player.id}>
-                                    {player.player_name}
+                                    {player.name}
                                     </option>
                                 ))}
                             </select>
+                            {state.errors?.player2_id &&
+                                state.errors.player2_id.map((error: string) => (
+                                    <p className="text-sm text-red-500" key={error}>
+                                    {error}
+                                    </p>
+                            ))}
                         </div>
-                        {state.errors?.player2_id &&
-                            state.errors.name.map((error: string) => (
-                                <p className="text-sm text-red-500" key={error}>
-                                {error}
-                                </p>
-                        ))}
 
                         <div className="flex flex-col">
                             <label htmlFor="score1" className="text-sm font-medium text-gray-700">
@@ -90,13 +90,13 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
                                 fullWidth
                                 className="mt-2"
                             />
+                            {state.errors?.score1 &&
+                                state.errors.score1.map((error: string) => (
+                                    <p className="text-sm text-red-500" key={error}>
+                                    {error}
+                                    </p>
+                            ))}
                         </div>
-                        {state.errors?.score1 &&
-                            state.errors.name.map((error: string) => (
-                                <p className="text-sm text-red-500" key={error}>
-                                {error}
-                                </p>
-                        ))}
 
                         <div className="flex flex-col">
                             <label htmlFor="score2" className="text-sm font-medium text-gray-700">
@@ -110,13 +110,13 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
                                 fullWidth
                                 className="mt-2"
                             />
+                            {state.errors?.score2 &&
+                                state.errors.score2.map((error: string) => (
+                                    <p className="text-sm text-red-500" key={error}>
+                                    {error}
+                                    </p>
+                            ))}
                         </div>
-                        {state.errors?.score2 &&
-                            state.errors.name.map((error: string) => (
-                                <p className="text-sm text-red-500" key={error}>
-                                {error}
-                                </p>
-                        ))}
                         
                         <div className="col-span-2 flex justify-center">
                             <div className="flex flex-col w-full">
@@ -136,14 +136,14 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
                                         </option>
                                     ))}
                                 </select>
+                                {state.errors?.sport_id &&
+                                    state.errors.sport_id.map((error: string) => (
+                                        <p className="text-sm text-red-500" key={error}>
+                                        {error}
+                                        </p>
+                                ))}
                             </div>
                         </div>
-                        {state.errors?.sport_id &&
-                            state.errors.name.map((error: string) => (
-                                <p className="text-sm text-red-500" key={error}>
-                                {error}
-                                </p>
-                        ))}
 
                         <div className="col-span-2">
                             <Button className="w-full mt-3 bg-red-900 text-white">

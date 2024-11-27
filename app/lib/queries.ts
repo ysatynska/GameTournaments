@@ -68,11 +68,11 @@ export async function fetchCompletedStatus(tourney_name: string) {
     }
 }
 
-export async function fetchPlayer(player_name: string) {
+export async function fetchPlayer(name: string) {
     try {
         const data = await sql<Player>`
         SELECT * FROM players
-        WHERE player_name LIKE ${player_name}
+        WHERE name LIKE ${name}
         `;
         return data.rows[0]
     } catch (error) {
@@ -84,7 +84,7 @@ export async function fetchPlayers() {
     try {
         const data = await sql<Player>`
         SELECT * FROM players
-        ORDER BY player_name ASC
+        ORDER BY name ASC
         `;
         return data.rows;
     } catch (error) {
