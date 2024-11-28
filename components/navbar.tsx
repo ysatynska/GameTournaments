@@ -80,7 +80,6 @@ export const Navbar = () => {
                   )}
                   as={NextLink}
                   href={item.href}
-                  disableRipple
                 >
                   {item.label}
                 </Link>
