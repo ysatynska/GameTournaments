@@ -1,4 +1,3 @@
-// pages/submit-score.js
 import { fetchPlayers, fetchSports } from '@/app/lib/queries';
 import Form from '@/components/ui/submit_game/submit-form';
 

@@ -5,7 +5,72 @@ import {
     Sport,
     Game,
     supportedSports,
+    GamePlayer
 } from "./definitions"
+
+export async function fetchGames (sport_id: any, player_id: any) {
+    try {
+        const data = await sql<Game>`
+        SELECT * FROM games
+        ORDER BY created_at DESC
+        `;
+        return data.rows;
+    } catch (error) {
+        console.log(error)
+        throw new Error('Failed to fetch all games.');
+    }
+    // if (!sport_id) {
+    //     throw new Error('Sport id is required.');
+    // }
+    // if (player_id) {
+    //     try {
+    //         const games = await sql<GamePlayer>`
+    //             SELECT 
+    //             games.id, 
+    //             games.created_at, 
+    //             games.player1_id, 
+    //             games.player2_id, 
+    //             games.score1, 
+    //             games.score2, 
+    //             p1.name AS player1_name, 
+    //             p2.name AS player2_name
+    //             FROM games
+    //             LEFT JOIN players AS p1 ON games.player1_id = p1.id
+    //             LEFT JOIN players AS p2 ON games.player2_id = p2.id
+    //             WHERE games.sport_id = ${sport_id}
+    //             WHERE player1_id = ${player_id} OR player2_id = ${player_id}
+    //             ORDER BY games.created_at DESC
+    //         `;
+    //         return games.rows;
+    //     } catch (error) {
+    //         console.error(error);
+    //         throw new Error(`Database error.`);
+    //     }
+    // } else {
+    //     try {
+    //         const games = await sql<GamePlayer>`
+    //           SELECT 
+    //             games.id, 
+    //             games.created_at, 
+    //             games.player1_id, 
+    //             games.player2_id, 
+    //             games.score1, 
+    //             games.score2,
+    //             p1.name AS player1_name, 
+    //             p2.name AS player2_name
+    //           FROM games
+    //           LEFT JOIN players AS p1 ON games.player1_id = p1.id
+    //           LEFT JOIN players AS p2 ON games.player2_id = p2.id
+    //           WHERE games.sport_id = ${sport_id}
+    //           ORDER BY games.created_at DESC
+    //         `;
+    //         return games.rows;
+    //       } catch (error) {
+    //         console.error(error);
+    //         throw new Error(`Database error.`);
+    //       }
+    // }
+}
 
 export async function fetchTournamentsPerSport(sport: string) {
     if (!supportedSports.includes(sport)) {

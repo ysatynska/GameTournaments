@@ -13,9 +13,23 @@ export type PlayerField = {
 export type Game = {
     player1_id: string;
     player2_id: string;
-    player1_score: number;
-    player2_score: number;
+    score1: number;
+    score2: number;
     sport_id: string;
+    id: string;
+    created_at: Date;
+}
+
+export type GamePlayer = {
+    player1_id: string;
+    player2_id: string;
+    player1_name: string;
+    player2_name: string;
+    score1: number;
+    score2: number;
+    sport_id: string;
+    id: string;
+    created_at: Date;
 }
 
 export type Tournament = {
