@@ -34,7 +34,6 @@ export type State = {
     email?: string[];
     password?: string[];
   };
-  message: string;
 };
 
 const schemaRegister = z.object({
@@ -59,7 +58,6 @@ export async function registerUserAction(prevState: State, formData: FormData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: "Missing Fields. Failed to Register.",
     };
   }
   const hashedPassword = await bcrypt.hash(formData.get("password") as string, 3);
@@ -76,9 +74,7 @@ export async function registerUserAction(prevState: State, formData: FormData) {
         },
       };
     } else {
-      return {
-        message: "Database Error.",
-      };
+      console.log("Database Error.");
     }
   }
 
@@ -123,7 +119,6 @@ export async function submitGame (prevState: State, formData: FormData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to submit game.',
     };
   }
 
@@ -135,9 +130,6 @@ export async function submitGame (prevState: State, formData: FormData) {
     `;
   } catch (error) {
     console.log(error)
-    return {
-      message: 'Database Error: Failed to Submit Game.',
-    };
   }
  
   redirect('/');

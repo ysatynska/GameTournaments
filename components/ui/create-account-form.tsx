@@ -9,7 +9,7 @@ import * as InputFields from '@/components/input-fields';
 import { registerUserAction, State } from "@/app/lib/actions";
 
 export default function CreateAccountForm() {
-  const initialState: State = { message: '', errors: {} };
+  const initialState: State = { errors: {} };
   const [state, formAction] = useActionState(registerUserAction, initialState);
 
   return (

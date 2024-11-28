@@ -17,7 +17,7 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
     const [selectedPlayer1, setSelectedPlayer1] = useState('');
     const [selectedPlayer2, setSelectedPlayer2] = useState('');
     const [selectedSport, setselectedSport] = useState('');
-    const initialState: State = { message: '', errors: {} };
+    const initialState: State = { errors: {} };
     const [state, formAction] = useActionState(submitGame, initialState);
 
     return (
