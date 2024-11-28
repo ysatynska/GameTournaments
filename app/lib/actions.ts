@@ -34,7 +34,7 @@ export type State = {
     email?: string[];
     password?: string[];
   };
-  message?: string;
+  message: string;
 };
 
 const schemaRegister = z.object({
