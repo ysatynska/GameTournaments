@@ -27,15 +27,7 @@ export async function authenticate(
     throw error;
   }
 }
-export type GameState = {
-  errors: {
-    player1_id?: string[];
-    player2_id?: string[];
-    score1?: string[];
-    score2?: string[];
-    sport_id?: string[];
-  };
-};
+
 export type State = {
   errors?: {
     name?: string[];
@@ -89,6 +81,16 @@ export async function registerUserAction(prevState: State, formData: FormData) {
   redirect('/login');
 }
 
+export type GameState = {
+  errors: {
+    player1_id?: string[];
+    player2_id?: string[];
+    score1?: string[];
+    score2?: string[];
+    sport_id?: string[];
+  };
+};
+
 const gameSchema = z.object({
   player1_id: z.coerce
     .number()
@@ -115,7 +117,7 @@ const gameSchema = z.object({
     .gt(0, { message: 'Invalid Sport.' }),
 });
 
-export async function submitGame (prevState: State, formData: FormData) {
+export async function submitGame (prevState: GameState, formData: FormData) {
   const validatedFields = gameSchema.safeParse({
     player1_id: formData.get('player1_id'),
     player2_id: formData.get('player2_id'),
