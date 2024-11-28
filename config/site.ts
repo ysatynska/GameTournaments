@@ -6,13 +6,14 @@ export const siteConfig = {
   name: "Tournament Builder",
   description: "Make beautiful websites regardless of your design experience.",
   sportLinks: [
-    { label: "My Games", href: "/" },
-    { label: "Submit Game", href: "/" },
+    { label: "My Games", href: "/", key: "my_games" },
+    { label: "Submit Game", href: "/", key: "submit_game" },
   ],
   navItems: [
     {
       label: "Home",
       href: "/",
+      key: "home"
     },
     {
       label: "Ping Pong",
