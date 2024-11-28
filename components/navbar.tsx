@@ -78,7 +78,6 @@ export const Navbar = () => {
                     "text-foreground text-xl",
                     item.href === pathname ? "text-red-900 font-medium" : ""
                   )}
-                  variant="light"
                   as={NextLink}
                   href={item.href}
                   disableRipple
