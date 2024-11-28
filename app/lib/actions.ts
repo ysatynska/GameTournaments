@@ -27,7 +27,15 @@ export async function authenticate(
     throw error;
   }
 }
-
+export type GameState = {
+  errors: {
+    player1_id?: string[];
+    player2_id?: string[];
+    score1?: string[];
+    score2?: string[];
+    sport_id?: string[];
+  };
+};
 export type State = {
   errors?: {
     name?: string[];

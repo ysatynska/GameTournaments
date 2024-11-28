@@ -9,7 +9,7 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/components/ui/button';
-import { submitGame, State } from '@/app/lib/actions';
+import { submitGame, State, GameState } from '@/app/lib/actions';
 import { useActionState, useState } from 'react';
 import { Input, Card } from '@nextui-org/react';
 
@@ -17,7 +17,7 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
     const [selectedPlayer1, setSelectedPlayer1] = useState('');
     const [selectedPlayer2, setSelectedPlayer2] = useState('');
     const [selectedSport, setselectedSport] = useState('');
-    const initialState: State = { errors: {} };
+    const initialState: GameState = { errors: {} };
     const [state, formAction] = useActionState(submitGame, initialState);
 
     return (
