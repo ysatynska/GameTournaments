@@ -9,8 +9,9 @@ export default function MyGames () {
   const sport_id = searchParams.get('sport_id');
 
   return (
-    <Suspense fallback={<p>Loading games...</p>}>
-      <GamesTable player_id={player_id} sport_id={sport_id}/>
-    </Suspense>
+    // <Suspense fallback={<p>Loading games...</p>}>
+    //   <GamesTable player_id={player_id} sport_id={sport_id}/>
+    // </Suspense>\
+    <></>
   );
 };
