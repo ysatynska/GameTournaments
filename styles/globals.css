@@ -1,3 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.nextui-pagination {
+    --nextui-colors-pagination-color: #310413; /* Your custom color */
+}

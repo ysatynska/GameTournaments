@@ -78,74 +78,33 @@ export const Navbar = ({session} : {session: any}) => {
       </NavbarContent>
 
       <NavbarContent className="flex" justify="end" key="login">
-        <NavbarItem key="login">
           {session ? (
             <NavbarItem>Welcome, {session.user.name}!</NavbarItem>
           ) : (
-            <Link href="/login">Login</Link>
+            <NavbarItem>
+              <Link href="/login">Login</Link>
+            </NavbarItem>
           )}
-        </NavbarItem>
         <NavbarItem key="theme">
           <ThemeSwitch/>
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarMenu className="flex flex-col">
-        {/* <Button
-          className={clsx(
-            "text-foreground text-3xl h-16 mx-2 bg-foreground-300/25",
-            home.href === pathname ? "text-red-900 font-medium" : ""
-          )}
-          variant="light"
-          as={NextLink}
-          href={home.href}
-          disableRipple
-          onClick={handleLinkClick} // Close menu on link click
-        >
-          {home.label}
-        </Button> */}
-        <Accordion variant="light" selectionMode="single">
-          {siteConfig.navItems.slice(1).map((item) =>
-            item.dropdownItems ? (
-              <AccordionItem
-                key={item.label}
-                title={
-                  <span
-                    className={clsx(
-                      "text-foreground text-2xl",
-                      pathname.startsWith(`${item.href}`)
-                        ? "text-red-900 font-medium"
-                        : ""
-                    )}
-                  >
-                    {item.label}
-                  </span>
-                }
-                className={clsx("text-foreground")}
-              >
-                <ul>
-                  {item.dropdownItems.map((dropdownItem) => (
-                    <li key={dropdownItem.label}>
-                      <Link
-                        href={dropdownItem.href}
-                        className={clsx(
-                          "text-foreground text-lg py-0.5 pl-2",
-                          dropdownItem.label === "Submit Game" &&
-                            "text-rose-700"
-                        )}
-                        onClick={handleLinkClick} // Close menu on link click
-                      >
-                        {dropdownItem.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </AccordionItem>
-            ) : (
-              <></>
-            )
-          )}
-        </Accordion>
+      <NavbarMenu>
+        {siteConfig.navItems.map((item, index) => (
+          <NavbarMenuItem key={`${item}-${index}`}>
+            <Link
+              color={
+                index === 2 ? "primary" : index === siteConfig.navItems.length - 1 ? "danger" : "foreground"
+              }
+              className="w-full"
+              href="#"
+              size="lg"
+            >
+              {item.label}
+            </Link>
+          </NavbarMenuItem>
+        ))}
       </NavbarMenu>
     </NextUINavbar>
   );
