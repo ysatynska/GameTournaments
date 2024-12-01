@@ -5,9 +5,30 @@ import {
     Sport,
     Game,
     supportedSports,
-    GamePlayer
+    GamePlayer,
+    RankRating
 } from "./definitions"
 
+export async function fetchRanks(sport_id: string) {
+    try {
+      const ranks = await sql<RankRating>`
+        SELECT 
+            players.name, 
+            sports_players_map.rank,
+            sports_players_map.rating
+        FROM sports_players_map
+        JOIN players ON sports_players_map.player_id = players.id
+        WHERE sports_players_map.sport_id = ${sport_id}
+        ORDER BY sports_players_map.rank DESC;
+      `;
+      return ranks.rows;
+    } catch (error) {
+      console.error("Error fetching ranks:", error);
+      throw new Error("Failed to fetch ranks.");
+    }
+}
+
+  
 export async function fetchSport (sport_id: any) {
     try {
         const sport = await sql<Sport>`
@@ -33,6 +54,7 @@ export async function fetchAllSports () {
             name, 
             created_at 
           FROM sports
+          ORDER BY name ASC
         `;
         return sport.rows;
     } catch (error) {

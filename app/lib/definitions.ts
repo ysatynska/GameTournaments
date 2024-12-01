@@ -3,7 +3,14 @@ export type Player = {
     name: string;
     email: string;
     password: string;
-  };
+};
+
+export type RankRating = {
+    name: string;
+    id: string;
+    rank: number;
+    rating: number;
+}
 
 export type PlayerField = {
     id: string;
