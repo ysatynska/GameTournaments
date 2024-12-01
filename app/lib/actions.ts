@@ -6,6 +6,7 @@ import { z } from "zod";
 import { redirect } from 'next/navigation';
 import bcrypt from 'bcrypt';
 import { sql } from '@vercel/postgres';
+import { DateTime } from 'luxon';
 
 // ...
  
@@ -89,6 +90,13 @@ export type GameState = {
     score2?: string[];
     sport_id?: string[];
   };
+  values: {
+    player1_id?: string[];
+    player2_id?: string[];
+    score1?: string[];
+    score2?: string[];
+    sport_id?: string[];
+  }
 };
 
 const gameSchema = z.object({
@@ -125,19 +133,24 @@ export async function submitGame (prevState: GameState, formData: FormData) {
     score2: formData.get('score2'),
     sport_id: formData.get('sport_id'),
   });
- console.log(validatedFields.success);
   if (!validatedFields.success) {
+    const values = Object.fromEntries(
+      Array.from(formData.entries()).map(([key, value]) => [key, typeof value === 'string' ? value : ''])
+    );
+
     return {
       errors: validatedFields.error.flatten().fieldErrors,
+      values,
     };
   }
 
   try {
-    console.log("adding to database")
     await sql`
       INSERT INTO games (player1_id, player2_id, score1, score2, sport_id, created_at)
-      VALUES (${formData.get("player1_id") as string}, ${formData.get("player2_id") as string}, ${parseInt(formData.get("score1") as string, 10)}, ${parseInt(formData.get("score2") as string, 10)}, ${formData.get("sport_id") as string}, ${new Date().toISOString().slice(0, 19).replace('T', ' ')})
+      VALUES (${formData.get("player1_id") as string}, ${formData.get("player2_id") as string}, ${parseInt(formData.get("score1") as string, 10)}, ${parseInt(formData.get("score2") as string, 10)}, ${formData.get("sport_id") as string}, ${DateTime.local().toISO()})
     `;
+
+    
   } catch (error) {
     console.log(error)
   }

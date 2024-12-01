@@ -13,7 +13,7 @@ export default async function MyGames() {
   const sports = await fetchAllSports();
   const sportsWithGames = await Promise.all(
     sports.map(async (sport) => {
-      const games = await fetchGames(sport.id, player.id);
+      const games = await fetchGames(sport.id);
       return { sport, games };
     })
   );

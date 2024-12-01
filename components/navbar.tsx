@@ -52,6 +52,7 @@ export const Navbar = () => {
       <NavbarContent
         className="basis-1/5 sm:basis-full flex items-center"
         justify="start"
+        key="links"
       >
         <img
           alt="Roanoke College logo"
@@ -62,17 +63,9 @@ export const Navbar = () => {
           className="md:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
         />
-        <ul className="hidden md:flex gap-4 justify-start ml-2">
+        <ul className="hidden md:flex gap-8 justify-start ml-2">
           {siteConfig.navItems.map((item) =>
-            // If a dropdown menu exists, render the item as a dropdown component
-            item.dropdownItems ? (
-              <NavbarDropdown
-                key={item.label}
-                label={item.label}
-              ></NavbarDropdown>
-            ) : (
-              // Otherwise, render the item as just a Button component
-              <NavbarItem key={item.href} className="flex items-center">
+              <NavbarItem className="flex items-center" key={item.key}>
                 <Link
                   className={clsx(
                     "text-foreground text-xl",
@@ -84,14 +77,17 @@ export const Navbar = () => {
                   {item.label}
                 </Link>
               </NavbarItem>
-            )
           )}
         </ul>
       </NavbarContent>
 
-      <NavbarContent className="flex" justify="end">
-        <Link href="/login">Login</Link>
-        <ThemeSwitch />
+      <NavbarContent className="flex" justify="end" key="login">
+        <NavbarItem key="login">
+          <Link href="/login">Login</Link>
+        </NavbarItem>
+        <NavbarItem key="theme">
+          <ThemeSwitch/>
+        </NavbarItem>
       </NavbarContent>
 
       <NavbarMenu className="flex flex-col">

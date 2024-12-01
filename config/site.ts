@@ -11,30 +11,24 @@ export const siteConfig = {
   ],
   navItems: [
     {
-      label: "Home",
-      href: "/",
+      label: "Submit Game",
+      href: "/submit_game",
       key: "home"
     },
     {
-      label: "Ping Pong",
-      href: "/pingpong",
-      dropdownItems: [
-        { label: "Ping Pong Home", href: "/pingpong", key: "pp_home"}
-      ],
+      label: "Ranks",
+      href: "/ranks",
+      key: "ranks"
     },
     {
-      label: "Pool",
-      href: "/pool",
-      dropdownItems: [
-        { label: "Pool Home", href: "/pool", key: "pool"}
-      ],
+      label: "My Games",
+      href: "/my_games",
+      key: "my_games"
     },
     {
-      label: "Air Hockey",
-      href: "/airhockey",
-      dropdownItems: [
-        { label: "Air Hockey Home", href: "/airhockey", key: "air_hockey"},
-      ],
+      label: "All Games",
+      href: "/all_games",
+      key: "all_games"
     },
   ],
   links: {
