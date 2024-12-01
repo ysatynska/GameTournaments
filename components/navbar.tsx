@@ -26,16 +26,12 @@ import { ThemeSwitch } from "@/components/theme-switch";
 import { SearchIcon } from "@/components/icons";
 import NavbarDropdown from "./navbar-dropdown";
 import { useSession } from 'next-auth/react';
-import { signOut } from '@/app/auth';
+import { getAuthPlayer, signOut } from '@/app/auth';
 import { PowerIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/components/ui/button';
-// import { link as linkStyles } from "@nextui-org/theme";
 
-
-export const Navbar = () => {
+export const Navbar = ({session} : {session: any}) => {
   const pathname = usePathname();
-
-  // State for controlling the NavbarMenu
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLinkClick = () => {
@@ -83,7 +79,11 @@ export const Navbar = () => {
 
       <NavbarContent className="flex" justify="end" key="login">
         <NavbarItem key="login">
-          <Link href="/login">Login</Link>
+          {session ? (
+            <Link href="/logout">Logout</Link>
+          ) : (
+            <Link href="/login">Login</Link>
+          )}
         </NavbarItem>
         <NavbarItem key="theme">
           <ThemeSwitch/>

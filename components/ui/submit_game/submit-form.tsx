@@ -1,13 +1,5 @@
 'use client';
 import { PlayerField, SportField } from '@/app/lib/definitions';
-
-import Link from 'next/link';
-import {
-  CheckIcon,
-  ClockIcon,
-  CurrencyDollarIcon,
-  UserCircleIcon,
-} from '@heroicons/react/24/outline';
 import { Button } from '@/components/ui/button';
 import { submitGame, State, GameState } from '@/app/lib/actions';
 import { useActionState, useState, useEffect } from 'react';
