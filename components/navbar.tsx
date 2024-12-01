@@ -80,7 +80,7 @@ export const Navbar = ({session} : {session: any}) => {
       <NavbarContent className="flex" justify="end" key="login">
         <NavbarItem key="login">
           {session ? (
-            <Link href="/logout">Logout</Link>
+            <NavbarItem>Welcome, {session.user.name}!</NavbarItem>
           ) : (
             <Link href="/login">Login</Link>
           )}
