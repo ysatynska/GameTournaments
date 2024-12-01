@@ -9,22 +9,14 @@ import {
   Accordion,
   AccordionItem,
 } from "@nextui-org/react";
-import { Kbd } from "@nextui-org/kbd";
 import { useState, useEffect } from "react";
 import { Link } from "@nextui-org/link";
-import { Input } from "@nextui-org/input";
 import NextLink from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import NavbarDropdown from "./navbar-dropdown";
-import { useSession } from 'next-auth/react';
-import { signOut } from '@/app/auth';
-import { PowerIcon } from '@heroicons/react/24/outline';
-import { Button } from '@/components/ui/button';
-// import { link as linkStyles } from "@nextui-org/theme";
-
 
 export const Navbar = () => {
   const pathname = usePathname();
