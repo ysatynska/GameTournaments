@@ -33,15 +33,17 @@ export const siteConfig = {
     {
       label: "Pool",
       href: "/pool",
+      key: "pool",
       dropdownItems: [
-        { label: "Pool Home", href: "/pool"}
+        { label: "Pool Home", href: "/pool", key: "pool1"}
       ],
     },
     {
       label: "Air Hockey",
       href: "/airhockey",
+      key: "air",
       dropdownItems: [
-        { label: "Air Hockey Home", href: "/airhockey"},
+        { label: "Air Hockey Home", href: "/airhockey", key: "air1"},
       ],
     },
   ],
