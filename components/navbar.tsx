@@ -23,9 +23,8 @@ import { Button } from "@nextui-org/button";
 import path from "path";
 // import { link as linkStyles } from "@nextui-org/theme";
 
-export const Navbar = () => {
+export const Navbar = ({ session }: { session: any }) => {
   const pathname = usePathname();
-  const home = siteConfig.navItems[0];
 
   // State for controlling the NavbarMenu
   const [menuOpen, setMenuOpen] = useState(false);
@@ -104,7 +103,7 @@ export const Navbar = () => {
             )
           )}
         </ul>
-        <ul className="hidden lg:flex flex-shrink gap-4 justify-start ml-2">
+        <ul className="hidden lg:flex flex-shrink gap-0.5 justify-start ml-2">
           {siteConfig.navItems.map((item) =>
             // If a dropdown menu exists, render the item as a dropdown component
             item.dropdownItems ? (
@@ -134,6 +133,13 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarContent className="flex" justify="end">
+        {session ? (
+          <NavbarItem>Welcome, {session.user.name}!</NavbarItem>
+        ) : (
+          <NavbarItem>
+            <Link href="/login">Login</Link>
+          </NavbarItem>
+        )}
         <ThemeSwitch />
       </NavbarContent>
 
