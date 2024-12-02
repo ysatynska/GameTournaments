@@ -1,3 +1,5 @@
+"use server";
+
 import { sql } from '@vercel/postgres';
 import {
     Player,
@@ -137,4 +139,38 @@ export async function insertNewMatch (
     } catch (error) {
         console.log(error);
     }
+}
+
+// returns both player names and the score. 
+export async function fetchMatchesPerTournament (tournament_id: number) {
+    try {
+        const { rows } = await sql<Match[]>`
+        SELECT 
+            p1.name AS player1_name,
+            p2.name AS player2_name,
+            m.player1_score AS player1_score,
+            m.player2_score AS player2_score,
+            m.id AS match_id
+        FROM 
+            matches m
+        JOIN 
+            players p1 ON m.player1_id = p1.id
+        JOIN 
+            players p2 ON m.player2_id = p2.id
+        JOIN 
+            tournaments t ON m.tournament_id = t.id
+        WHERE 
+            t.id = ${tournament_id}`
+        
+        const matches = rows.map(row => ({
+            key: Number(row.match_id),
+            p1: String(row.player1_name),
+            p2: String(row.player2_name),
+            score: `${row.player1_score} - ${row.player2_score}`,
+        }));
+        return matches;
+    } catch(error) {
+        console.log(error)
+    }
+
 }

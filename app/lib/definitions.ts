@@ -18,12 +18,11 @@ export type Sport = {
 }
 
 export type Match = {
+    match_id: number;
     player1_name: string;
     player2_name: string;
-    tourney_id: number;
     player1_score: number;
     player2_score: number;
-    sport: string;
 }
 
 //TODO: QUERY THESE THROUGH THE DB
