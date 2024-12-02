@@ -6,36 +6,31 @@ export const siteConfig = {
   name: "Tournament Builder",
   description: "Make beautiful websites regardless of your design experience.",
   sportLinks: [
-    { label: "My Games", href: "/", key: "my_games" },
-    { label: "Submit Game", href: "/", key: "submit_game" },
+    { label: "My Games", href: "/my_games", key: "my_games" },
+    { label: "All Games", href: "/all_games", key: "all_games" },
+    { label: "Ranks", href: "/ranks", key: "ranks"},
+    { label: "Submit Game", href: "/submit_game", key: "submit_game" },
   ],
   navItems: [
     {
-      label: "Submit Game",
-      href: "/submit_game",
+      label: "Home",
+      href: "/",
       key: "home"
     },
     {
-      label: "Ranks",
-      href: "/ranks",
-      key: "ranks"
-    },
-    {
-      label: "My Games",
-      href: "/my_games",
-      key: "my_games"
-    },
-    {
-      label: "All Games",
-      href: "/all_games",
-      key: "all_games"
+      label: "Ping Pong",
+      href: "/pingpong",
+      key: "pingpong",
+      dropdownItems: [
+        { label: "Ping Pong Home", href: "/pingpong", key: "pool"}
+      ],
     },
     {
       label: "Pool",
       href: "/pool",
       key: "pool",
       dropdownItems: [
-        { label: "Pool Home", href: "/pool", key: "pool1"}
+        { label: "Pool Home", href: "/pool", key: "pool"}
       ],
     },
     {
@@ -43,9 +38,14 @@ export const siteConfig = {
       href: "/airhockey",
       key: "air",
       dropdownItems: [
-        { label: "Air Hockey Home", href: "/airhockey", key: "air1"},
+        { label: "Air Hockey Home", href: "/airhockey", key: "air"},
       ],
     },
+    {
+      label: "Submit Game",
+      href: "/submit_game",
+      key: "submit_game"
+    }
   ],
   links: {
     github: "https://github.com/nextui-org/nextui",

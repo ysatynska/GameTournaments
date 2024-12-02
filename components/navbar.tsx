@@ -19,20 +19,22 @@ import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import NavbarDropdown from "./navbar-dropdown";
-import { useSession } from 'next-auth/react';
-import { getAuthPlayer, signOut } from '@/app/auth';
-import { PowerIcon } from '@heroicons/react/24/outline';
-import { Button } from '@/components/ui/button';
+import { Button } from "@nextui-org/button";
+import path from "path";
+// import { link as linkStyles } from "@nextui-org/theme";
 
-export const Navbar = ({session} : {session: any}) => {
+export const Navbar = () => {
   const pathname = usePathname();
+  const home = siteConfig.navItems[0];
+
+  // State for controlling the NavbarMenu
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   // Determine the screen's size
   const handleResize = () => {
-    // Tailwind's default 'md' size is a width of 768 pixels
-    if (window.innerWidth <= 767) {
+    // Tailwind's default 'lg' size is a width of 1024 pixels
+    if (window.innerWidth < 1024) {
       setIsMobile(true);
     } else {
       setIsMobile(false);
@@ -71,7 +73,6 @@ export const Navbar = ({session} : {session: any}) => {
       <NavbarContent
         className="basis-1/5 sm:basis-full flex items-center"
         justify="start"
-        key="links"
       >
         <img
           alt="Roanoke College logo"
@@ -79,54 +80,64 @@ export const Navbar = ({session} : {session: any}) => {
           style={{ height: "100%", objectFit: "contain" }}
         />
         <NavbarMenuToggle
-          className="md:hidden"
+          className="lg:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
         />
-        <ul className="hidden md:flex gap-8 justify-start ml-2">
+        <ul className="lg:hidden flex justify-start">
           {siteConfig.navItems.map((item) =>
-              <NavbarItem className="flex items-center" key={item.key}>
-                <Link
+            // If a dropdown menu exists, render the item as a dropdown component
+            item.dropdownItems ? (
+              <></>
+            ) : (
+              // Otherwise, render the item as just a Button component
+              <NavbarItem key={item.key} className="flex items-center">
+                <NextLink
+                  href={item.href}
+                  className={clsx(
+                    "text-foreground text-2xl ml-6",
+                    item.href === pathname ? "text-red-900 font-medium" : ""
+                  )}
+                >
+                  {item.label}
+                </NextLink>
+              </NavbarItem>
+            )
+          )}
+        </ul>
+        <ul className="hidden lg:flex flex-shrink gap-4 justify-start ml-2">
+          {siteConfig.navItems.map((item) =>
+            // If a dropdown menu exists, render the item as a dropdown component
+            item.dropdownItems ? (
+              <NavbarDropdown
+                key={item.label}
+                label={item.label}
+              ></NavbarDropdown>
+            ) : (
+              // Otherwise, render the item as just a Button component
+              <NavbarItem key={item.href} className="flex items-center">
+                <Button
                   className={clsx(
                     "text-foreground text-xl",
                     item.href === pathname ? "text-red-900 font-medium" : ""
                   )}
+                  variant="light"
                   as={NextLink}
                   href={item.href}
+                  disableRipple
                 >
                   {item.label}
-                </Link>
+                </Button>
               </NavbarItem>
+            )
           )}
         </ul>
       </NavbarContent>
 
-      <NavbarContent className="flex" justify="end" key="login">
-          {session ? (
-            <NavbarItem>Welcome, {session.user.name}!</NavbarItem>
-          ) : (
-            <NavbarItem>
-              <Link href="/login">Login</Link>
-            </NavbarItem>
-          )}
-        <NavbarItem key="theme">
-          <ThemeSwitch/>
-        </NavbarItem>
+      <NavbarContent className="flex" justify="end">
+        <ThemeSwitch />
       </NavbarContent>
 
-      <NavbarMenu className="flex flex-col md:hidden">
-        {/* <Button
-          className={clsx(
-            "text-foreground text-3xl h-16 mx-2 bg-foreground-300/25",
-            home.href === pathname ? "text-red-900 font-medium" : ""
-          )}
-          variant="light"
-          as={NextLink}
-          href={home.href}
-          disableRipple
-          onClick={handleLinkClick} // Close menu on link click
-        >
-          {home.label}
-        </Button> */}
+      <NavbarMenu className="flex flex-col lg:hidden">
         <Accordion variant="light" selectionMode="single">
           {siteConfig.navItems.slice(1).map((item) =>
             item.dropdownItems ? (
