@@ -16,11 +16,11 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
     const [state, formAction] = useFormState(submitGame, initialState);
 
     useEffect(() => {
-        setSelectedPlayer1(state.values.player1_id);
-        setSelectedPlayer2(state.values.player2_id);
-        setselectedSport(state.values.sport_id);
-        setScore1(state.values.score1);
-        setScore2(state.values.score2);
+        setSelectedPlayer1(state.values.player1_id ?? "");
+        setSelectedPlayer2(state.values.player2_id ?? "");
+        setselectedSport(state.values.sport_id ?? "");
+        setScore1(state.values.score1 ?? "");
+        setScore2(state.values.score2 ?? "");
     }, [state.values]);
 
     return (

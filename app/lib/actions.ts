@@ -91,12 +91,12 @@ export type GameState = {
     sport_id?: string[];
   };
   values: {
-    player1_id?: string[];
-    player2_id?: string[];
-    score1?: string[];
-    score2?: string[];
-    sport_id?: string[];
-  }
+    player1_id?: string;
+    player2_id?: string;
+    score1?: string;
+    score2?: string;
+    sport_id?: string;
+  };
 };
 
 const gameSchema = z.object({
@@ -125,35 +125,39 @@ const gameSchema = z.object({
     .gt(0, { message: 'Invalid Sport.' }),
 });
 
-export async function submitGame (prevState: GameState, formData: FormData) {
-  const validatedFields = gameSchema.safeParse({
-    player1_id: formData.get('player1_id'),
-    player2_id: formData.get('player2_id'),
-    score1: formData.get('score1'),
-    score2: formData.get('score2'),
-    sport_id: formData.get('sport_id'),
-  });
-  if (!validatedFields.success) {
-    const values = Object.fromEntries(
-      Array.from(formData.entries()).map(([key, value]) => [key, typeof value === 'string' ? value : ''])
-    );
+export async function submitGame(state: GameState) {
+  const formData = state.values;
 
+  const validatedFields = gameSchema.safeParse({
+    player1_id: formData.player1_id,
+    player2_id: formData.player2_id,
+    score1: formData.score1,
+    score2: formData.score2,
+    sport_id: formData.sport_id,
+  });
+
+  if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      values,
+      values: { ...formData },
     };
   }
 
   try {
     await sql`
       INSERT INTO games (player1_id, player2_id, score1, score2, sport_id, created_at)
-      VALUES (${formData.get("player1_id") as string}, ${formData.get("player2_id") as string}, ${parseInt(formData.get("score1") as string, 10)}, ${parseInt(formData.get("score2") as string, 10)}, ${formData.get("sport_id") as string}, ${DateTime.local().toISO()})
+      VALUES (
+        ${validatedFields.data.player1_id}, 
+        ${validatedFields.data.player2_id}, 
+        ${validatedFields.data.score1}, 
+        ${validatedFields.data.score2}, 
+        ${validatedFields.data.sport_id}, 
+        ${DateTime.local().toISO()}
+      )
     `;
-
-    
   } catch (error) {
-    console.log(error)
+    console.error(error);
   }
- 
+
   redirect('/');
 }
