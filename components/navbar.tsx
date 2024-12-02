@@ -23,9 +23,8 @@ import { Button } from "@nextui-org/button";
 import path from "path";
 // import { link as linkStyles } from "@nextui-org/theme";
 
-export const Navbar = () => {
+export const Navbar = ({ session }: { session: any }) => {
   const pathname = usePathname();
-  const home = siteConfig.navItems[0];
 
   // State for controlling the NavbarMenu
   const [menuOpen, setMenuOpen] = useState(false);
@@ -33,8 +32,8 @@ export const Navbar = () => {
 
   // Determine the screen's size
   const handleResize = () => {
-    // Tailwind's default 'md' size is a width of 768 pixels
-    if (window.innerWidth <= 767) {
+    // Tailwind's default 'lg' size is a width of 1024 pixels
+    if (window.innerWidth < 1024) {
       setIsMobile(true);
     } else {
       setIsMobile(false);
@@ -80,19 +79,31 @@ export const Navbar = () => {
           style={{ height: "100%", objectFit: "contain" }}
         />
         <NavbarMenuToggle
-          className="md:hidden"
+          className="lg:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
         />
-        <NextLink
-          href={home.href}
-          className={clsx(
-            "text-foreground text-2xl md:hidden ml-6",
-            home.href === pathname ? "text-red-900 font-medium" : ""
+        {/* <ul> FOR SMALL SCREENS */}
+        <ul className="lg:hidden flex justify-start">
+          {siteConfig.navItems.map((item) =>
+            item.dropdownItems ? (
+              <></>
+            ) : (
+              <NavbarItem key={item.key} className="flex items-center">
+                <NextLink
+                  href={item.href}
+                  className={clsx(
+                    "text-foreground text-lg ml-4",
+                    item.href === pathname ? "text-red-900 font-medium" : ""
+                  )}
+                >
+                  {item.label}
+                </NextLink>
+              </NavbarItem>
+            )
           )}
-        >
-          {home.label}
-        </NextLink>
-        <ul className="hidden md:flex gap-4 justify-start ml-2">
+        </ul>
+        {/* <ul> FOR LARGE SCREENS */}
+        <ul className="hidden lg:flex flex-shrink gap-0.5 justify-start ml-2">
           {siteConfig.navItems.map((item) =>
             // If a dropdown menu exists, render the item as a dropdown component
             item.dropdownItems ? (
@@ -122,23 +133,17 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarContent className="flex" justify="end">
+        {session ? (
+          <NavbarItem>Welcome, {session.user.name}!</NavbarItem>
+        ) : (
+          <NavbarItem>
+            <Link href="/login">Login</Link>
+          </NavbarItem>
+        )}
         <ThemeSwitch />
       </NavbarContent>
 
-      <NavbarMenu className="flex flex-col md:hidden">
-        {/* <Button
-          className={clsx(
-            "text-foreground text-3xl h-16 mx-2 bg-foreground-300/25",
-            home.href === pathname ? "text-red-900 font-medium" : ""
-          )}
-          variant="light"
-          as={NextLink}
-          href={home.href}
-          disableRipple
-          onClick={handleLinkClick} // Close menu on link click
-        >
-          {home.label}
-        </Button> */}
+      <NavbarMenu className="flex flex-col lg:hidden">
         <Accordion variant="light" selectionMode="single">
           {siteConfig.navItems.slice(1).map((item) =>
             item.dropdownItems ? (

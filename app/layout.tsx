@@ -4,7 +4,7 @@ import { Link } from "@nextui-org/link";
 import clsx from "clsx";
 
 import { Providers } from "./providers";
-
+import { auth } from "@/app/auth";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 
@@ -15,11 +15,12 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
   return (
     <html suppressHydrationWarning lang="en">
       <head>
@@ -36,14 +37,14 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
-          <div className="relative flex flex-col h-screen">
-            <Navbar />
-            <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
-              {children}
-            </main>
-          </div>
-        </Providers>
+          <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+              <div className="relative flex flex-col h-screen">
+                <Navbar session={session}/>
+                <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+                  {children}
+                </main>
+              </div>
+          </Providers>
       </body>
     </html>
   );

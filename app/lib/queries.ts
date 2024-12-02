@@ -3,9 +3,119 @@ import {
     Player,
     Tournament,
     Sport,
-    Match,
+    Game,
     supportedSports,
+    GamePlayer,
+    RankRating
 } from "./definitions"
+
+export async function fetchRanks(sport_id: string) {
+    try {
+      const ranks = await sql<RankRating>`
+        SELECT 
+            players.name, 
+            sports_players_map.rank,
+            sports_players_map.rating
+        FROM sports_players_map
+        JOIN players ON sports_players_map.player_id = players.id
+        WHERE sports_players_map.sport_id = ${sport_id}
+        ORDER BY sports_players_map.rank DESC;
+      `;
+      return ranks.rows;
+    } catch (error) {
+      console.error("Error fetching ranks:", error);
+      throw new Error("Failed to fetch ranks.");
+    }
+}
+
+  
+export async function fetchSport (sport_id: any) {
+    try {
+        const sport = await sql<Sport>`
+          SELECT 
+            id, 
+            name, 
+            created_at 
+          FROM sports
+          WHERE id = ${sport_id}
+        `;
+        return sport.rows[0];
+    } catch (error) {
+        console.error("Error fetching sport:", error);
+        throw new Error("Failed to fetch sport data.");
+    }
+}
+
+export async function fetchAllSports () {
+    try {
+        const sport = await sql<Sport>`
+          SELECT 
+            id, 
+            name, 
+            created_at 
+          FROM sports
+          ORDER BY name ASC
+        `;
+        return sport.rows;
+    } catch (error) {
+        console.error("Error fetching sport:", error);
+        throw new Error("Failed to fetch sport data.");
+    }
+}
+
+export async function fetchGames (sport_id: any, player_id?: any) {
+    if (!sport_id) {
+        throw new Error('Sport id is required.');
+    }
+    if (player_id) {
+        try {
+            const games = await sql<GamePlayer>`
+                SELECT 
+                games.id, 
+                games.created_at, 
+                games.player1_id, 
+                games.player2_id, 
+                games.score1, 
+                games.score2, 
+                p1.name AS player1_name, 
+                p2.name AS player2_name
+                FROM games
+                LEFT JOIN players AS p1 ON games.player1_id = p1.id
+                LEFT JOIN players AS p2 ON games.player2_id = p2.id
+                WHERE games.sport_id = ${sport_id}
+                AND (player1_id = ${player_id} OR player2_id = ${player_id})
+                ORDER BY games.created_at DESC
+            `;
+            return games.rows;
+        } catch (error) {
+            console.error(error);
+            throw new Error(`Database error fetching my games.`);
+        }
+    } else {
+        try {
+            const games = await sql<GamePlayer>`
+              SELECT 
+                games.id, 
+                games.created_at, 
+                games.player1_id, 
+                games.player2_id, 
+                games.score1, 
+                games.score2,
+                p1.name AS player1_name, 
+                p2.name AS player2_name
+              FROM games
+              LEFT JOIN players AS p1 ON games.player1_id = p1.id
+              LEFT JOIN players AS p2 ON games.player2_id = p2.id
+              WHERE games.sport_id = ${sport_id}
+              ORDER BY games.created_at DESC
+            `;
+            return games.rows;
+          } catch (error) {
+            console.error(error);
+            throw new Error(`Database error fetching all games.`);
+          }
+    }
+}
 
 export async function fetchTournamentsPerSport(sport: string) {
     if (!supportedSports.includes(sport)) {
@@ -68,15 +178,41 @@ export async function fetchCompletedStatus(tourney_name: string) {
     }
 }
 
-export async function fetchPlayer(player_name: string) {
+export async function fetchPlayer(name: string) {
     try {
         const data = await sql<Player>`
         SELECT * FROM players
-        WHERE player_name LIKE ${player_name}
+        WHERE name LIKE ${name}
         `;
         return data.rows[0]
     } catch (error) {
         console.log(error)
+    }
+}
+
+export async function fetchPlayers() {
+    try {
+        const data = await sql<Player>`
+        SELECT * FROM players
+        ORDER BY name ASC
+        `;
+        return data.rows;
+    } catch (error) {
+        console.log(error)
+        throw new Error('Failed to fetch all players.');
+    }
+}
+
+export async function fetchSports() {
+    try {
+        const data = await sql<Sport>`
+        SELECT * FROM sports
+        ORDER BY name ASC
+        `;
+        return data.rows;
+    } catch (error) {
+        console.log(error)
+        throw new Error('Failed to fetch all players.');
     }
 }
 

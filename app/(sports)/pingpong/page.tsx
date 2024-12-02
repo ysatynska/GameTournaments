@@ -1,5 +1,5 @@
 import { title } from "@/components/primitives";
-import { fetchTournamentsPerSport, fetchRecentTournaments, fetchCompletedStatus, insertNewMatch } from "../lib/queries";
+import { fetchTournamentsPerSport, fetchRecentTournaments, fetchCompletedStatus, insertNewMatch } from "../../lib/queries";
 
 export default async function PingPongPage() {
 

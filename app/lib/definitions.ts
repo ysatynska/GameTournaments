@@ -1,8 +1,42 @@
-// Here are definitions for all of the data types that will be queried from the database.
-
 export type Player = {
-    id: number;
+    id: string;
     name: string;
+    email: string;
+    password: string;
+};
+
+export type RankRating = {
+    name: string;
+    id: string;
+    rank: number;
+    rating: number;
+}
+
+export type PlayerField = {
+    id: string;
+    name: string;
+};
+
+export type Game = {
+    player1_id: string;
+    player2_id: string;
+    score1: number;
+    score2: number;
+    sport_id: string;
+    id: string;
+    created_at: Date;
+}
+
+export type GamePlayer = {
+    player1_id: string;
+    player2_id: string;
+    player1_name: string;
+    player2_name: string;
+    score1: number;
+    score2: number;
+    sport_id: string;
+    id: string;
+    created_at: Date;
 }
 
 export type Tournament = {
@@ -12,18 +46,16 @@ export type Tournament = {
     date: string;
 }
 
-export type Sport = {
-    id: number;
+export type SportField = {
+    id: string;
     name: string;
-}
+};
 
-export type Match = {
-    player1_name: string;
-    player2_name: string;
-    tourney_id: number;
-    player1_score: number;
-    player2_score: number;
-    sport: string;
+export type Sport = {
+    id: string;
+    name: string;
+    created_at: Date;
+    deleted_at: Date;
 }
 
 //TODO: QUERY THESE THROUGH THE DB

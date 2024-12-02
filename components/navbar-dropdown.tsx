@@ -6,6 +6,7 @@ import {
   DropdownTrigger,
   DropdownItem,
   Button,
+  NavbarItem,
 } from "@nextui-org/react";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
@@ -39,29 +40,31 @@ export default function NavbarDropdown({ label }: NavbarDropdownProps) {
 
   return (
     <Dropdown backdrop="blur">
-      <DropdownTrigger>
-        <Button
-          variant="light"
-          className={clsx(
-            "text-foreground text-xl",
-            isOnPage ? "text-red-900 font-medium" : ""
-          )}
-          endContent={<ChevronDownIcon />}
-        >
-          {item.label}
-        </Button>
-      </DropdownTrigger>
+      <NavbarItem>
+        <DropdownTrigger>
+          <Button
+            variant="light"
+            disableRipple
+            className={clsx(
+              "text-foreground text-xl",
+              isOnPage ? "text-red-900 font-medium" : ""
+            )}
+            endContent={<ChevronDownIcon />}
+          >
+            {item.label}
+          </Button>
+        </DropdownTrigger>
+      </NavbarItem>
       <DropdownMenu aria-label="Link Actions">
         {item.dropdownItems.map((dropdownItem) => (
           <DropdownItem
             className={clsx(
               "text-foreground",
-              dropdownItem.label === "Submit Game" ? "text-rose-700" : ""
+              dropdownItem.label === "My Games" ? "text-rose-700" : ""
             )}
-            key={dropdownItem.label}
             href={dropdownItem.href}
             variant="light"
-            color={dropdownItem.label === "Submit Game" ? "danger" : "default"}
+            color={dropdownItem.label === "My Games" ? "danger" : "default"}
           >
             {dropdownItem.label}
           </DropdownItem>
