@@ -22,7 +22,7 @@ export const siteConfig = {
       href: "/pingpong",
       key: "pingpong",
       dropdownItems: [
-        { label: "Ping Pong Home", href: "/pingpong", key: "pool"}
+        { label: "Ping Pong Home", href: "/pingpong", key: "pingpong"}
       ],
     },
     {
