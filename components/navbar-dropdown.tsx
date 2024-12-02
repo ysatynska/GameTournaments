@@ -62,7 +62,6 @@ export default function NavbarDropdown({ label }: NavbarDropdownProps) {
               "text-foreground",
               dropdownItem.label === "Submit Game" ? "text-rose-700" : ""
             )}
-            key={dropdownItem.key}
             href={dropdownItem.href}
             variant="light"
             color={dropdownItem.label === "Submit Game" ? "danger" : "default"}
