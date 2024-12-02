@@ -30,6 +30,22 @@ export const siteConfig = {
       href: "/all_games",
       key: "all_games"
     },
+    {
+      label: "Pool",
+      href: "/pool",
+      key: "pool",
+      dropdownItems: [
+        { label: "Pool Home", href: "/pool", key: "pool1"}
+      ],
+    },
+    {
+      label: "Air Hockey",
+      href: "/airhockey",
+      key: "air",
+      dropdownItems: [
+        { label: "Air Hockey Home", href: "/airhockey", key: "air1"},
+      ],
+    },
   ],
   links: {
     github: "https://github.com/nextui-org/nextui",

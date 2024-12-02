@@ -6,7 +6,7 @@ import { sql } from '@vercel/postgres';
 import type { Player } from '@/app/lib/definitions';
 import bcrypt from 'bcrypt';
  
-export async function getPlayer(email: string): Promise<Player | undefined> {
+async function getPlayer(email: string): Promise<Player | undefined> {
   try {
     const user = await sql<Player>`SELECT * FROM players WHERE email=${email}`;
     return user.rows[0];
@@ -26,8 +26,8 @@ export async function getAuthPlayer () {
   }
   return null;
 }
- 
-export const { auth, signIn, signOut } = NextAuth({
+
+export const authOptions = {
   ...authConfig,
   providers: [
     Credentials({
@@ -44,10 +44,10 @@ export const { auth, signIn, signOut } = NextAuth({
  
           if (passwordsMatch) return user;
         }
- 
-        console.log('Invalid credentials');
         return null;
       },
     }),
   ],
-});
+};
+ 
+export const { auth, signIn, signOut } = NextAuth(authOptions);

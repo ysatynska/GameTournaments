@@ -63,7 +63,7 @@ export async function fetchAllSports () {
     }
 }
 
-export async function fetchGames (sport_id: any, player_id = null) {
+export async function fetchGames (sport_id: any, player_id?: any) {
     if (!sport_id) {
         throw new Error('Sport id is required.');
     }

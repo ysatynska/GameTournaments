@@ -18,7 +18,6 @@ export default async function UserAvatar() {
             </li>
           ))}
         </ul>
-        {session.user.email}
       </div>
     );
   }

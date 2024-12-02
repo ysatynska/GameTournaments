@@ -37,7 +37,7 @@ export default function GamesTable({games}: {games: GamePlayer[]}) {
               isCompact
               showControls
               showShadow
-              color="secondary"
+              color="default"
               page={page}
               total={pages}
               onChange={(page) => setPage(page)}

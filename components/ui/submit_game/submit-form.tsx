@@ -1,16 +1,9 @@
 'use client';
 import { PlayerField, SportField } from '@/app/lib/definitions';
-
-import Link from 'next/link';
-import {
-  CheckIcon,
-  ClockIcon,
-  CurrencyDollarIcon,
-  UserCircleIcon,
-} from '@heroicons/react/24/outline';
 import { Button } from '@/components/ui/button';
 import { submitGame, State, GameState } from '@/app/lib/actions';
-import { useActionState, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useFormState } from 'react-dom';
 import { Input, Card } from '@nextui-org/react';
 
 export default function Form({ players, sports }: { players: PlayerField[], sports: SportField[] }) {
@@ -20,14 +13,14 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
     const [score1, setScore1] = useState('');
     const [score2, setScore2] = useState('');
     const initialState: GameState = { errors: {}, values: {} };
-    const [state, formAction] = useActionState(submitGame, initialState);
+    const [state, formAction] = useFormState(submitGame, initialState);
 
     useEffect(() => {
-        setSelectedPlayer1(state.values.player1_id);
-        setSelectedPlayer2(state.values.player2_id);
-        setselectedSport(state.values.sport_id);
-        setScore1(state.values.score1);
-        setScore2(state.values.score2);
+        setSelectedPlayer1(state.values.player1_id ?? "");
+        setSelectedPlayer2(state.values.player2_id ?? "");
+        setselectedSport(state.values.sport_id ?? "");
+        setScore1(state.values.score1 ?? "");
+        setScore2(state.values.score2 ?? "");
     }, [state.values]);
 
     return (

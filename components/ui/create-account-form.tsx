@@ -3,14 +3,14 @@ import { fontSans } from '@/config/fonts';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from './button';
-import { useActionState, useEffect } from "react";
+import { useFormState } from 'react-dom';
 import Link from 'next/link';
 import * as InputFields from '@/components/input-fields';
 import { registerUserAction, State } from "@/app/lib/actions";
 
 export default function CreateAccountForm() {
   const initialState: State = { errors: {} };
-  const [state, formAction] = useActionState(registerUserAction, initialState);
+  const [state, formAction] = useFormState(registerUserAction, initialState);
 
   return (
     <form action={formAction} className="space-y-3">
