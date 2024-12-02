@@ -2,7 +2,8 @@
 import { PlayerField, SportField } from '@/app/lib/definitions';
 import { Button } from '@/components/ui/button';
 import { submitGame, State, GameState } from '@/app/lib/actions';
-import { useActionState, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useFormState } from 'react-dom';
 import { Input, Card } from '@nextui-org/react';
 
 export default function Form({ players, sports }: { players: PlayerField[], sports: SportField[] }) {
@@ -12,7 +13,7 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
     const [score1, setScore1] = useState('');
     const [score2, setScore2] = useState('');
     const initialState: GameState = { errors: {}, values: {} };
-    const [state, formAction] = useActionState(submitGame, initialState);
+    const [state, formAction] = useFormState(submitGame, initialState);
 
     useEffect(() => {
         setSelectedPlayer1(state.values.player1_id);
