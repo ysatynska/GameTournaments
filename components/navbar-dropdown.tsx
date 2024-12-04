@@ -60,11 +60,11 @@ export default function NavbarDropdown({ label }: NavbarDropdownProps) {
           <DropdownItem
             className={clsx(
               "text-foreground",
-              dropdownItem.label === "Submit Game" ? "text-rose-700" : ""
+              dropdownItem.label === "My Games" ? "text-rose-700" : ""
             )}
             href={dropdownItem.href}
             variant="light"
-            color={dropdownItem.label === "Submit Game" ? "danger" : "default"}
+            color={dropdownItem.label === "My Games" ? "danger" : "default"}
           >
             {dropdownItem.label}
           </DropdownItem>

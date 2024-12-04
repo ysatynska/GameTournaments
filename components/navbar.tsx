@@ -82,18 +82,17 @@ export const Navbar = ({ session }: { session: any }) => {
           className="lg:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
         />
+        {/* <ul> FOR SMALL SCREENS */}
         <ul className="lg:hidden flex justify-start">
           {siteConfig.navItems.map((item) =>
-            // If a dropdown menu exists, render the item as a dropdown component
             item.dropdownItems ? (
               <></>
             ) : (
-              // Otherwise, render the item as just a Button component
               <NavbarItem key={item.key} className="flex items-center">
                 <NextLink
                   href={item.href}
                   className={clsx(
-                    "text-foreground text-2xl ml-6",
+                    "text-foreground text-lg ml-4",
                     item.href === pathname ? "text-red-900 font-medium" : ""
                   )}
                 >
@@ -103,6 +102,7 @@ export const Navbar = ({ session }: { session: any }) => {
             )
           )}
         </ul>
+        {/* <ul> FOR LARGE SCREENS */}
         <ul className="hidden lg:flex flex-shrink gap-0.5 justify-start ml-2">
           {siteConfig.navItems.map((item) =>
             // If a dropdown menu exists, render the item as a dropdown component
