@@ -1,35 +1,48 @@
 'use client';
-import { PlayerField, SportField } from '@/app/lib/definitions';
+import { PlayerField, Sport } from '@/app/lib/definitions';
 import { Button } from '@/components/ui/button';
 import { submitGame, State, GameState } from '@/app/lib/actions';
 import { useState, useEffect } from 'react';
 import { useFormState } from 'react-dom';
 import { Input, Card } from '@nextui-org/react';
 
-export default function Form({ players, sports }: { players: PlayerField[], sports: SportField[] }) {
-    const [selectedPlayer1, setSelectedPlayer1] = useState('');
-    const [selectedPlayer2, setSelectedPlayer2] = useState('');
-    const [selectedSport, setselectedSport] = useState('');
-    const [score1, setScore1] = useState('');
-    const [score2, setScore2] = useState('');
-    const initialState: GameState = { errors: {}, values: {} };
+export default function Form({ players, sport }: { players: PlayerField[], sport: Sport }) {
+    // const [selectedPlayer1, setSelectedPlayer1] = useState('');
+    // const [selectedPlayer2, setSelectedPlayer2] = useState('');
+    // const [selectedSport, setselectedSport] = useState('');
+    // const [score1, setScore1] = useState('');
+    // const [score2, setScore2] = useState('');
+    const initialState: GameState = { errors: {} };
     const [state, formAction] = useFormState(submitGame, initialState);
 
-    useEffect(() => {
-        setSelectedPlayer1(state.values.player1_id ?? "");
-        setSelectedPlayer2(state.values.player2_id ?? "");
-        setselectedSport(state.values.sport_id ?? "");
-        setScore1(state.values.score1 ?? "");
-        setScore2(state.values.score2 ?? "");
-    }, [state.values]);
+//     console.log("Selected Player 1:", selectedPlayer1);
+// console.log("Selected Player 2:", selectedPlayer2);
+// console.log("Score 1:", score1);
+// console.log("Score 2:", score2);
+
+    // useEffect(() => {
+    //     setSelectedPlayer1(state.values.player1_id ?? "");
+    //     setSelectedPlayer2(state.values.player2_id ?? "");
+    //     setselectedSport(state.values.sport_id ?? "");
+    //     setScore1(state.values.score1 ?? "");
+    //     setScore2(state.values.score2 ?? "");
+    // }, [state.values]);
+
+    // const changeP1 = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    //     console.log("chanign pi to ", event.target.value)
+    //     setSelectedPlayer1(event.target.value);
+    // };
+    
 
     return (
-        <div className="min-h-full flex justify-center items-center" key={JSON.stringify(state.values)}>
+        // <div className="min-h-full flex justify-center items-center" key={JSON.stringify(state.values)}>
+        <div className="min-h-full flex justify-center items-center">
             <Card className="p-6 max-w-4xl rounded-lg shadow-md w-full">
                 <h2 className="text-center text-red-900 text-3xl font-bold mb-10">
-                    Submit Game Score
+                    Submit Game Score - {sport.name}
                 </h2>
                 <form action={formAction}>
+                    <Input type="hidden" name="sport_id" value={sport.id}/>
                     <div className="grid grid-cols-2 gap-6">
                         <div className="flex flex-col">
                             <label htmlFor="player1" className="text-sm font-medium">
@@ -37,8 +50,8 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
                             </label>
                             <select
                                 name="player1_id"
-                                value={selectedPlayer1}
-                                onChange={(e) => setSelectedPlayer1(e.target.value)}
+                                // value={selectedPlayer1}
+                                // onChange={changeP1}
                                 className="mt-2 p-2 border rounded-md"
                             >
                                 <option value="">Select Player 1</option>
@@ -62,8 +75,8 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
                             </label>
                             <select
                                 name="player2_id"
-                                value={selectedPlayer2}
-                                onChange={(e) => setSelectedPlayer2(e.target.value)}
+                                // value="16"
+                                // onChange={(e) => setSelectedPlayer2(e.target.value)}
                                 className="mt-2 p-2 border rounded-md"
                             >
                                 <option value="">Select Player 2</option>
@@ -92,8 +105,8 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
                                 type="number"
                                 fullWidth
                                 className="mt-2"
-                                value={score1}
-                                onChange={(e) => setScore1(e.target.value)}
+                                // value="6"
+                                // onChange={(e) => setScore1(e.target.value)}
                             />
                             {state.errors?.score1 &&
                                 state.errors.score1.map((error: string) => (
@@ -114,8 +127,8 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
                                 type="number"
                                 fullWidth
                                 className="mt-2"
-                                value={score2}
-                                onChange={(e) => setScore2(e.target.value)}
+                                // value="23"
+                                // onChange={(e) => setScore2(e.target.value)}
                             />
                             {state.errors?.score2 &&
                                 state.errors.score2.map((error: string) => (
@@ -125,7 +138,7 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
                                 ))}
                         </div>
 
-                        <div className="col-span-2 flex justify-center">
+                        {/* <div className="col-span-2 flex justify-center">
                             <div className="flex flex-col w-full">
                                 <label htmlFor="sport" className="text-sm font-medium">
                                     Which Sport?
@@ -150,7 +163,7 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
                                         </p>
                                     ))}
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="col-span-2">
                             <Button className="w-full mt-3 bg-red-900 text-white">

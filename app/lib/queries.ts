@@ -9,22 +9,21 @@ import {
     RankRating
 } from "./definitions"
 
-export async function fetchRanks(sport_id: string) {
+export async function fetchRatings(sport_id: string) {
     try {
-      const ranks = await sql<RankRating>`
+      const ratings = await sql<RankRating>`
         SELECT 
-            players.name, 
-            sports_players_map.rank,
+            players.name,
             sports_players_map.rating
         FROM sports_players_map
         JOIN players ON sports_players_map.player_id = players.id
         WHERE sports_players_map.sport_id = ${sport_id}
-        ORDER BY sports_players_map.rank DESC;
+        ORDER BY sports_players_map.rating DESC;
       `;
-      return ranks.rows;
+      return ratings.rows;
     } catch (error) {
-      console.error("Error fetching ranks:", error);
-      throw new Error("Failed to fetch ranks.");
+      console.error("Error fetching ratings:", error);
+      throw new Error("Failed to fetch ratings.");
     }
 }
 
@@ -46,13 +45,30 @@ export async function fetchSport (sport_id: any) {
     }
 }
 
-export async function fetchAllSports () {
+export async function fetchSportSlug (sport_slug: any) {
     try {
         const sport = await sql<Sport>`
           SELECT 
             id, 
             name, 
-            created_at 
+            slug
+          FROM sports
+          WHERE slug = ${sport_slug}
+        `;
+        return sport.rows[0];
+    } catch (error) {
+        console.error("Error fetching sport:", error);
+        throw new Error("Failed to fetch sport data.");
+    }
+}
+
+export async function fetchAllSports () {
+    try {
+        const sport = await sql<Sport>`
+          SELECT
+            id,
+            name,
+            slug
           FROM sports
           ORDER BY name ASC
         `;
@@ -60,6 +76,40 @@ export async function fetchAllSports () {
     } catch (error) {
         console.error("Error fetching sport:", error);
         throw new Error("Failed to fetch sport data.");
+    }
+}
+
+export async function fetchPrimarySports () {
+    try {
+        const sport = await sql<Sport>`
+            SELECT
+                name,
+                slug
+            FROM sports
+            ORDER BY created_at ASC
+            LIMIT 3
+        `;
+        return sport.rows;
+    } catch (error) {
+        console.error("Error fetching sports: ", error);
+        throw new Error("Failed to fetch first 3 sports.");
+    }
+}
+
+export async function fetchSecondarySports () {
+    try {
+        const sport = await sql<Sport>`
+            SELECT
+                name,
+                slug
+            FROM sports
+            ORDER BY created_at ASC
+            OFFSET 3
+        `;
+        return sport.rows;
+    } catch (error) {
+        console.error("Error fetching sports: ", error);
+        throw new Error("Failed to fetch remaining sports.");
     }
 }
 

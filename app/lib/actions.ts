@@ -90,13 +90,13 @@ export type GameState = {
     score2?: string[];
     sport_id?: string[];
   };
-  values: {
-    player1_id?: string;
-    player2_id?: string;
-    score1?: string;
-    score2?: string;
-    sport_id?: string;
-  };
+  // values: {
+  //   player1_id?: string;
+  //   player2_id?: string;
+  //   score1?: string;
+  //   score2?: string;
+  //   sport_id?: string;
+  // };
 };
 
 const gameSchema = z.object({
@@ -125,15 +125,17 @@ const gameSchema = z.object({
     .gt(0, { message: 'Invalid Sport.' }),
 });
 
-export async function submitGame(state: GameState) {
-  const formData = state.values;
-
+export async function submitGame(prevState: GameState, formData: FormData) {
+  // const formData = state.values;
+  // console.log("form data in submit game", state);
+  // console.log("values in submit game", state.values);
+  console.log(formData);
   const validatedFields = gameSchema.safeParse({
-    player1_id: formData.player1_id,
-    player2_id: formData.player2_id,
-    score1: formData.score1,
-    score2: formData.score2,
-    sport_id: formData.sport_id,
+    player1_id: formData.get("player1_id"),
+    player2_id: formData.get("player2_id"),
+    score1: formData.get("score1"),
+    score2: formData.get("score2"),
+    sport_id: formData.get("sport_id"),
   });
 
   if (!validatedFields.success) {
