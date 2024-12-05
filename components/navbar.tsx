@@ -12,6 +12,8 @@ import {
   DropdownItem,
   DropdownTrigger,
   DropdownMenu,
+  dropdownItem,
+  DropdownSection,
 } from "@nextui-org/react";
 import { Kbd } from "@nextui-org/kbd";
 import { useState, useEffect } from "react";
@@ -95,6 +97,7 @@ export const Navbar = ({
           onClick={() => setMenuOpen(!menuOpen)}
         />
         {/* <ul> FOR SMALL SCREENS */}
+
         {/* <ul> FOR LARGE SCREENS */}
         <ul className="hidden lg:flex flex-shrink gap-0.5 justify-start ml-2">
           <NavbarItem key={`home`}>
@@ -117,6 +120,8 @@ export const Navbar = ({
               <NavbarDropdown sport={sport}></NavbarDropdown>
             </NavbarItem>
           ))}
+
+          {/* Catch-all Dropdown for other sports */}
           <NavbarItem key={`othersports`}>
             <Dropdown backdrop="blur">
               <DropdownTrigger>
@@ -125,15 +130,39 @@ export const Navbar = ({
                   disableRipple
                   className={clsx("text-foreground text-xl")}
                   endContent={<ChevronDownIcon />}
-                  isDisabled
                 >
                   Other Sports
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Link Actions">
                 {secondaryLinks.map((sport: SportDropdown) => (
-                  // Render each secondary sport as an Accordion component
-                  <Accordion variant="light" selectionMode="single"></Accordion>
+                  // Render each secondary sport as a unique section in the DropdownMenu
+                  <DropdownSection
+                    title={`${sport.name}`}
+                    showDivider
+                    key={`${sport.slug}`}
+                  >
+                    {sport.dropdownItems.map((dropdownItem) => (
+                      <DropdownItem
+                        key={`${dropdownItem.key}`}
+                        className={clsx(
+                          "text-foreground",
+                          dropdownItem.label === "Submit Game"
+                            ? "text-rose-700"
+                            : ""
+                        )}
+                        href={`${dropdownItem.href}`}
+                        variant="light"
+                        color={
+                          dropdownItem.label === "Submit Game"
+                            ? "danger"
+                            : "default"
+                        }
+                      >
+                        {dropdownItem.label}
+                      </DropdownItem>
+                    ))}
+                  </DropdownSection>
                 ))}
               </DropdownMenu>
             </Dropdown>
@@ -141,6 +170,7 @@ export const Navbar = ({
         </ul>
       </NavbarContent>
 
+      {/* End Content to display on the navbar */}
       <NavbarContent className="flex" justify="end">
         {session ? (
           <NavbarItem>Welcome, {session.user.name}!</NavbarItem>
@@ -154,6 +184,7 @@ export const Navbar = ({
         <ThemeSwitch />
       </NavbarContent>
 
+      {/* UI for the NavbarMenu to display when Menu is expanded on small screens */}
       <NavbarMenu className="flex flex-col lg:hidden">
         {/* <Accordion variant="light" selectionMode="single">
           {siteConfig.navItems.slice(1).map((item) =>
