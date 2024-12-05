@@ -25,6 +25,11 @@ function appendDropdownItems(sport: any) {
       key: `${sport.slug}`,
     },
     {
+      label: `Submit Game`,
+      href: `/${sport.slug}/submit_game`,
+      key: `${sport.slug}/submit_game`,
+    },
+    {
       label: `All Games`,
       href: `/${sport.slug}/all_games`,
       key: `${sport.slug}/all_games`,
