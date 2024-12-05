@@ -36,31 +36,30 @@ export default function NavbarDropdown({ sport }: NavbarDropdownProps) {
 
   return (
     <Dropdown backdrop="blur">
-      <NavbarItem>
-        <DropdownTrigger>
-          <Button
-            variant="light"
-            disableRipple
-            className={clsx(
-              "text-foreground text-xl",
-              isOnPage ? "text-red-900 font-medium" : ""
-            )}
-            endContent={<ChevronDownIcon />}
-          >
-            {sport.name}
-          </Button>
-        </DropdownTrigger>
-      </NavbarItem>
+      <DropdownTrigger>
+        <Button
+          variant="light"
+          disableRipple
+          className={clsx(
+            "text-foreground text-xl",
+            isOnPage ? "text-red-900 font-medium" : ""
+          )}
+          endContent={<ChevronDownIcon />}
+        >
+          {sport.name}
+        </Button>
+      </DropdownTrigger>
       <DropdownMenu aria-label="Link Actions">
         {sport.dropdownItems.map((dropdownItem) => (
           <DropdownItem
+            key={`${dropdownItem.key}`}
             className={clsx(
               "text-foreground",
-              dropdownItem.label === "My Games" ? "text-rose-700" : ""
+              dropdownItem.label === "Submit Game" ? "text-rose-700" : ""
             )}
             href={dropdownItem.href}
             variant="light"
-            color={dropdownItem.label === "My Games" ? "danger" : "default"}
+            color={dropdownItem.label === "Submit Game" ? "danger" : "default"}
           >
             {dropdownItem.label}
           </DropdownItem>

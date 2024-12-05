@@ -6,7 +6,7 @@ export function Name() {
   return (
     <Input
       type="name"
-      label="Name"
+      label="Username"
       variant="bordered"
       className="max-w-xs"
       labelPlacement="outside"

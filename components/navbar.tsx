@@ -8,6 +8,10 @@ import {
   NavbarItem,
   Accordion,
   AccordionItem,
+  Dropdown,
+  DropdownItem,
+  DropdownTrigger,
+  DropdownMenu,
 } from "@nextui-org/react";
 import { Kbd } from "@nextui-org/kbd";
 import { useState, useEffect } from "react";
@@ -21,6 +25,7 @@ import { ThemeSwitch } from "@/components/theme-switch";
 import NavbarDropdown from "./navbar-dropdown";
 import { Button } from "@nextui-org/button";
 import { SportDropdown } from "@/app/lib/definitions";
+import { ChevronDownIcon } from "./icons";
 
 export const Navbar = ({
   session,
@@ -31,7 +36,6 @@ export const Navbar = ({
   primaryLinks: SportDropdown[];
   secondaryLinks: SportDropdown[];
 }) => {
-  console.log(primaryLinks);
   const pathname = usePathname();
 
   // State for controlling the NavbarMenu
@@ -93,10 +97,47 @@ export const Navbar = ({
         {/* <ul> FOR SMALL SCREENS */}
         {/* <ul> FOR LARGE SCREENS */}
         <ul className="hidden lg:flex flex-shrink gap-0.5 justify-start ml-2">
+          <NavbarItem key={`home`}>
+            <Button
+              variant="light"
+              disableRipple
+              className={clsx(
+                "text-foreground text-xl",
+                pathname === `/` ? "text-red-900 font-medium" : ""
+              )}
+              as={NextLink}
+              href={`/`}
+            >
+              Home
+            </Button>
+          </NavbarItem>
           {primaryLinks.map((sport: SportDropdown) => (
             // Render the primary sports as unique dropdown menus
-            <NavbarDropdown key={sport.id} sport={sport}></NavbarDropdown>
+            <NavbarItem key={`${sport.slug}`}>
+              <NavbarDropdown sport={sport}></NavbarDropdown>
+            </NavbarItem>
           ))}
+          <NavbarItem key={`othersports`}>
+            <Dropdown backdrop="blur">
+              <DropdownTrigger>
+                <Button
+                  variant="light"
+                  disableRipple
+                  className={clsx("text-foreground text-xl")}
+                  endContent={<ChevronDownIcon />}
+                  isDisabled
+                >
+                  Other Sports
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Link Actions">
+                {secondaryLinks.map((sport: SportDropdown) => (
+                  // Render each secondary sport as an Accordion component
+                  <Accordion variant="light" selectionMode="single"></Accordion>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+          </NavbarItem>
         </ul>
       </NavbarContent>
 
@@ -105,14 +146,16 @@ export const Navbar = ({
           <NavbarItem>Welcome, {session.user.name}!</NavbarItem>
         ) : (
           <NavbarItem>
-            <Link href="/login">Login</Link>
+            <Link href="/login" size="lg">
+              Login
+            </Link>
           </NavbarItem>
         )}
         <ThemeSwitch />
       </NavbarContent>
 
       <NavbarMenu className="flex flex-col lg:hidden">
-        <Accordion variant="light" selectionMode="single">
+        {/* <Accordion variant="light" selectionMode="single">
           {siteConfig.navItems.slice(1).map((item) =>
             item.dropdownItems ? (
               <AccordionItem
@@ -153,7 +196,7 @@ export const Navbar = ({
               <></>
             )
           )}
-        </Accordion>
+        </Accordion> */}
       </NavbarMenu>
     </NextUINavbar>
   );
