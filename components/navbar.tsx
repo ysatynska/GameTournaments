@@ -128,7 +128,14 @@ export const Navbar = ({
                 <Button
                   variant="light"
                   disableRipple
-                  className={clsx("text-foreground text-xl")}
+                  className={clsx(
+                    "text-foreground text-xl",
+                    secondaryLinks.some((sport) =>
+                      pathname.startsWith(`/${sport.slug}`)
+                    )
+                      ? "text-red-900 font-medium"
+                      : ""
+                  )}
                   endContent={<ChevronDownIcon />}
                 >
                   Other Sports
@@ -176,7 +183,9 @@ export const Navbar = ({
       {/* End Content to display on the navbar */}
       <NavbarContent className="flex" justify="end">
         {session ? (
-          <NavbarItem>Welcome, {session.user.name}!</NavbarItem>
+          <NavbarItem className="max-w-48 overflow">
+            Welcome, {session.user.name}!
+          </NavbarItem>
         ) : (
           <NavbarItem>
             <Link href="/login" size="lg">
