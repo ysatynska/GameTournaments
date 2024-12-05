@@ -30,8 +30,8 @@ export default function Form({ players, sport }: { players: PlayerField[], sport
                 <h2 className="text-center text-red-900 text-3xl font-bold mb-10">
                     Submit Game Score
                 </h2>
-                <input type="hidden" name="sport_id" value={sport.id} />
                 <form action={formAction}>
+                    <input type="hidden" name="sport_id" value={sport.id} />
                     <div className="grid grid-cols-2 gap-6">
                         <div className="flex flex-col">
                             <label htmlFor="player1" className="text-sm font-medium">
