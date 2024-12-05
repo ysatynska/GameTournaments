@@ -1,4 +1,4 @@
-export default function PoolLayout({
+export default function AirHockeyLayout({
   children,
 }: {
   children: React.ReactNode;

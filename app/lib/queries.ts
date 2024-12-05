@@ -46,6 +46,23 @@ export async function fetchSport (sport_id: any) {
     }
 }
 
+export async function fetchSportSlug (sport_slug: any) {
+    try {
+        const sport = await sql<Sport>`
+          SELECT 
+            id, 
+            name, 
+            slug
+          FROM sports
+          WHERE slug = ${sport_slug}
+        `;
+        return sport.rows[0];
+    } catch (error) {
+        console.error("Error fetching sport:", error);
+        throw new Error("Failed to fetch sport data.");
+    }
+}
+
 export async function fetchAllSports () {
     try {
         const sport = await sql<Sport>`

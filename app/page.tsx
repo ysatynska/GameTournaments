@@ -1,25 +1,37 @@
-import { Link } from "@nextui-org/link";
-import { Snippet } from "@nextui-org/snippet";
-import { Code } from "@nextui-org/code";
-import { button as buttonStyles } from "@nextui-org/theme";
+import GamesTable from '@/components/ui/games-table';
+import { getAuthPlayer } from '@/app/auth';
+import { fetchGames, fetchAllSports } from "@/app/lib/queries";
+import { redirect } from "next/navigation";
 
-import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  NavbarMenuToggle,
-  NavbarMenu,
-  NavbarMenuItem,
-} from "@nextui-org/navbar";
+export default async function Home() {
+  const player = await getAuthPlayer();
 
-export default function Home() {
+  if (!player) {
+    redirect("/login");
+  }
+
+  const sports = await fetchAllSports();
+  const sportsWithGames = await Promise.all(
+    sports.map(async (sport) => {
+      const games = await fetchGames(sport.id);
+      return { sport, games };
+    })
+  );
+
   return (
     <div>
-      <h1 className={title()}>Home</h1>
+      {sportsWithGames.map(({ sport, games }) => (
+        <div key={sport.id} className='mb-12'>
+          {games.length > 0 && (
+            <>
+              <h5 className="text-center text-red-900 text-xl font-bold mb-3">
+                {sport.name} Games
+              </h5>
+              <GamesTable games={games} />
+            </>
+          )}
+        </div>
+      ))}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import GamesTable from '@/components/ui/games-table';
 import { getAuthPlayer } from '@/app/auth';
-import { fetchGames, fetchSport, fetchAllSports } from "@/app/lib/queries";
+import { fetchGames, fetchAllSports } from "@/app/lib/queries";
 import { redirect } from "next/navigation";
 
 export default async function MyGames() {

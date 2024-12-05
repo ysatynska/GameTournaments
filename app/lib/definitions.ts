@@ -53,6 +53,7 @@ export type SportField = {
 
 export type Sport = {
     id: string;
+    slug: string;
     name: string;
     created_at: Date;
     deleted_at: Date;
