@@ -32,7 +32,7 @@ export default function NavbarDropdown({ sport }: NavbarDropdownProps) {
   }
 
   // Check if user is on one of a sport's pages
-  const isOnPage = pathname.startsWith(`${sport.slug}`);
+  const isOnPage = pathname.startsWith(`/${sport.slug}`);
 
   return (
     <Dropdown backdrop="blur">
