@@ -10,7 +10,7 @@ export default async function Ranks({params}: any) {
   }
   const sport = await fetchSportSlug(params.sport_slug);
   const ranks = await fetchRatings(sport.id);
-
+  
   return (
     <div className='mb-12'>
       <h5 className="text-center text-red-900 text-xl font-bold mb-3">

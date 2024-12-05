@@ -13,7 +13,6 @@ export default async function Home() {
   const sports = await fetchAllSports();
   const sportsWithGames = await Promise.all(
     sports.map(async (sport) => {
-      console.log(sport);
       const games = await fetchGames(sport.id);
       return { sport, games };
     })
