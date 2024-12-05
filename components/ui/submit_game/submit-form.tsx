@@ -35,7 +35,8 @@ export default function Form({ players, sport }: { players: PlayerField[], sport
     
 
     return (
-        <div className="min-h-full flex justify-center items-center" key={JSON.stringify(state.values)}>
+        // <div className="min-h-full flex justify-center items-center" key={JSON.stringify(state.values)}>
+        <div className="min-h-full flex justify-center items-center">
             <Card className="p-6 max-w-4xl rounded-lg shadow-md w-full">
                 <h2 className="text-center text-red-900 text-3xl font-bold mb-10">
                     Submit Game Score - {sport.name}
