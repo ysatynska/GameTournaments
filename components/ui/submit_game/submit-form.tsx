@@ -1,12 +1,12 @@
 'use client';
-import { PlayerField, SportField } from '@/app/lib/definitions';
+import { PlayerField, Sport } from '@/app/lib/definitions';
 import { Button } from '@/components/ui/button';
-import { submitGame, State, GameState } from '@/app/lib/actions';
+import { submitGame, GameState } from '@/app/lib/actions';
 import { useState, useEffect } from 'react';
 import { useFormState } from 'react-dom';
 import { Input, Card } from '@nextui-org/react';
 
-export default function Form({ players, sports }: { players: PlayerField[], sports: SportField[] }) {
+export default function Form({ players, sport }: { players: PlayerField[], sport: Sport }) {
     const [selectedPlayer1, setSelectedPlayer1] = useState('');
     const [selectedPlayer2, setSelectedPlayer2] = useState('');
     const [selectedSport, setselectedSport] = useState('');
@@ -16,6 +16,7 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
     const [state, formAction] = useFormState(submitGame, initialState);
 
     useEffect(() => {
+        console.log("use effoct");
         setSelectedPlayer1(state.values.player1_id ?? "");
         setSelectedPlayer2(state.values.player2_id ?? "");
         setselectedSport(state.values.sport_id ?? "");
@@ -29,6 +30,7 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
                 <h2 className="text-center text-red-900 text-3xl font-bold mb-10">
                     Submit Game Score
                 </h2>
+                <input type="hidden" name="sport_id" value={sport.id} />
                 <form action={formAction}>
                     <div className="grid grid-cols-2 gap-6">
                         <div className="flex flex-col">
@@ -125,7 +127,7 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
                                 ))}
                         </div>
 
-                        <div className="col-span-2 flex justify-center">
+                        {/* <div className="col-span-2 flex justify-center">
                             <div className="flex flex-col w-full">
                                 <label htmlFor="sport" className="text-sm font-medium">
                                     Which Sport?
@@ -150,7 +152,7 @@ export default function Form({ players, sports }: { players: PlayerField[], spor
                                         </p>
                                     ))}
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="col-span-2">
                             <Button className="w-full mt-3 bg-red-900 text-white">

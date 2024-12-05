@@ -127,7 +127,7 @@ const gameSchema = z.object({
 
 export async function submitGame(state: GameState) {
   const formData = state.values;
-
+  console.log(state);
   const validatedFields = gameSchema.safeParse({
     player1_id: formData.player1_id,
     player2_id: formData.player2_id,
