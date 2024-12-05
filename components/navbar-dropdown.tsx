@@ -49,7 +49,10 @@ export default function NavbarDropdown({ sport }: NavbarDropdownProps) {
           {sport.name}
         </Button>
       </DropdownTrigger>
-      <DropdownMenu aria-label="Link Actions">
+      <DropdownMenu
+        aria-label="Link Actions"
+        className="max-h-64 overflow-y-auto"
+      >
         {sport.dropdownItems.map((dropdownItem) => (
           <DropdownItem
             key={`${dropdownItem.key}`}

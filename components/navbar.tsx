@@ -78,7 +78,7 @@ export const Navbar = ({
 
   return (
     <NextUINavbar
-      className="border-b-2 border-b-red-900"
+      className="border-b-2 border-b-red-900 flex"
       maxWidth="xl"
       position="sticky"
       isMenuOpen={menuOpen}
@@ -134,7 +134,10 @@ export const Navbar = ({
                   Other Sports
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu aria-label="Link Actions">
+              <DropdownMenu
+                aria-label="Link Actions"
+                className="max-h-64 overflow-y-auto"
+              >
                 {secondaryLinks.map((sport: SportDropdown) => (
                   // Render each secondary sport as a unique section in the DropdownMenu
                   <DropdownSection
