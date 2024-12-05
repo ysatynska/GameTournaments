@@ -67,9 +67,8 @@ export async function fetchAllSports () {
     try {
         const sport = await sql<Sport>`
           SELECT 
-            id, 
             name, 
-            created_at 
+            slug
           FROM sports
           ORDER BY name ASC
         `;
@@ -77,6 +76,40 @@ export async function fetchAllSports () {
     } catch (error) {
         console.error("Error fetching sport:", error);
         throw new Error("Failed to fetch sport data.");
+    }
+}
+
+export async function fetchPrimarySports () {
+    try {
+        const sport = await sql<Sport>`
+            SELECT
+                name,
+                slug
+            FROM sports
+            ORDER BY created_at ASC
+            LIMIT 3
+        `;
+        return sport.rows;
+    } catch (error) {
+        console.error("Error fetching sports: ", error);
+        throw new Error("Failed to fetch first 3 sports.");
+    }
+}
+
+export async function fetchSecondarySports () {
+    try {
+        const sport = await sql<Sport>`
+            SELECT
+                name,
+                slug
+            FROM sports
+            ORDER BY created_at ASC
+            OFFSET 3
+        `;
+        return sport.rows;
+    } catch (error) {
+        console.error("Error fetching sports: ", error);
+        throw new Error("Failed to fetch remaining sports.");
     }
 }
 

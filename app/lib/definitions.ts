@@ -55,10 +55,23 @@ export type Sport = {
     id: string;
     slug: string;
     name: string;
+    slug: string
     created_at: Date;
     deleted_at: Date;
 }
 
+export type DropdownItem = {
+    label: string;
+    href: string;
+    key: string;
+}
+
+export type SportDropdown = {
+    id: string;
+    name: string;
+    slug: string;
+    dropdownItems: DropdownItem[];
+}
 //TODO: QUERY THESE THROUGH THE DB
 export const supportedSports = [
     "Ping Pong",
