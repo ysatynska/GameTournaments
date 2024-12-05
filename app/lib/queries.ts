@@ -324,3 +324,15 @@ export async function insertNewMatch (
         console.log(error);
     }
 }
+
+export async function addToMap(player_id: any, sport_id: any){
+    try{
+        await sql`
+            INSERT INTO sports_players_map(player_id, sport_id, rating)
+            VALUES(${player_id}, ${sport_id}, 1000)
+            `
+        }
+    catch (error) {
+        console.error("Player Rating already exists for this sport");
+    }
+}
