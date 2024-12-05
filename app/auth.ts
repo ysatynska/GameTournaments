@@ -48,6 +48,11 @@ export const authOptions = {
       },
     }),
   ],
+  callbacks: {
+      redirect: async ({ url, baseUrl } : any) => {
+          return url.startsWith(baseUrl) ? url : baseUrl;
+      },
+  },
 };
  
 export const { auth, signIn, signOut } = NextAuth(authOptions);
