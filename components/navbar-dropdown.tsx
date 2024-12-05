@@ -6,11 +6,9 @@ import {
   DropdownTrigger,
   DropdownItem,
   Button,
-  NavbarItem,
 } from "@nextui-org/react";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
-import { siteConfig } from "@/config/site";
 import { ChevronDownIcon } from "./icons";
 import { SportDropdown } from "@/app/lib/definitions";
 
