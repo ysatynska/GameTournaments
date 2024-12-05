@@ -1,13 +1,15 @@
 import {sql} from '@vercel/postgres';
 
 // Define the function to update ratings
-export const updateRatings = async (player1_id: string, player2_id: string, win: number, kFactor: number = 32) => {
+ const updateRatings = async (player1Id: number, player2Id: number, outcome: number, kFactor: number = 32) => {
+
     try {
+
         // Fetch current ratings for both players
         const result = await sql`
-             SELECT id, rating
-             FROM players
-             WHERE id IN (${player1_id}, ${player2_id})`;
+             SELECT player_id, rating
+             FROM sports_players_map
+             WHERE id IN ($player1ID, $player2ID) AND sport_id = $sport`;
 
 
         if (result.rows.length < 2) {
@@ -15,8 +17,8 @@ export const updateRatings = async (player1_id: string, player2_id: string, win:
         }
 
         // Extract player ratings
-        let player1 = result.rows.find((p) => p.id === player1_id);
-        let player2 = result.rows.find((p) => p.id === player2_id);
+        let player1 = result.rows.find((p) => p.id === player1Id);
+        let player2 = result.rows.find((p) => p.id === player2Id);
 
         if (!player1 || !player2) {
             throw new Error('Player IDs not found in the database');
@@ -32,25 +34,25 @@ export const updateRatings = async (player1_id: string, player2_id: string, win:
         let Ea: number = Qa / (Qa + Qb);
         let Eb: number = Qb / (Qa + Qb);
 
-        p1Rating = p1Rating + kFactor * (win - Ea);
-
-        // Invert the win value for player 2
-        let p2Win: number = win === 1 ? 0 : win === 0 ? 1 : 0.5; // Handle draw
-        p2Rating = p2Rating + kFactor * (p2Win - Eb);
+        p1Rating = p1Rating + kFactor * (outcome - Ea);
+        p2Rating = p2Rating + kFactor * ((1 - outcome) - Eb);
 
         // Update ratings in the database
 
         await sql`
-            UPDATE players
+            UPDATE sports_players_map
             SET rating = $p1Rating
-            WHERE id = $player1_id
-            SET rating = $p2Rating
-            WHERE id = $player2_id
+            WHERE id = $player1ID AND sport_id = $sport
         `;
+        await sql`
+            UPDATE sports_players_map
+            SET rating = $p2Rating
+            WHERE id = $player2ID AND sport_id = $sport
+        `
 
 
-        console.log(`Updated Player ${player1_id} to rating: ${p1Rating}`);
-        console.log(`Updated Player ${player2_id} to rating: ${p2Rating}`);
+        console.log(`Updated Player ${player1Id} to rating: ${p1Rating}`);
+        console.log(`Updated Player ${player2Id} to rating: ${p2Rating}`);
 
         return [p1Rating, p2Rating];
     } catch (err) {

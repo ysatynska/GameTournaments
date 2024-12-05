@@ -13,6 +13,7 @@ export async function fetchRatings(sport_id: string) {
     try {
       const ratings = await sql<RankRating>`
         SELECT 
+            sports_players_map.player_id,
             players.name,
             sports_players_map.rating
         FROM sports_players_map
@@ -269,8 +270,8 @@ export async function fetchSports() {
 async function fetchTournamentId (tournament_name: string) {
     try {
         const data = await sql`
-        SELECT tournaments.id FROM tournaments
-        WHERE tournaments.name = ${tournament_name}
+            SELECT tournaments.id FROM tournaments
+            WHERE tournaments.name = ${tournament_name}
         `;
         return data.rows[0].id;
     } catch (error) {
@@ -323,4 +324,32 @@ export async function insertNewMatch (
     } catch (error) {
         console.log(error);
     }
+}
+
+export async function addToMap(player_id: any, sport_id: any){
+    try{
+        await sql`
+            INSERT INTO sports_players_map(player_id, sport_id, rating)
+            VALUES(${player_id}, ${sport_id}, 1000)
+        `
+    } catch (error) {
+        console.error("Error instering new sport player map: ", error);
+    }
+}
+
+export async function getPlayerRating (player_id: any, sport_id: any) {
+    let player = await sql`
+        SELECT player_id, rating
+        FROM sports_players_map
+        WHERE player_id = ${player_id} AND sport_id = ${sport_id}
+    `
+    if (player.rows.length === 0) {
+        await addToMap(player_id, sport_id);
+        player = await sql`
+            SELECT player_id, rating
+            FROM sports_players_map
+            WHERE player_id = ${player_id} AND sport_id = ${sport_id}
+        `
+    }
+    return player.rows[0].rating;
 }

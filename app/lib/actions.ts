@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation';
 import bcrypt from 'bcrypt';
 import { sql } from '@vercel/postgres';
 import { DateTime } from 'luxon';
-
+import updateRatings from '@/app/lib/ratingCalc';
 // ...
  
 export async function authenticate(
@@ -129,7 +129,7 @@ export async function submitGame(prevState: GameState, formData: FormData) {
   // const formData = state.values;
   // console.log("form data in submit game", state);
   // console.log("values in submit game", state.values);
-  console.log(formData);
+  // console.log(formData);
   const validatedFields = gameSchema.safeParse({
     player1_id: formData.get("player1_id"),
     player2_id: formData.get("player2_id"),
@@ -157,9 +157,9 @@ export async function submitGame(prevState: GameState, formData: FormData) {
         ${DateTime.local().toISO()}
       )
     `;
+    updateRatings(validatedFields.data.player1_id, validatedFields.data.player2_id, validatedFields.data.sport_id, validatedFields.data.score1, validatedFields.data.score2);
   } catch (error) {
     console.error(error);
   }
-
-  redirect('/');
+  redirect('/pingpong/ranks');
 }

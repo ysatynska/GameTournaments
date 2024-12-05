@@ -4,9 +4,18 @@ import React from "react";
 import { RankRating } from '@/app/lib/definitions';
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination, getKeyValue} from "@nextui-org/react";
 
+// const getKeyValue = (item: any, columnKey: any, row_count: number) => {
+//   if (columnKey === "rank") {
+//     row_count++;
+//     return row_count;
+//   }
+//   return item[columnKey];
+// };
+
 export default function RanksTable({ranks}: {ranks: RankRating[]}) {
   const [page, setPage] = React.useState(1);
   const rowsPerPage = 6;
+  console.log(ranks);
 
   const pages = Math.ceil(ranks.length / rowsPerPage);
 
@@ -39,13 +48,13 @@ export default function RanksTable({ranks}: {ranks: RankRating[]}) {
         }}
       >
         <TableHeader>
-        <TableColumn key="rank">Rank</TableColumn>
+          {/* <TableColumn key="rank">Rank</TableColumn> */}
           <TableColumn key="name">Player Name</TableColumn>
           <TableColumn key="rating">Rating</TableColumn>
         </TableHeader>
         <TableBody items={items}>
           {(item) => (
-            <TableRow key={item.id}>
+            <TableRow key={item.player_id}>
               {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
             </TableRow>
           )}
