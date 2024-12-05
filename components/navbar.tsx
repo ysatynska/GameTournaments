@@ -31,7 +31,6 @@ export const Navbar = ({
   primaryLinks: SportDropdown[];
   secondaryLinks: SportDropdown[];
 }) => {
-  console.log(primaryLinks);
   const pathname = usePathname();
 
   // State for controlling the NavbarMenu

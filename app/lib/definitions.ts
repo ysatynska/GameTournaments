@@ -7,9 +7,8 @@ export type Player = {
 
 export type RankRating = {
     name: string;
-    id: string;
-    rank: number;
     rating: number;
+    player_id: string;
 }
 
 export type PlayerField = {
