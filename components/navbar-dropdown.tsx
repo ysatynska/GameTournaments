@@ -12,31 +12,27 @@ import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { ChevronDownIcon } from "./icons";
+import { SportDropdown } from "@/app/lib/definitions";
 
 // Accept label as a prop to dynamically update the dropdown menu
 interface NavbarDropdownProps {
-  label: string;
+  sport: SportDropdown;
 }
 
-export default function NavbarDropdown({ label }: NavbarDropdownProps) {
+export default function NavbarDropdown({ sport }: NavbarDropdownProps) {
   const pathname = usePathname();
-  const item = siteConfig.navItems.find((item) => item.label === label);
 
   // A fallback UI in case the item does not exist or doesn't contain a dropdown menu
   function FallbackComponent() {
     return (
       <div className="p-4 text-center">
-        <p className="text-gray-500">Menu is temporarily unavailable</p>
+        <p className="text-gray-500 text-xs">Menu is temporarily unavailable</p>
       </div>
     );
   }
 
-  if (!item || !item.dropdownItems) {
-    return <FallbackComponent />;
-  }
-
   // Check if user is on one of a sport's pages
-  const isOnPage = pathname.startsWith(`${item.href}`);
+  const isOnPage = pathname.startsWith(`${sport.slug}`);
 
   return (
     <Dropdown backdrop="blur">
@@ -51,12 +47,12 @@ export default function NavbarDropdown({ label }: NavbarDropdownProps) {
             )}
             endContent={<ChevronDownIcon />}
           >
-            {item.label}
+            {sport.name}
           </Button>
         </DropdownTrigger>
       </NavbarItem>
       <DropdownMenu aria-label="Link Actions">
-        {item.dropdownItems.map((dropdownItem) => (
+        {sport.dropdownItems.map((dropdownItem) => (
           <DropdownItem
             className={clsx(
               "text-foreground",

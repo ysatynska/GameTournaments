@@ -20,10 +20,18 @@ import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import NavbarDropdown from "./navbar-dropdown";
 import { Button } from "@nextui-org/button";
-import path from "path";
-// import { link as linkStyles } from "@nextui-org/theme";
+import { SportDropdown } from "@/app/lib/definitions";
 
-export const Navbar = ({ session }: { session: any }) => {
+export const Navbar = ({
+  session,
+  primaryLinks,
+  secondaryLinks,
+}: {
+  session: any;
+  primaryLinks: SportDropdown[];
+  secondaryLinks: SportDropdown[];
+}) => {
+  console.log(primaryLinks);
   const pathname = usePathname();
 
   // State for controlling the NavbarMenu
@@ -83,52 +91,12 @@ export const Navbar = ({ session }: { session: any }) => {
           onClick={() => setMenuOpen(!menuOpen)}
         />
         {/* <ul> FOR SMALL SCREENS */}
-        <ul className="lg:hidden flex justify-start">
-          {siteConfig.navItems.map((item) =>
-            item.dropdownItems ? (
-              <></>
-            ) : (
-              <NavbarItem key={item.key} className="flex items-center">
-                <NextLink
-                  href={item.href}
-                  className={clsx(
-                    "text-foreground text-lg ml-4",
-                    item.href === pathname ? "text-red-900 font-medium" : ""
-                  )}
-                >
-                  {item.label}
-                </NextLink>
-              </NavbarItem>
-            )
-          )}
-        </ul>
         {/* <ul> FOR LARGE SCREENS */}
         <ul className="hidden lg:flex flex-shrink gap-0.5 justify-start ml-2">
-          {siteConfig.navItems.map((item) =>
-            // If a dropdown menu exists, render the item as a dropdown component
-            item.dropdownItems ? (
-              <NavbarDropdown
-                key={item.label}
-                label={item.label}
-              ></NavbarDropdown>
-            ) : (
-              // Otherwise, render the item as just a Button component
-              <NavbarItem key={item.href} className="flex items-center">
-                <Button
-                  className={clsx(
-                    "text-foreground text-xl",
-                    item.href === pathname ? "text-red-900 font-medium" : ""
-                  )}
-                  variant="light"
-                  as={NextLink}
-                  href={item.href}
-                  disableRipple
-                >
-                  {item.label}
-                </Button>
-              </NavbarItem>
-            )
-          )}
+          {primaryLinks.map((sport: SportDropdown) => (
+            // Render the primary sports as unique dropdown menus
+            <NavbarDropdown key={sport.slug} sport={sport}></NavbarDropdown>
+          ))}
         </ul>
       </NavbarContent>
 
