@@ -95,7 +95,7 @@ export const Navbar = ({
         <ul className="hidden lg:flex flex-shrink gap-0.5 justify-start ml-2">
           {primaryLinks.map((sport: SportDropdown) => (
             // Render the primary sports as unique dropdown menus
-            <NavbarDropdown key={sport.slug} sport={sport}></NavbarDropdown>
+            <NavbarDropdown key={sport.id} sport={sport}></NavbarDropdown>
           ))}
         </ul>
       </NavbarContent>
