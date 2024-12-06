@@ -34,7 +34,8 @@ export async function fetchSport (sport_id: any) {
         const sport = await sql<Sport>`
           SELECT 
             id, 
-            name, 
+            name,
+            slug,
             created_at 
           FROM sports
           WHERE id = ${sport_id}
