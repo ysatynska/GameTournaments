@@ -8,6 +8,7 @@ import bcrypt from 'bcrypt';
 import { sql } from '@vercel/postgres';
 import { DateTime } from 'luxon';
 import updateRatings from '@/app/lib/ratingCalc';
+import { fetchSport } from '@/app/lib/queries';
 // ...
  
 export async function authenticate(
@@ -144,6 +145,7 @@ export async function submitGame(prevState: GameState, formData: FormData) {
       values: { ...formData },
     };
   }
+  let sport = null;
 
   try {
     await sql`
@@ -157,9 +159,10 @@ export async function submitGame(prevState: GameState, formData: FormData) {
         ${DateTime.local().toISO()}
       )
     `;
+    sport = await fetchSport(validatedFields.data.sport_id);
     updateRatings(validatedFields.data.player1_id, validatedFields.data.player2_id, validatedFields.data.sport_id, validatedFields.data.score1, validatedFields.data.score2);
   } catch (error) {
     console.error(error);
   }
-  redirect('/pingpong/ranks');
+  redirect(`/${sport?.slug}/ranks`);
 }

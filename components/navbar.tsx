@@ -7,6 +7,8 @@ import {
   NavbarMenuToggle,
   NavbarItem,
   Accordion,
+  Image,
+  NavbarBrand,
   AccordionItem,
   Dropdown,
   DropdownItem,
@@ -80,23 +82,25 @@ export const Navbar = ({
       position="sticky"
       isMenuOpen={menuOpen}
     >
+      <NavbarBrand className="!basis-10 !flex-shrink-0">
+        <NextLink className="flex justify-start items-center" href="/">
+          <Image src="/RCLogo.svg" alt="RC" height="40px" radius="none"/>
+        </NextLink>
+      </NavbarBrand>
+
       <NavbarContent
-        className="basis-1/5 sm:basis-full flex items-center"
+        className="!basis-full flex items-center md:overflow-x-scroll"
         justify="start"
       >
-        <img
-          alt="Roanoke College logo"
-          src="https://www.roanoke.edu/images/Marcomm/logos/2024/5Shield.png"
-          style={{ height: "100%", objectFit: "contain" }}
-        />
+        
         <NavbarMenuToggle
-          className="lg:hidden"
+          className="md:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
         />
         {/* <ul> FOR SMALL SCREENS */}
 
         {/* <ul> FOR LARGE SCREENS */}
-        <ul className="hidden lg:flex flex-shrink gap-0.5 justify-start ml-2">
+        <ul className="hidden md:flex flex-shrink gap-0.5 justify-start">
           <NavbarItem key={`home`}>
             <Button
               variant="light"
@@ -180,7 +184,7 @@ export const Navbar = ({
       {/* End Content to display on the navbar */}
       <NavbarContent className="flex" justify="end">
         {session ? (
-          <NavbarItem className="max-w-48 overflow">
+          <NavbarItem>
             Welcome, {session.user.name}!
           </NavbarItem>
         ) : (
@@ -194,7 +198,7 @@ export const Navbar = ({
       </NavbarContent>
 
       {/* UI for the NavbarMenu to display when Menu is expanded on small screens */}
-      <NavbarMenu className="flex flex-col lg:hidden">
+      <NavbarMenu className="flex flex-col md:hidden">
         {/* <Accordion variant="light" selectionMode="single">
           {siteConfig.navItems.slice(1).map((item) =>
             item.dropdownItems ? (

@@ -36,7 +36,7 @@ export default function RanksTable({ranks}: {ranks: RankRating[]}) {
               isCompact
               showControls
               showShadow
-              color="secondary"
+              color="default"
               page={page}
               total={pages}
               onChange={(page) => setPage(page)}
