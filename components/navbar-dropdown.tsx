@@ -6,11 +6,9 @@ import {
   DropdownTrigger,
   DropdownItem,
   Button,
-  NavbarItem,
 } from "@nextui-org/react";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
-import { siteConfig } from "@/config/site";
 import { ChevronDownIcon } from "./icons";
 import { SportDropdown } from "@/app/lib/definitions";
 
@@ -36,31 +34,33 @@ export default function NavbarDropdown({ sport }: NavbarDropdownProps) {
 
   return (
     <Dropdown backdrop="blur">
-      <NavbarItem>
-        <DropdownTrigger>
-          <Button
-            variant="light"
-            disableRipple
-            className={clsx(
-              "text-foreground text-xl",
-              isOnPage ? "text-red-900 font-medium" : ""
-            )}
-            endContent={<ChevronDownIcon />}
-          >
-            {sport.name}
-          </Button>
-        </DropdownTrigger>
-      </NavbarItem>
-      <DropdownMenu aria-label="Link Actions">
+      <DropdownTrigger>
+        <Button
+          variant="light"
+          disableRipple
+          className={clsx(
+            "text-foreground text-xl",
+            isOnPage ? "text-red-900 font-medium" : ""
+          )}
+          endContent={<ChevronDownIcon />}
+        >
+          {sport.name}
+        </Button>
+      </DropdownTrigger>
+      <DropdownMenu
+        aria-label="Link Actions"
+        className="max-h-64 overflow-y-auto"
+      >
         {sport.dropdownItems.map((dropdownItem) => (
           <DropdownItem
+            key={`${dropdownItem.key}`}
             className={clsx(
               "text-foreground",
-              dropdownItem.label === "My Games" ? "text-rose-700" : ""
+              dropdownItem.label === "Submit Game" ? "text-rose-700" : ""
             )}
             href={dropdownItem.href}
             variant="light"
-            color={dropdownItem.label === "My Games" ? "danger" : "default"}
+            color={dropdownItem.label === "Submit Game" ? "danger" : "default"}
           >
             {dropdownItem.label}
           </DropdownItem>
