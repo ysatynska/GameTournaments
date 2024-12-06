@@ -159,10 +159,14 @@ export async function submitGame(prevState: GameState, formData: FormData) {
         ${DateTime.local().toISO()}
       )
     `;
-    sport = await fetchSport(validatedFields.data.sport_id);
+    // sport = await fetchSport(validatedFields.data.sport_id);
     updateRatings(validatedFields.data.player1_id, validatedFields.data.player2_id, validatedFields.data.sport_id, validatedFields.data.score1, validatedFields.data.score2);
   } catch (error) {
     console.error(error);
   }
-  redirect(`/${sport?.slug}/ranks`);
+  console.log("Fetching sport with ID:", validatedFields.data.sport_id);
+  sport = await fetchSport(validatedFields.data.sport_id);
+  console.log("Fetched sport:", sport);
+
+  redirect(`/${sport.slug}/ranks`);
 }
