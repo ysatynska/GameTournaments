@@ -83,7 +83,7 @@ export const Navbar = ({
       isMenuOpen={menuOpen}
     >
       <NavbarBrand className="!basis-10 !flex-shrink-0">
-        <NextLink className="flex justify-start items-center" href="/">
+        <NextLink className="flex justify-start items-center" href="https://www.roanoke.edu/student_life/sports_and_recreation" target="_blank">
           <Image src="/RCLogo.svg" alt="RC" height="40px" radius="none"/>
         </NextLink>
       </NavbarBrand>
