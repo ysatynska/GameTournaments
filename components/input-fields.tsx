@@ -118,7 +118,7 @@ export function SportSlug() {
       isClearable
       isRequired
       name="slug"
-      placeholder="Enter sport's slug (no spaces)"
+      placeholder="Enter sport's name with no spaces"
       label="Slug"
     />
   );

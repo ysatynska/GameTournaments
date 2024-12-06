@@ -165,7 +165,7 @@ export default function Form({ players, sport }: { players: PlayerField[], sport
                         </div> */}
 
                         <div className="col-span-2">
-                            <Button className="w-full mt-3 bg-red-900 text-white">
+                            <Button className="w-full mt-3 bg-red-900 text-white flex items-center justify-center">
                                 Submit Score
                             </Button>
                         </div>
