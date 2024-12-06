@@ -8,7 +8,7 @@ import bcrypt from 'bcrypt';
 import { sql } from '@vercel/postgres';
 import { DateTime } from 'luxon';
 import updateRatings from '@/app/lib/ratingCalc';
-import { fetchSport, fetchSportSlug } from '@/app/lib/queries';
+import { fetchSport, fetchSportSlug, getPlayerRating, createSubmitGameSession } from '@/app/lib/queries';
 // ...
  
 export async function authenticate(
@@ -138,6 +138,9 @@ export async function submitGame(prevState: GameState, formData: FormData) {
     score2: formData.get("score2"),
     sport_id: formData.get("sport_id"),
   });
+  let new_ratings = null;
+  let old_p1Rating = null;
+  let old_p2Rating = null;
 
   if (!validatedFields.success) {
     return {
@@ -158,15 +161,18 @@ export async function submitGame(prevState: GameState, formData: FormData) {
       )
     `;
     // sport = await fetchSport(validatedFields.data.sport_id);
-    await updateRatings(validatedFields.data.player1_id, validatedFields.data.player2_id, validatedFields.data.sport_id, validatedFields.data.score1, validatedFields.data.score2);
+    old_p1Rating = await getPlayerRating(validatedFields.data.player1_id, validatedFields.data.sport_id);
+    old_p2Rating = await getPlayerRating(validatedFields.data.player2_id, validatedFields.data.sport_id);
+    new_ratings = await updateRatings(validatedFields.data.player1_id, validatedFields.data.player2_id, validatedFields.data.sport_id, validatedFields.data.score1, validatedFields.data.score2);
   } catch (error) {
     console.error(error);
   }
-  console.log("Fetching sport with ID:", validatedFields.data.sport_id);
   const sport = await fetchSport(validatedFields.data.sport_id);
-  console.log("Fetched sport:", sport);
+  const increment1 = new_ratings?.p1Rating - old_p1Rating;
+  const increment2 = new_ratings?.p2Rating - old_p2Rating;
 
-  redirect(`/${sport.slug}/ranks`);
+  await createSubmitGameSession(validatedFields.data.player1_id, validatedFields.data.player2_id, validatedFields.data.score1, validatedFields.data.score2, increment1, increment2, new_ratings?.p1Rating, new_ratings?.p2Rating);
+  redirect(`/${sport.slug}/thank_you`);
 }
 
 export type SportState = {
