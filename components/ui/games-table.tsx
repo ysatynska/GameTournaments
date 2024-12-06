@@ -31,6 +31,7 @@ export default function GamesTable({games}: {games: GamePlayer[]}) {
     <>
       <Table 
         aria-label="Games Table"
+        shadow="md"
         bottomContent={
           <div className="flex w-full justify-center">
             <Pagination

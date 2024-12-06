@@ -16,7 +16,7 @@ export default function LoginForm() {
  
   return (
     <form action={formAction}>
-      <div className="flex-1 rounded-lg outline outline-red-900 px-6 pb-4 pt-8">
+      <div className="flex-1 shadow-2xl bg-white rounded-lg outline outline-red-900 px-6 pb-4 pt-8">
         <h1 className={`${fontSans.className} mb-7 text-2xl text-center`}>
           Please log in to continue
         </h1>

@@ -3,7 +3,6 @@ import {
     Player,
     Tournament,
     Sport,
-    Game,
     supportedSports,
     GamePlayer,
     RankRating
@@ -371,7 +370,7 @@ export async function getSubmitGameSession () {
     try {
         const data = await sql`
             SELECT * FROM submit_game_sessions
-            WHERE id = 1
+            LIMIT 1;
         `;
         return data.rows[0];
     } catch (error) {

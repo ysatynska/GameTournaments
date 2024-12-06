@@ -100,7 +100,7 @@ export default async function RootLayout({
               primaryLinks={primarySports}
               secondaryLinks={secondarySports}
             />
-            <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+            <main className="container mx-auto max-w-7xl py-16 px-10 flex-grow bg-gray-50">
               {children}
             </main>
           </div>

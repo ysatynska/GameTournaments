@@ -3,13 +3,17 @@ import { fetchSportSlug, getSubmitGameSession, fetchPlayer } from "@/app/lib/que
 import { redirect } from "next/navigation";
 
 export default async function ThankYou({ params }: any) {
+    // Fetch the authenticated player, redirect if not logged in
+    const player = await getAuthPlayer();
+    if (!player) {
+        redirect("/login");
+    }
+    
     // Fetch the game session data
     const data = await getSubmitGameSession();
     
     // Default outcome is 1 (player1 wins)
     let outcome = 1;
-    
-    // Determine the outcome based on scores
     if (data?.score1 && data?.score2) {
         if (data.score1 === data.score2) {
             outcome = 0.5; // Draw
@@ -17,70 +21,58 @@ export default async function ThankYou({ params }: any) {
             outcome = 0; // Player 2 wins
         }
     }
-    
-    // Fetch the authenticated player, redirect if not logged in
-    const player = await getAuthPlayer();
-    if (!player) {
-        redirect("/login");
-    }
-    
+
     // Fetch sport details and player data
     const sport = await fetchSportSlug(params.sport_slug);
     const player1 = await fetchPlayer(data?.player1_id);
     const player2 = await fetchPlayer(data?.player2_id);
 
-    // Conditional rendering based on outcome
     return (
-        <div>
-            {outcome === 1 && (
+        <div className="min-h-full flex justify-center items-center">
+            <div className="bg-white p-14 rounded-lg shadow-2xl w-96 text-center outline outline-red-900">
+                <h2 className="text-2xl font-bold mb-6 text-gray-800">Game Result</h2>
                 <div>
-                    <h1 className="text-center text-red-900 text-xl font-bold mb-3">
-                        <strong>{player1?.name}</strong> Wins!
-                    </h1>
-                    {data?.score1 && data?.increment1 && data?.score2 && data?.increment2 ? (
-                        <>
-                            <p><strong>{player1?.name}</strong> score: <strong>{data?.score1}</strong></p>
-                            <p className="text-green-700">+<strong>{data?.increment1}</strong></p>
-                            <p><strong>{player2?.name}</strong> score: <strong>{data?.score2}</strong></p>
-                            <p className="text-red-900"><strong>{data?.increment2}</strong></p>
-                        </>
+                    {(outcome === 1 || outcome === 0) ? (
+                        <div>
+                            <h1 className="text-2xl font-semibold text-red-600 mb-6">
+                                <strong>{outcome === 1 ? player1?.name : player2?.name}</strong> Wins!
+                            </h1>
+                            <div className="text-gray-700">
+                            <p><strong>{player1?.name}</strong></p>
+                            <p>Score: <strong>{data?.score1}</strong></p>
+                            <p>Rating: <strong>{data?.rating1}</strong>
+                                <span className={outcome === 1 ? "text-green-700" : "text-red-600"}><strong> ({outcome === 1 && "+"}{data?.increment1})</strong></span>
+                            </p>
+                            <hr className="m-5"></hr>
+                            <p><strong>{player2?.name}</strong></p>
+                            <p>Score: <strong>{data?.score2}</strong></p>
+                            <p>Rating: <strong>{data?.rating2}</strong>
+                                <span className={outcome === 0 ? "text-green-700" : "text-red-600"}><strong> ({outcome === 0 && "+"}{data?.increment2})</strong></span>
+                            </p>
+                            </div>
+                        </div>
                     ) : (
-                        <p>Error...</p>
+                        <div>
+                            <h1 className="text-2xl font-semibold text-red-600 mb-6">
+                                It's a Draw!
+                            </h1>
+                            <div className="text-gray-700">
+                                <p><strong>{player1?.name}</strong></p>
+                                <p>Score: <strong>{data?.score1}</strong></p>
+                                <p>Rating: <strong>{data?.rating1}</strong>
+                                    <span className="text-yellow-700"><strong> (&plusmn;0)</strong></span>
+                                </p>
+                                <hr className="m-5"></hr>
+                                <p><strong>{player2?.name}</strong></p>
+                                <p>Score: <strong>{data?.score2}</strong></p>
+                                <p>Rating: <strong>{data?.rating2}</strong>
+                                    <span className="text-yellow-700"><strong> (&plusmn;0)</strong></span>
+                                </p>
+                            </div>
+                        </div>
                     )}
                 </div>
-            )}
-
-            {outcome === 0 && (
-                <div>
-                    <h1 className="text-center text-red-900 text-xl font-bold mb-3">
-                        <strong>{player2?.name}</strong> Wins!
-                    </h1>
-                    {data?.score1 && data?.increment1 && data?.score2 && data?.increment2 ? (
-                        <>
-                            <p><strong>{player1?.name}</strong> score: <strong>{data?.score1}</strong></p>
-                            <p className="text-red-900"><strong>{data?.increment1}</strong></p>
-                            <p><strong>{player2?.name}</strong> score: <strong>{data?.score2}</strong></p>
-                            <p className="text-green-700">+<strong>{data?.increment2}</strong></p>
-                        </>
-                    ) : (
-                        <p>Error...</p>
-                    )}
-                </div>
-            )}
-
-            {outcome === 0.5 && (
-                <div>
-                    <h1 className="text-center text-red-900 text-xl font-bold mb-3">Draw!</h1>
-                    {data?.score1 && data?.score2 ? (
-                        <>
-                            <p><strong>{player1?.name}</strong> score: <strong>{data?.score1}</strong></p>
-                            <p><strong>{player2?.name}</strong> score: <strong>{data?.score2}</strong></p>
-                        </>
-                    ) : (
-                        <p>Error...</p>
-                    )}
-                </div>
-            )}
+            </div>
         </div>
     );
 }
