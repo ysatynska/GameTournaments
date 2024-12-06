@@ -6,55 +6,50 @@ import { useFormState } from 'react-dom';
 import Link from 'next/link';
 import * as InputFields from '@/components/input-fields';
 import { createSport, State } from "@/app/lib/actions";
+import { Input, Card } from '@nextui-org/react';
 
 export default function CreateSportForm() {
   const initialState: State = { errors: {} };
   const [state, formAction] = useFormState(createSport, initialState);
 
   return (
-    <form action={formAction} className="space-y-3">
-      <div className="flex-1 rounded-lg outline outline-red-900 px-6 pb-4 pt-8">
-        <h1 className={`${fontSans.className} mb-3 text-2xl text-center`}>
-          Please sign up to continue
-        </h1>
-        <div className="flex flex-col gap-2">
-          <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-            <InputFields.Name/>
+    <div className="min-h-full flex justify-center items-center">
+      <Card className="p-6 max-w-4xl rounded-lg shadow-md w-full">
+        <h2 className="text-center text-red-900 text-3xl font-bold mb-10">
+          Create New Sport
+        </h2>
+        <form action={formAction}>
+          <div className="grid gap-6">
+              <div className="flex flex-col">
+                <div>
+                  <InputFields.SportName/>
+                </div>
+                {state.errors?.name &&
+                  state.errors.name.map((error: string) => (
+                    <p className="text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                ))}
+            </div>
+            <div className="flex flex-col">
+              <div>
+                <InputFields.SportSlug/>
+              </div>
+                {state.errors?.slug &&
+                  state.errors.slug.map((error: string) => (
+                    <p className="mt-2 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                ))}
+            </div>
+            <div className="col-span-2">
+                <Button className="w-full mt-3 bg-red-900 text-white">
+                    Add Sport
+                </Button>
+            </div>
           </div>
-            {state.errors?.name &&
-              state.errors.name.map((error: string) => (
-                <p className="text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-            ))}
-          <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-            <InputFields.Email/>
-          </div>
-            {state.errors?.email &&
-              state.errors.email.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-            ))}
-          <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-            <InputFields.Password/>
-          </div>
-            {state.errors?.password &&
-              state.errors.password.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-            ))}
-        </div>
-        <div className="flex h-5 items-end space-x-1" aria-live="polite" aria-atomic="true">
-        </div>
-        <Button className="mt-4 w-full">
-          Sign Up <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
-        </Button>
-        <div className='text-center mt-2'>
-            <p className="inline">Have an account?</p> <Link href="/login" className="text-blue-600">Log in</Link>
-        </div>
-      </div>
-    </form>
+        </form>
+      </Card>
+    </div>
   );
 }

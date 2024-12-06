@@ -178,6 +178,21 @@ export const Navbar = ({
               </DropdownMenu>
             </Dropdown>
           </NavbarItem>
+
+          <NavbarItem key={`create_sport`}>
+            <Button
+              variant="light"
+              disableRipple
+              className={clsx(
+                "text-foreground text-xl",
+                pathname === `/create_sport` ? "text-red-900 font-medium" : ""
+              )}
+              as={NextLink}
+              href={`/create_sport`}
+            >
+              Create New Sport
+            </Button>
+          </NavbarItem>
         </ul>
       </NavbarContent>
 

@@ -1,8 +1,7 @@
 'use client';
 import { PlayerField, Sport } from '@/app/lib/definitions';
 import { Button } from '@/components/ui/button';
-import { submitGame, State, GameState } from '@/app/lib/actions';
-import { useState, useEffect } from 'react';
+import { submitGame, GameState } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 import { Input, Card } from '@nextui-org/react';
 
@@ -52,7 +51,7 @@ export default function Form({ players, sport }: { players: PlayerField[], sport
                                 name="player1_id"
                                 // value={selectedPlayer1}
                                 // onChange={changeP1}
-                                className="mt-2 p-2 border rounded-md"
+                                className="mt-2 p-2 border rounded-md max-h-128 overflow-y-scroll"
                             >
                                 <option value="">Select Player 1</option>
                                 {players.map((player) => (
