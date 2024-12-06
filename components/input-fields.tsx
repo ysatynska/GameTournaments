@@ -13,6 +13,7 @@ export function Name() {
       isClearable
       isRequired
       name="name"
+      plac
     />
   );
 }
