@@ -1,6 +1,5 @@
 import "@/styles/globals.css";
-import { Metadata, Viewport } from "next";
-import { Link } from "@nextui-org/link";
+import { Viewport } from "next";
 import clsx from "clsx";
 
 import { Providers } from "./providers";
@@ -8,7 +7,6 @@ import { auth } from "@/app/auth";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 import { fetchPrimarySports, fetchSecondarySports } from "@/app/lib/queries";
-import { siteConfig } from "@/config/site";
 
 export const viewport: Viewport = {
   themeColor: [

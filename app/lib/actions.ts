@@ -8,7 +8,7 @@ import bcrypt from 'bcrypt';
 import { sql } from '@vercel/postgres';
 import { DateTime } from 'luxon';
 import updateRatings from '@/app/lib/ratingCalc';
-import { fetchSport } from '@/app/lib/queries';
+import { fetchSport, fetchSportSlug } from '@/app/lib/queries';
 // ...
  
 export async function authenticate(
@@ -145,8 +145,6 @@ export async function submitGame(prevState: GameState, formData: FormData) {
       values: { ...formData },
     };
   }
-  let sport = null;
-
   try {
     await sql`
       INSERT INTO games (player1_id, player2_id, score1, score2, sport_id, created_at)
@@ -160,13 +158,57 @@ export async function submitGame(prevState: GameState, formData: FormData) {
       )
     `;
     // sport = await fetchSport(validatedFields.data.sport_id);
-    updateRatings(validatedFields.data.player1_id, validatedFields.data.player2_id, validatedFields.data.sport_id, validatedFields.data.score1, validatedFields.data.score2);
+    await updateRatings(validatedFields.data.player1_id, validatedFields.data.player2_id, validatedFields.data.sport_id, validatedFields.data.score1, validatedFields.data.score2);
   } catch (error) {
     console.error(error);
   }
   console.log("Fetching sport with ID:", validatedFields.data.sport_id);
-  sport = await fetchSport(validatedFields.data.sport_id);
+  const sport = await fetchSport(validatedFields.data.sport_id);
   console.log("Fetched sport:", sport);
 
   redirect(`/${sport.slug}/ranks`);
+}
+
+export type SportState = {
+  errors?: {
+    name?: string[];
+  };
+};
+
+const sportSchema = z.object({
+  name: z.string().min(2).max(20, {
+    message: "Sport name must be between 2 and 20 characters",
+  }),
+});
+
+export async function createSport (prevState: SportState, formData: FormData) {
+  const validatedFields = sportSchema.safeParse({
+    name: formData.get("name"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      values: { ...formData },
+    };
+  }
+
+  const slug = validatedFields.data.name.toLowerCase().replace(/\s+/g, '');
+
+  try {
+    await sql`
+      INSERT INTO sports (name, slug, created_at)
+        VALUES (
+          ${validatedFields.data.name}, 
+          ${slug},
+          ${DateTime.local().toISO()}
+        )
+    `;
+  } catch (error) {
+    console.error(error);
+  }
+
+  const sport = await fetchSportSlug(slug);
+
+  redirect(`/${sport.slug}`);
 }
