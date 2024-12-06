@@ -83,8 +83,12 @@ export const Navbar = ({
       isMenuOpen={menuOpen}
     >
       <NavbarBrand className="!basis-10 !flex-shrink-0">
-        <NextLink className="flex justify-start items-center" href="https://www.roanoke.edu/student_life/sports_and_recreation" target="_blank">
-          <Image src="/RCLogo.svg" alt="RC" height="40px" radius="none"/>
+        <NextLink
+          className="flex justify-start items-center"
+          href="https://www.roanoke.edu/student_life/sports_and_recreation"
+          target="_blank"
+        >
+          <Image src="/favicon.svg" alt="RC" height="100%" radius="none" />
         </NextLink>
       </NavbarBrand>
 
@@ -92,7 +96,6 @@ export const Navbar = ({
         className="!basis-full flex items-center md:overflow-x-scroll"
         justify="start"
       >
-        
         <NavbarMenuToggle
           className="md:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -184,9 +187,7 @@ export const Navbar = ({
       {/* End Content to display on the navbar */}
       <NavbarContent className="flex" justify="end">
         {session ? (
-          <NavbarItem>
-            Welcome, {session.user.name}!
-          </NavbarItem>
+          <NavbarItem>Welcome, {session.user.name}!</NavbarItem>
         ) : (
           <NavbarItem>
             <Link href="/login" size="lg">
