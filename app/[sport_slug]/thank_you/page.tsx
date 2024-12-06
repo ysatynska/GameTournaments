@@ -29,15 +29,15 @@ export default async function ThankYou({ params }: any) {
 
     return (
         <div className="min-h-full flex justify-center items-center">
-            <div className="bg-white p-14 rounded-lg shadow-2xl w-96 text-center outline outline-red-900">
-                <h2 className="text-2xl font-bold mb-6 text-gray-800">Game Result</h2>
+            <div className="p-14 rounded-lg shadow-2xl w-96 text-center outline outline-red-900">
+                <h2 className="text-2xl font-bold mb-6">Game Result</h2>
                 <div>
                     {(outcome === 1 || outcome === 0) ? (
                         <div>
                             <h1 className="text-2xl font-semibold text-red-600 mb-6">
                                 <strong>{outcome === 1 ? player1?.name : player2?.name}</strong> Wins!
                             </h1>
-                            <div className="text-gray-700">
+                            <div>
                             <p><strong>{player1?.name}</strong></p>
                             <p>Score: <strong>{data?.score1}</strong></p>
                             <p>Rating: <strong>{data?.rating1}</strong>
@@ -56,7 +56,7 @@ export default async function ThankYou({ params }: any) {
                             <h1 className="text-2xl font-semibold text-red-600 mb-6">
                                 It's a Draw!
                             </h1>
-                            <div className="text-gray-700">
+                            <div>
                                 <p><strong>{player1?.name}</strong></p>
                                 <p>Score: <strong>{data?.score1}</strong></p>
                                 <p>Rating: <strong>{data?.rating1}</strong>
