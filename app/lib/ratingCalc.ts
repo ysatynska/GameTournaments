@@ -36,6 +36,11 @@ export default async function updateRatings (player1Id: number, player2Id: numbe
             SET rating = ${p2Rating}
             WHERE player_id = ${player2Id} AND sport_id = ${sport_id}
         `
+
+        return {
+            p1Rating: p1Rating, 
+            p2Rating: p2Rating
+        };
     } catch (err) {
         console.error('Error updating player ratings:', err);
     }

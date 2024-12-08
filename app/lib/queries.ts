@@ -3,7 +3,6 @@ import {
     Player,
     Tournament,
     Sport,
-    Game,
     supportedSports,
     GamePlayer,
     RankRating
@@ -27,7 +26,6 @@ export async function fetchRatings(sport_id: string) {
       throw new Error("Failed to fetch ratings.");
     }
 }
-
   
 export async function fetchSport (sport_id: any) {
     try {
@@ -66,7 +64,7 @@ export async function fetchSportSlug (sport_slug: any) {
 
 export async function fetchAllSports () {
     try {
-        const sport = await sql<Sport>`
+        const sports = await sql<Sport>`
           SELECT
             id,
             name,
@@ -74,7 +72,7 @@ export async function fetchAllSports () {
           FROM sports
           ORDER BY name ASC
         `;
-        return sport.rows;
+        return sports.rows;
     } catch (error) {
         console.error("Error fetching sport:", error);
         throw new Error("Failed to fetch sport data.");
@@ -83,15 +81,19 @@ export async function fetchAllSports () {
 
 export async function fetchPrimarySports () {
     try {
-        const sport = await sql<Sport>`
+        const sports = await sql<Sport>`
             SELECT
-                name,
-                slug
-            FROM sports
-            ORDER BY created_at ASC
+                s.name,
+                s.slug,
+                s.created_at,
+                MAX(g.created_at)
+            FROM sports s
+            LEFT JOIN games g ON s.id = g.sport_id
+            GROUP BY s.id
+            ORDER BY COALESCE(MAX(g.created_at), s.created_at) DESC
             LIMIT 3
         `;
-        return sport.rows;
+        return sports.rows;
     } catch (error) {
         console.error("Error fetching sports: ", error);
         throw new Error("Failed to fetch first 3 sports.");
@@ -100,15 +102,17 @@ export async function fetchPrimarySports () {
 
 export async function fetchSecondarySports () {
     try {
-        const sport = await sql<Sport>`
+        const sports = await sql<Sport>`
             SELECT
-                name,
-                slug
-            FROM sports
-            ORDER BY created_at ASC
+                s.name,
+                s.slug
+            FROM sports s
+            LEFT JOIN games g ON s.id = g.sport_id
+            GROUP BY s.id
+            ORDER BY COALESCE(MAX(g.created_at), s.created_at) DESC
             OFFSET 3
         `;
-        return sport.rows;
+        return sports.rows;
     } catch (error) {
         console.error("Error fetching sports: ", error);
         throw new Error("Failed to fetch remaining sports.");
@@ -199,17 +203,17 @@ export async function fetchRecentTournaments(sport: string) {
     try {
         //grabs the most recent 3 tournaments and then 
         const tournaments = await sql<Tournament>`
-        SELECT 
-            tournaments.id AS id,
-            sports.name AS sport,
-            tournaments.name AS name,
-            tournaments.start_date AS date
-        FROM tournaments
-        JOIN sports
-        ON tournaments.sport_id = sports.id
-        WHERE sports.name = ${sport}
-        ORDER BY date DESC
-        LIMIT 3;`;
+            SELECT 
+                tournaments.id AS id,
+                sports.name AS sport,
+                tournaments.name AS name,
+                tournaments.start_date AS date
+            FROM tournaments
+            JOIN sports
+            ON tournaments.sport_id = sports.id
+            WHERE sports.name = ${sport}
+            ORDER BY date DESC
+            LIMIT 3;`;
         return tournaments.rows
     } catch (error) {
         console.error('Database Error:', error);
@@ -220,8 +224,8 @@ export async function fetchRecentTournaments(sport: string) {
 export async function fetchCompletedStatus(tourney_name: string) {
     try {
         const data = await sql`
-        SELECT tournaments.completed FROM tournaments
-        WHERE tournaments.name = ${tourney_name}
+            SELECT tournaments.completed FROM tournaments
+            WHERE tournaments.name = ${tourney_name}
         `;
 
         return data.rows[0].completed;
@@ -230,13 +234,13 @@ export async function fetchCompletedStatus(tourney_name: string) {
     }
 }
 
-export async function fetchPlayer(name: string) {
+export async function fetchPlayer(id: any) {
     try {
         const data = await sql<Player>`
-        SELECT * FROM players
-        WHERE name LIKE ${name}
+            SELECT * FROM players
+            WHERE id = ${id}
         `;
-        return data.rows[0]
+        return data.rows[0];
     } catch (error) {
         console.log(error)
     }
@@ -245,8 +249,8 @@ export async function fetchPlayer(name: string) {
 export async function fetchPlayers() {
     try {
         const data = await sql<Player>`
-        SELECT * FROM players
-        ORDER BY name ASC
+            SELECT * FROM players
+            ORDER BY name ASC
         `;
         return data.rows;
     } catch (error) {
@@ -258,8 +262,8 @@ export async function fetchPlayers() {
 export async function fetchSports() {
     try {
         const data = await sql<Sport>`
-        SELECT * FROM sports
-        ORDER BY name ASC
+            SELECT * FROM sports
+            ORDER BY name ASC
         `;
         return data.rows;
     } catch (error) {
@@ -278,7 +282,6 @@ async function fetchTournamentId (tournament_name: string) {
     } catch (error) {
         console.log("error", error);
     }
-
 }
 
 export async function insertNewMatch (
@@ -353,4 +356,30 @@ export async function getPlayerRating (player_id: any, sport_id: any) {
         `
     }
     return player.rows[0].rating;
+}
+
+export async function createSubmitGameSession (player1_id: any, player2_id: any, score1: any, score2: any, increment1: any, increment2: any, rating1: any, rating2: any) {
+    try{
+        await sql`
+            DELETE FROM submit_game_sessions
+        `
+        await sql`
+            INSERT INTO submit_game_sessions(player1_id, player2_id, score1, score2, increment1, increment2, rating1, rating2)
+            VALUES(${player1_id}, ${player2_id}, ${score1}, ${score2}, ${increment1}, ${increment2}, ${rating1}, ${rating2})
+        `
+    } catch (error) {
+        console.error("Error instering new sport player map: ", error);
+    }
+}
+
+export async function getSubmitGameSession () {
+    try {
+        const data = await sql`
+            SELECT * FROM submit_game_sessions
+            LIMIT 1;
+        `;
+        return data.rows[0];
+    } catch (error) {
+        console.log("error", error);
+    }
 }

@@ -30,6 +30,7 @@ export default function RanksTable({ranks}: {ranks: RankRating[]}) {
     <>
       <Table 
         aria-label="Ranks Table"
+        shadow="md"
         bottomContent={
           <div className="flex w-full justify-center">
             <Pagination
