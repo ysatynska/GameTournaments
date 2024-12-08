@@ -64,7 +64,7 @@ export async function fetchSportSlug (sport_slug: any) {
 
 export async function fetchAllSports () {
     try {
-        const sport = await sql<Sport>`
+        const sports = await sql<Sport>`
           SELECT
             id,
             name,
@@ -72,7 +72,7 @@ export async function fetchAllSports () {
           FROM sports
           ORDER BY name ASC
         `;
-        return sport.rows;
+        return sports.rows;
     } catch (error) {
         console.error("Error fetching sport:", error);
         throw new Error("Failed to fetch sport data.");
@@ -81,15 +81,19 @@ export async function fetchAllSports () {
 
 export async function fetchPrimarySports () {
     try {
-        const sport = await sql<Sport>`
+        const sports = await sql<Sport>`
             SELECT
-                name,
-                slug
-            FROM sports
-            ORDER BY created_at ASC
+                s.name,
+                s.slug,
+                s.created_at,
+                MAX(g.created_at)
+            FROM sports s
+            LEFT JOIN games g ON s.id = g.sport_id
+            GROUP BY s.id
+            ORDER BY COALESCE(MAX(g.created_at), s.created_at) DESC
             LIMIT 3
         `;
-        return sport.rows;
+        return sports.rows;
     } catch (error) {
         console.error("Error fetching sports: ", error);
         throw new Error("Failed to fetch first 3 sports.");
@@ -98,15 +102,17 @@ export async function fetchPrimarySports () {
 
 export async function fetchSecondarySports () {
     try {
-        const sport = await sql<Sport>`
+        const sports = await sql<Sport>`
             SELECT
-                name,
-                slug
-            FROM sports
-            ORDER BY created_at ASC
+                s.name,
+                s.slug
+            FROM sports s
+            LEFT JOIN games g ON s.id = g.sport_id
+            GROUP BY s.id
+            ORDER BY COALESCE(MAX(g.created_at), s.created_at) DESC
             OFFSET 3
         `;
-        return sport.rows;
+        return sports.rows;
     } catch (error) {
         console.error("Error fetching sports: ", error);
         throw new Error("Failed to fetch remaining sports.");
