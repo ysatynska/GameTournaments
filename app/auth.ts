@@ -48,6 +48,11 @@ export const authOptions = {
       },
     }),
   ],
+  callbacks: {
+    async redirect() {
+      return "/";
+    },
+  },
 };
  
 export const { auth, signIn, signOut } = NextAuth(authOptions);

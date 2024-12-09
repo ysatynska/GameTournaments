@@ -204,7 +204,7 @@ export const Navbar = ({
           </NavbarItem>
         ) : (
           <NavbarItem>
-            <Link href="/login" size="lg">
+            <Link href="/signin" size="lg">
               Login
             </Link>
           </NavbarItem>

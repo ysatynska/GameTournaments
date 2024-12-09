@@ -8,7 +8,7 @@ export default async function SubmitScore({params}: any) {
   const sport = await fetchSportSlug(params.sport_slug);
 
   if (!player) {
-    redirect("/login");
+    redirect("/signin");
   }
   const players = await fetchPlayers();
   return (

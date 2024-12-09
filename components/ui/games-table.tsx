@@ -2,6 +2,7 @@
 'use client'
 import React from "react";
 import { GamePlayer } from '@/app/lib/definitions';
+import { usePathname } from 'next/navigation';
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination} from "@nextui-org/react";
 
 const getKeyValue = (item: any, columnKey: any) => {
@@ -15,8 +16,9 @@ const getKeyValue = (item: any, columnKey: any) => {
 };
 
 export default function GamesTable({games}: {games: GamePlayer[]}) {
+  const pathname = usePathname();
+  const rowsPerPage = pathname === '/' ? 5 : 13;
   const [page, setPage] = React.useState(1);
-  const rowsPerPage = 6;
 
   const pages = Math.ceil(games.length / rowsPerPage);
 
@@ -31,6 +33,7 @@ export default function GamesTable({games}: {games: GamePlayer[]}) {
     <>
       <Table 
         aria-label="Games Table"
+        shadow="md"
         bottomContent={
           <div className="flex w-full justify-center">
             <Pagination

@@ -1,6 +1,5 @@
 'use client';
 import { fontSans } from '@/config/fonts';
-import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from './button';
 import { useFormState } from 'react-dom';
@@ -14,7 +13,7 @@ export default function CreateAccountForm() {
 
   return (
     <form action={formAction}>
-      <div className="flex-1 rounded-lg outline outline-red-900 px-6 pb-4 pt-8">
+      <div className="flex-1 shadow-2xl rounded-lg outline outline-red-900 px-6 pb-4 pt-8">
         <h1 className={`${fontSans.className} mb-7 text-2xl text-center`}>
           Please sign up to continue
         </h1>
@@ -24,7 +23,7 @@ export default function CreateAccountForm() {
           </div>
             {state.errors?.name &&
               state.errors.name.map((error: string) => (
-                <p className="text-sm text-red-500" key={error}>
+                <p className="!mt-0 text-sm text-red-500" key={error}>
                   {error}
                 </p>
             ))}
@@ -33,7 +32,7 @@ export default function CreateAccountForm() {
           </div>
             {state.errors?.email &&
               state.errors.email.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
+                <p className="!mt-0 text-sm text-red-500" key={error}>
                   {error}
                 </p>
             ))}
@@ -42,7 +41,7 @@ export default function CreateAccountForm() {
           </div>
             {state.errors?.password &&
               state.errors.password.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
+                <p className="!mt-0 mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
             ))}
@@ -51,7 +50,7 @@ export default function CreateAccountForm() {
           Sign Up <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>
         <div className='text-center mt-2'>
-            <p className="inline">Have an account?</p> <Link href="/login" className="text-blue-600">Log in</Link>
+            <p className="inline">Have an account?</p> <Link href="/signin" className="text-blue-600">Log in</Link>
         </div>
       </div>
     </form>

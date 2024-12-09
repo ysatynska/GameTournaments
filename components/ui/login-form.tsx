@@ -16,7 +16,7 @@ export default function LoginForm() {
  
   return (
     <form action={formAction}>
-      <div className="flex-1 rounded-lg outline outline-red-900 px-6 pb-4 pt-8">
+      <div className="flex-1 shadow-2xl rounded-lg outline outline-red-900 px-6 pb-4 pt-8">
         <h1 className={`${fontSans.className} mb-7 text-2xl text-center`}>
           Please log in to continue
         </h1>
@@ -28,7 +28,7 @@ export default function LoginForm() {
             <InputFields.Password/>
           </div>
         </div>
-        <div className="flex h-5 items-end space-x-1" aria-live="polite" aria-atomic="true">
+        <div className="flex h-5 items-end space-x-1 mt-2" aria-live="polite" aria-atomic="true">
           {errorMessage && (
             <>
               <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
@@ -36,11 +36,11 @@ export default function LoginForm() {
             </>
           )}
         </div>
-        <Button className="mt-4 w-full" aria-disabled={isPending}>
+        <Button className="w-full mt-3" aria-disabled={isPending}>
           Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>
         <div className='text-center mt-2'>
-            <p className="inline">Do not have an account?</p> <Link href="/create_account" className="text-blue-600">Sign up</Link>
+            <p className="inline">Do not have an account?</p> <Link href="/signup" className="text-blue-600">Sign up</Link>
         </div>
       </div>
     </form>

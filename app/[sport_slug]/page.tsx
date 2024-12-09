@@ -1,7 +1,13 @@
 import { fetchSportSlug, fetchGames } from "@/app/lib/queries";
 import GamesTable from '@/components/ui/games-table';
+import { redirect } from "next/navigation";
+import { getAuthPlayer } from '@/app/auth';
 
 export default async function SportHome({params}: any) {
+  const player = await getAuthPlayer();
+  if (!player) {
+    redirect("/signin");
+  }
   const sport = await fetchSportSlug(params.sport_slug);
   const games = await fetchGames(sport.id);
 
