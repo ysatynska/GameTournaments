@@ -227,14 +227,31 @@ export const Navbar = ({
           size="lg"
           color="foreground"
           className={clsx(
-            "text-foreground text-3xl self-center",
+            "text-foreground text-2xl pl-2 pb-2",
             pathname === `/` ? "text-red-900 font-medium" : ""
           )}
           onPress={handleLinkClick}
-          underline="always"
+          underline="active"
         >
           Home
         </Link>
+        <Link
+          href="/create_sport"
+          size="md"
+          color="foreground"
+          className={clsx(
+            "text-foreground text-2xl mx-2 pb-4 border-b-2 border-foreground-200",
+            pathname === `/create_sport` ? "text-red-900 font-medium" : ""
+          )}
+          onPress={handleLinkClick}
+          underline="active"
+        >
+          Create Sport
+        </Link>
+
+        <div className="text-2xl text-foreground font-medium self-center">
+          Sports:
+        </div>
 
         <div className="mb-2">
           {/* Conditionally render based on the showSecondaryLinks state */}
