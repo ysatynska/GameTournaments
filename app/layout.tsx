@@ -68,6 +68,8 @@ export default async function RootLayout({
     dropdownItems: appendDropdownItems(sport),
   }));
 
+  // Fetch all sports (to be used for rendering the NavbarMenu component on small screens)
+
   return (
     <html suppressHydrationWarning lang="en">
       <head>
