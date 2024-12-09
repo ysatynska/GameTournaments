@@ -1,21 +1,21 @@
-
 'use client'
 import React from "react";
+import { usePathname } from 'next/navigation';
 import { RankRating } from '@/app/lib/definitions';
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination, getKeyValue} from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination } from "@nextui-org/react";
 
-// const getKeyValue = (item: any, columnKey: any, row_count: number) => {
-//   if (columnKey === "rank") {
-//     row_count++;
-//     return row_count;
-//   }
-//   return item[columnKey];
-// };
+function getKeyValue (item: any, columnKey: any, page: any, rowsPerPage: any, index: any) {
+  if (columnKey == "rowNumber") {
+    return index + 1;
+  } else {
+    return item[columnKey];
+  }
+}
 
-export default function RanksTable({ranks}: {ranks: RankRating[]}) {
+export default function RanksTable({ ranks }: { ranks: RankRating[] }) {
+  const pathname = usePathname();
   const [page, setPage] = React.useState(1);
-  const rowsPerPage = 6;
-  console.log(ranks);
+  const rowsPerPage = pathname === '/' ? 5 : 13;
 
   const pages = Math.ceil(ranks.length / rowsPerPage);
 
@@ -28,7 +28,7 @@ export default function RanksTable({ranks}: {ranks: RankRating[]}) {
 
   return (
     <>
-      <Table 
+      <Table
         aria-label="Ranks Table"
         shadow="md"
         bottomContent={
@@ -49,16 +49,19 @@ export default function RanksTable({ranks}: {ranks: RankRating[]}) {
         }}
       >
         <TableHeader>
-          {/* <TableColumn key="rank">Rank</TableColumn> */}
-          <TableColumn key="name">Player Name</TableColumn>
+          <TableColumn key="rowNumber">Rank</TableColumn>
+          <TableColumn key="name">Name</TableColumn>
           <TableColumn key="rating">Rating</TableColumn>
         </TableHeader>
         <TableBody items={items}>
-          {(item) => (
-            <TableRow key={item.player_id}>
-              {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
-            </TableRow>
-          )}
+          {(item) => {
+            const index = ranks.indexOf(item);
+            return (
+              <TableRow key={item.player_id}>
+                {(columnKey) => <TableCell>{getKeyValue(item, columnKey, page, rowsPerPage, index)}</TableCell>}
+              </TableRow>
+            );
+          }}
         </TableBody>
       </Table>
     </>

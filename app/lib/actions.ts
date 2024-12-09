@@ -9,7 +9,6 @@ import { sql } from '@vercel/postgres';
 import { DateTime } from 'luxon';
 import updateRatings from '@/app/lib/ratingCalc';
 import { fetchSport, fetchSportSlug, getPlayerRating, createSubmitGameSession } from '@/app/lib/queries';
-// ...
  
 export async function authenticate(
   prevState: string | undefined,
@@ -91,13 +90,6 @@ export type GameState = {
     score2?: string[];
     sport_id?: string[];
   };
-  // values: {
-  //   player1_id?: string;
-  //   player2_id?: string;
-  //   score1?: string;
-  //   score2?: string;
-  //   sport_id?: string;
-  // };
 };
 
 const gameSchema = z.object({
@@ -109,14 +101,14 @@ const gameSchema = z.object({
     .gt(0, { message: 'Invalid Player.' }),
   score1: z
     .string()
-    .min(1, { message: 'Score1 is required.' }) // Ensure it's not empty
+    .min(1, { message: 'Score 1 is required.' }) // Ensure it's not empty
     .transform((val) => parseFloat(val)) // Transform to number
     .refine((val) => !isNaN(val) && val >= 0, {
       message: 'Please enter a score greater than or equal to 0.',
     }), // Validate the transformed value
   score2: z
     .string()
-    .min(1, { message: 'Score2 is required.' }) // Ensure it's not empty
+    .min(1, { message: 'Score 2 is required.' }) // Ensure it's not empty
     .transform((val) => parseFloat(val)) // Transform to number
     .refine((val) => !isNaN(val) && val >= 0, {
       message: 'Please enter a score greater than or equal to 0.',
@@ -124,13 +116,16 @@ const gameSchema = z.object({
   sport_id: z.coerce
     .number()
     .gt(0, { message: 'Invalid Sport.' }),
-});
+})
+.refine(
+  (data) => data.player1_id !== data.player2_id,
+  {
+    message: 'Player 2 and must be different from Player 1.',
+    path: ['player2_id', 'player1_id'],
+  }
+)
 
 export async function submitGame(prevState: GameState, formData: FormData) {
-  // const formData = state.values;
-  // console.log("form data in submit game", state);
-  // console.log("values in submit game", state.values);
-  // console.log(formData);
   const validatedFields = gameSchema.safeParse({
     player1_id: formData.get("player1_id"),
     player2_id: formData.get("player2_id"),
@@ -138,9 +133,6 @@ export async function submitGame(prevState: GameState, formData: FormData) {
     score2: formData.get("score2"),
     sport_id: formData.get("sport_id"),
   });
-  let new_ratings = null;
-  let old_p1Rating = null;
-  let old_p2Rating = null;
 
   if (!validatedFields.success) {
     return {
@@ -148,6 +140,11 @@ export async function submitGame(prevState: GameState, formData: FormData) {
       values: { ...formData },
     };
   }
+
+  let new_ratings = null;
+  let old_p1Rating = null;
+  let old_p2Rating = null;
+  
   try {
     await sql`
       INSERT INTO games (player1_id, player2_id, score1, score2, sport_id, created_at)
@@ -160,7 +157,6 @@ export async function submitGame(prevState: GameState, formData: FormData) {
         ${DateTime.local().toISO()}
       )
     `;
-    // sport = await fetchSport(validatedFields.data.sport_id);
     old_p1Rating = await getPlayerRating(validatedFields.data.player1_id, validatedFields.data.sport_id);
     old_p2Rating = await getPlayerRating(validatedFields.data.player2_id, validatedFields.data.sport_id);
     new_ratings = await updateRatings(validatedFields.data.player1_id, validatedFields.data.player2_id, validatedFields.data.sport_id, validatedFields.data.score1, validatedFields.data.score2);
@@ -187,7 +183,7 @@ const sportSchema = z.object({
   }),
 });
 
-export async function createSport (prevState: SportState, formData: FormData) {
+export async function createSport(prevState: SportState, formData: FormData) {
   const validatedFields = sportSchema.safeParse({
     name: formData.get("name"),
   });
@@ -202,18 +198,37 @@ export async function createSport (prevState: SportState, formData: FormData) {
   const slug = validatedFields.data.name.toLowerCase().replace(/\s+/g, '');
 
   try {
+    // Check if the slug already exists
+    const existingSport = await sql`
+      SELECT 1 FROM sports WHERE slug = ${slug};
+    `;
+
+    if (existingSport.rows.length > 0) {
+      // Return an error if the slug already exists
+      return {
+        errors: { name: ["Sport already exists."] },
+        values: { ...formData },
+      };
+    }
+
+    // Insert new sport if slug is unique
     await sql`
       INSERT INTO sports (name, slug, created_at)
-        VALUES (
-          ${validatedFields.data.name}, 
-          ${slug},
-          ${DateTime.local().toISO()}
-        )
+      VALUES (
+        ${validatedFields.data.name}, 
+        ${slug},
+        ${DateTime.local().toISO()}
+      )
     `;
   } catch (error) {
     console.error(error);
+    return {
+      errors: { name: ["An error occurred while creating the sport."] },
+      values: { ...formData },
+    };
   }
 
+  // Fetch the sport to redirect
   const sport = await fetchSportSlug(slug);
 
   redirect(`/${sport.slug}`);

@@ -6,7 +6,7 @@ export default async function ThankYou({ params }: any) {
     // Fetch the authenticated player, redirect if not logged in
     const player = await getAuthPlayer();
     if (!player) {
-        redirect("/login");
+        redirect("/signin");
     }
     
     // Fetch the game session data

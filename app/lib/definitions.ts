@@ -38,13 +38,6 @@ export type GamePlayer = {
     created_at: Date;
 }
 
-export type Tournament = {
-    id: number;
-    sport: string;
-    name: string;
-    date: string;
-}
-
 export type SportField = {
     id: string;
     name: string;
@@ -70,11 +63,3 @@ export type SportDropdown = {
     slug: string;
     dropdownItems: DropdownItem[];
 }
-//TODO: QUERY THESE THROUGH THE DB
-export const supportedSports = [
-    "Ping Pong",
-    "Pool",
-    "Air Hockey",
-    "Mario Kart",
-    "FIFA",
-]
