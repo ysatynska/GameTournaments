@@ -1,6 +1,5 @@
 import "@/styles/globals.css";
-import { Metadata, Viewport } from "next";
-import { Link } from "@nextui-org/link";
+import { Viewport } from "next";
 import clsx from "clsx";
 
 import { Providers } from "./providers";
@@ -8,7 +7,6 @@ import { auth } from "@/app/auth";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 import { fetchPrimarySports, fetchSecondarySports } from "@/app/lib/queries";
-import { siteConfig } from "@/config/site";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -102,7 +100,7 @@ export default async function RootLayout({
               primaryLinks={primarySports}
               secondaryLinks={secondarySports}
             />
-            <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+            <main className="container mx-auto max-w-7xl py-10 px-10 flex-grow">
               {children}
             </main>
           </div>

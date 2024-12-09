@@ -6,13 +6,14 @@ export function Name() {
   return (
     <Input
       type="name"
-      label="Username"
       variant="bordered"
       className="max-w-xs"
       labelPlacement="outside"
       isClearable
       isRequired
       name="name"
+      placeholder="Enter your first and last name"
+      label="Name"
     />
   );
 }
@@ -89,6 +90,36 @@ export function Email() {
       isRequired
       name="email"
       placeholder="Enter your email"
+    />
+  );
+}
+
+export function SportName() {
+  return (
+    <Input
+      type="text"
+      variant="bordered"
+      labelPlacement="outside"
+      isClearable
+      isRequired
+      name="name"
+      placeholder="Enter the full sport name"
+      label="Name"
+    />
+  );
+}
+
+export function SportSlug() {
+  return (
+    <Input
+      type="slug"
+      variant="bordered"
+      labelPlacement="outside"
+      isClearable
+      isRequired
+      name="slug"
+      placeholder="Enter sport's name with no spaces"
+      label="Slug"
     />
   );
 }
