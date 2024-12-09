@@ -6,7 +6,7 @@ import { getAuthPlayer } from '@/app/auth';
 export default async function SportHome({params}: any) {
   const player = await getAuthPlayer();
   if (!player) {
-    redirect("/login");
+    redirect("/signin");
   }
   const sport = await fetchSportSlug(params.sport_slug);
   const games = await fetchGames(sport.id);

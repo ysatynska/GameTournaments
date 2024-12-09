@@ -1,18 +1,14 @@
 'use client';
-import { fontSans } from '@/config/fonts';
-import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from './button';
 import { useFormState } from 'react-dom';
-import Link from 'next/link';
 import * as InputFields from '@/components/input-fields';
 import { createSport, SportState } from "@/app/lib/actions";
-import { Input, Card } from '@nextui-org/react';
+import { Card } from '@nextui-org/react';
 
 export default function CreateSportForm() {
   const initialState: SportState = { errors: {} };
   const [state, formAction] = useFormState(createSport, initialState);
 
-  // inpurt.toLowerCase().replace(/\s+/g, '')
   return (
     <div className="min-h-full flex justify-center items-center">
       <Card className="p-6 max-w-4xl rounded-lg shadow-2xl w-2/4 outline outline-red-900">
@@ -27,13 +23,13 @@ export default function CreateSportForm() {
                 </div>
                 {state.errors?.name &&
                   state.errors.name.map((error: string) => (
-                    <p className="text-sm text-red-500" key={error}>
+                    <p className="mt-2 text-sm text-red-500" key={error}>
                       {error}
                     </p>
                 ))}
             </div>
             <div>
-                <Button className="w-full mt-3 bg-red-900 text-white flex items-center justify-center">
+                <Button className="w-full bg-red-900 text-white flex items-center justify-center">
                     Add Sport
                 </Button>
             </div>

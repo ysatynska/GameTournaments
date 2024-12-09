@@ -5,7 +5,7 @@ import CreateSportForm from "@/components/ui/create-sport-form";
 export default async function CreateSport() {
   const player = await getAuthPlayer();
   if (!player) {
-    redirect("/login");
+    redirect("/signin");
   }
   return (
     <CreateSportForm/>
