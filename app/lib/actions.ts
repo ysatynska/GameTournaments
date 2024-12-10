@@ -237,5 +237,5 @@ export async function createSport(prevState: SportState, formData: FormData) {
   // Fetch the sport to redirect
   const sport = await fetchSportSlug(slug);
 
-  redirect(`/${sport.slug}`);
+  redirect(`/${sport.slug}/submit_game`);
 }

@@ -12,6 +12,8 @@ export default async function SubmitScore({params}: any) {
   }
   const players = await fetchPlayers();
   return (
+    <main className="flex items-center justify-center h-[calc(100vh-10rem)]">
     <Form players={players} sport={sport}/>
+    </main>
   );
 }
