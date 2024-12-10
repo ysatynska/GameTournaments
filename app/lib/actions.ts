@@ -38,14 +38,20 @@ export type State = {
 };
 
 const schemaRegister = z.object({
-  name: z.string().min(3).max(20, {
-    message: "Name must be between 3 and 20 characters",
-  }),
+  name: z
+    .string()
+    .min(3)
+    .max(50, {
+      message: "Name must be between 3 and 50 characters.",
+    })
+    .refine((val) => val.trim().split(/\s+/).length >= 2, {
+      message: "Name must contain at least two words",
+    }),
   password: z.string().min(6).max(100, {
-    message: "Password must be between 6 and 100 characters",
+    message: "Password must be between 6 and 100 characters.",
   }),
   email: z.string().email({
-    message: "Please enter a valid email address",
+    message: "Please enter a valid email address.",
   }),
 });
 
@@ -79,7 +85,7 @@ export async function registerUserAction(prevState: State, formData: FormData) {
     }
   }
 
-  redirect('/login');
+  redirect('/signin');
 }
 
 export type GameState = {
