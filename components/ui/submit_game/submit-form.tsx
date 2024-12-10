@@ -12,7 +12,7 @@ export default function Form({ players, sport }: { players: PlayerField[], sport
 
     return (
         <div className="min-h-full flex justify-center items-center">
-            <Card className="p-6 max-w-4xl rounded-lg shadow-md w-full">
+            <Card className="p-6 max-w-4xl rounded-lg shadow-2xl w-full outline outline-red-900">
                 <h2 className="text-center text-red-900 text-3xl font-bold mb-10">
                     Submit Score - {sport.name}
                 </h2>

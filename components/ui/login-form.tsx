@@ -17,14 +17,14 @@ export default function LoginForm() {
   return (
     <form action={formAction}>
       <div className="flex-1 shadow-2xl rounded-lg outline outline-red-900 px-6 pb-4 pt-8">
-        <h1 className={`${fontSans.className} mb-7 text-2xl text-center`}>
+        <h2 className="text-center text-red-900 text-2xl mb-7 font-semibold">
           Please log in to continue
-        </h1>
+        </h2>
         <div className="flex flex-col gap-2 space-y-6">
-          <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+          <div className="flex w-full flex-wrap md:flex-nowrap">
             <InputFields.Email/>
           </div>
-          <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+          <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0">
             <InputFields.Password/>
           </div>
         </div>
