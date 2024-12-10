@@ -7,8 +7,6 @@ import {
   NavbarMenuToggle,
   NavbarItem,
   NavbarBrand,
-  Accordion,
-  AccordionItem,
   Image,
   Dropdown,
   DropdownItem,
@@ -16,7 +14,6 @@ import {
   DropdownMenu,
   DropdownSection,
 } from "@nextui-org/react";
-import { Kbd } from "@nextui-org/kbd";
 import { useState, useEffect } from "react";
 import { Link } from "@nextui-org/link";
 import NextLink from "next/link";
@@ -90,18 +87,24 @@ export const Navbar = ({
       position="sticky"
       isMenuOpen={menuOpen}
     >
-      <NavbarBrand className="!basis-10 !flex-shrink-0">
+      <NavbarBrand className="!basis-16 !flex-shrink-0">
         <NextLink
           className="flex justify-start items-center"
           href="https://www.roanoke.edu/student_life/sports_and_recreation"
           target="_blank"
         >
-          <Image src="/favicon.svg" alt="RC" height="100%" radius="none" />
+          <Image
+            src="/RCShield.svg"
+            alt="RC"
+            height="100%"
+            width="100%"
+            radius="none"
+          />
         </NextLink>
       </NavbarBrand>
 
       <NavbarContent
-        className="!basis-full flex items-center md:overflow-x-scroll"
+        className="!basis-full flex items-center md:overflow-x-scroll justify-between"
         justify="start"
       >
         <NavbarMenuToggle
@@ -209,7 +212,10 @@ export const Navbar = ({
       {/* End Content to display on the navbar */}
       <NavbarContent className="flex" justify="end">
         {session ? (
-          <NavbarItem>Welcome, {session.user.name}!</NavbarItem>
+          <NavbarItem className="text-sm text-center">
+            Welcome, <br />
+            {session.user.name}!
+          </NavbarItem>
         ) : (
           <NavbarItem>
             <Link href="/signin" size="lg">
