@@ -17,11 +17,11 @@ export const viewport: Viewport = {
 
 function appendDropdownItems(sport: any) {
   return [
-    {
-      label: `${sport.name} Home`,
-      href: `/${sport.slug}`,
-      key: `${sport.slug}`,
-    },
+    // {
+    //   label: `${sport.name} Home`,
+    //   href: `/${sport.slug}`,
+    //   key: `${sport.slug}`,
+    // },
     {
       label: `All Games`,
       href: `/${sport.slug}/all_games`,
