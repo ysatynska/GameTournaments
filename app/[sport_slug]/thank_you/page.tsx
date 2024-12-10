@@ -28,7 +28,7 @@ export default async function ThankYou({ params }: any) {
     const player2 = await fetchPlayer(data?.player2_id);
 
     return (
-        <div className="min-h-full flex justify-center items-center">
+        <div className="min-h-full flex justify-center items-center h-[calc(100vh-10rem)]">
             <div className="p-14 rounded-lg shadow-2xl w-96 text-center outline outline-red-900">
                 <h2 className="text-2xl font-bold mb-6">Game Result</h2>
                 <div>
