@@ -11,7 +11,7 @@ export default function CreateSportForm() {
 
   return (
     <div className="min-h-full flex justify-center items-center">
-      <Card className="p-6 max-w-4xl rounded-lg shadow-2xl w-2/4 outline outline-red-900">
+      <Card className="p-6 max-w-4xl rounded-lg shadow-2xl w-full md:w-2/4 outline outline-red-900">
         <h2 className="text-center text-red-900 text-3xl font-bold mb-10">
           Create New Sport
         </h2>
