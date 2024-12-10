@@ -102,7 +102,7 @@ export default async function RootLayout({
               primaryLinks={primarySports}
               secondaryLinks={secondarySports}
             />
-            <div className="relative flex flex-col h-[calc(100vh-4.15rem)]">
+            <div className="relative flex flex-col">
               <main className="container mx-auto max-w-7xl px-3 py-10 md:py-10 md:px-10 flex-grow">
                 {children}
               </main>
