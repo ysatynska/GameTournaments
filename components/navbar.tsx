@@ -6,10 +6,10 @@ import {
   NavbarMenu,
   NavbarMenuToggle,
   NavbarItem,
-  Accordion,
-  Image,
   NavbarBrand,
+  Accordion,
   AccordionItem,
+  Image,
   Dropdown,
   DropdownItem,
   DropdownTrigger,
@@ -27,6 +27,7 @@ import NavbarDropdown from "./navbar-dropdown";
 import { Button } from "@nextui-org/button";
 import { SportDropdown } from "@/app/lib/definitions";
 import { ChevronDownIcon } from "./icons";
+import { NavbarAccordion } from "./navbar-accordion";
 
 export const Navbar = ({
   session,
@@ -42,6 +43,7 @@ export const Navbar = ({
   // State for controlling the NavbarMenu
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [showSecondaryLinks, setShowSecondaryLinks] = useState(false);
 
   // Determine the screen's size
   const handleResize = () => {
@@ -56,6 +58,7 @@ export const Navbar = ({
   // Close NavbarMenu on a link click
   const handleLinkClick = () => {
     setMenuOpen(false);
+    setShowSecondaryLinks(false);
   };
 
   useEffect(() => {
@@ -75,6 +78,11 @@ export const Navbar = ({
     }
   }, [isMobile]);
 
+  // Debugging
+  useEffect(() => {
+    console.log("showSecondaryLinks:", showSecondaryLinks);
+  }, [showSecondaryLinks]);
+
   return (
     <NextUINavbar
       className="border-b-2 border-b-red-900 flex"
@@ -83,8 +91,12 @@ export const Navbar = ({
       isMenuOpen={menuOpen}
     >
       <NavbarBrand className="!basis-10 !flex-shrink-0">
-        <NextLink className="flex justify-start items-center" href="https://www.roanoke.edu/student_life/sports_and_recreation" target="_blank">
-          <Image src="/RCLogo.svg" alt="RC" height="40px" radius="none"/>
+        <NextLink
+          className="flex justify-start items-center"
+          href="https://www.roanoke.edu/student_life/sports_and_recreation"
+          target="_blank"
+        >
+          <Image src="/favicon.svg" alt="RC" height="100%" radius="none" />
         </NextLink>
       </NavbarBrand>
 
@@ -92,12 +104,10 @@ export const Navbar = ({
         className="!basis-full flex items-center md:overflow-x-scroll"
         justify="start"
       >
-        
         <NavbarMenuToggle
           className="md:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
         />
-        {/* <ul> FOR SMALL SCREENS */}
 
         {/* <ul> FOR LARGE SCREENS */}
         <ul className="hidden md:flex flex-shrink gap-0.5 justify-start">
@@ -199,9 +209,7 @@ export const Navbar = ({
       {/* End Content to display on the navbar */}
       <NavbarContent className="flex" justify="end">
         {session ? (
-          <NavbarItem>
-            Welcome, {session.user.name}!
-          </NavbarItem>
+          <NavbarItem>Welcome, {session.user.name}!</NavbarItem>
         ) : (
           <NavbarItem>
             <Link href="/signin" size="lg">
@@ -214,48 +222,51 @@ export const Navbar = ({
 
       {/* UI for the NavbarMenu to display when Menu is expanded on small screens */}
       <NavbarMenu className="flex flex-col md:hidden">
-        {/* <Accordion variant="light" selectionMode="single">
-          {siteConfig.navItems.slice(1).map((item) =>
-            item.dropdownItems ? (
-              <AccordionItem
-                key={item.label}
-                title={
-                  <span
-                    className={clsx(
-                      "text-foreground text-2xl",
-                      pathname.startsWith(`${item.href}`)
-                        ? "text-red-900 font-medium"
-                        : ""
-                    )}
-                  >
-                    {item.label}
-                  </span>
-                }
-                className={clsx("text-foreground")}
-              >
-                <ul>
-                  {item.dropdownItems.map((dropdownItem) => (
-                    <li key={dropdownItem.label}>
-                      <Link
-                        href={dropdownItem.href}
-                        className={clsx(
-                          "text-foreground text-lg py-0.5 pl-2",
-                          dropdownItem.label === "Submit Game" &&
-                            "text-rose-700"
-                        )}
-                        onClick={handleLinkClick} // Close menu on link click
-                      >
-                        {dropdownItem.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </AccordionItem>
-            ) : (
-              <></>
-            )
+        <Link
+          href="/"
+          size="lg"
+          color="foreground"
+          className={clsx(
+            "text-foreground text-2xl pl-2 pb-2",
+            pathname === `/` ? "text-red-900 font-medium" : ""
           )}
-        </Accordion> */}
+          onPress={handleLinkClick}
+        >
+          Home
+        </Link>
+        <Link
+          href="/create_sport"
+          size="md"
+          color="foreground"
+          className={clsx(
+            "text-foreground text-2xl mx-2 pb-4 border-b-2 border-foreground-200",
+            pathname === `/create_sport` ? "text-red-900 font-medium" : ""
+          )}
+          onPress={handleLinkClick}
+        >
+          Create Sport
+        </Link>
+
+        <div className="mb-2">
+          {/* Conditionally render based on the showSecondaryLinks state */}
+          <NavbarAccordion
+            links={
+              showSecondaryLinks
+                ? [...primaryLinks, ...secondaryLinks]
+                : primaryLinks
+            }
+            onLinkClick={handleLinkClick}
+          />
+          <Button
+            variant="light"
+            size="md"
+            onClick={() => setShowSecondaryLinks((prev) => !prev)} // Toggle the state
+            className="text-foreground text-red-900 hover:bg-foreground-50"
+            disableRipple
+          >
+            {showSecondaryLinks ? "Show Less" : "Show More Sports"}
+          </Button>
+        </div>
       </NavbarMenu>
     </NextUINavbar>
   );
