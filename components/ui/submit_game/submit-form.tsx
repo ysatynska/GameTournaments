@@ -11,7 +11,7 @@ export default function Form({ players, sport }: { players: PlayerField[], sport
     const [state, formAction] = useFormState(submitGame, initialState);
 
     return (
-        <div className="min-h-full flex justify-center items-center">
+        <div className="min-h-full flex justify-center items-center w-full">
             <Card className="p-6 max-w-4xl rounded-lg shadow-2xl w-full outline outline-red-900">
                 <h2 className="text-center text-red-900 text-3xl font-bold mb-10">
                     Submit Score - {sport.name}
