@@ -231,7 +231,6 @@ export const Navbar = ({
             pathname === `/` ? "text-red-900 font-medium" : ""
           )}
           onPress={handleLinkClick}
-          underline="active"
         >
           Home
         </Link>
@@ -244,14 +243,9 @@ export const Navbar = ({
             pathname === `/create_sport` ? "text-red-900 font-medium" : ""
           )}
           onPress={handleLinkClick}
-          underline="active"
         >
           Create Sport
         </Link>
-
-        <div className="text-2xl text-foreground font-medium self-center">
-          Sports:
-        </div>
 
         <div className="mb-2">
           {/* Conditionally render based on the showSecondaryLinks state */}
