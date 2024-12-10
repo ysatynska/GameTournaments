@@ -44,8 +44,8 @@ export const Navbar = ({
 
   // Determine the screen's size
   const handleResize = () => {
-    // Tailwind's default 'lg' size is a width of 1024 pixels
-    if (window.innerWidth < 1024) {
+    // Tailwind's default 'md' size is a width of 768 pixels
+    if (window.innerWidth < 768) {
       setIsMobile(true);
     } else {
       setIsMobile(false);
