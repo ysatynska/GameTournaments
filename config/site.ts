@@ -39,12 +39,12 @@ export const siteConfig = {
       dropdownItems: [
         { label: "Air Hockey Home", href: "/airhockey", key: "air"},
       ],
-    },
-    {
-      label: "Submit Game",
-      href: "/submit_game",
-      key: "submit_game"
     }
+    // ,{
+    //   label: "Submit Game",
+    //   href: "/submit_game",
+    //   key: "submit_game"
+    // }
   ],
   links: {
     github: "https://github.com/nextui-org/nextui",
