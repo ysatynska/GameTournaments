@@ -214,7 +214,7 @@ export const Navbar = ({
         {session ? (
           <NavbarItem className="text-sm text-center">
             Welcome, <br />
-            {session.user.name}!
+            {session.user?.name}!
           </NavbarItem>
         ) : (
           <NavbarItem>
